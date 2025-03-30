@@ -1,0 +1,6 @@
+[project]
+name = "nasdaq-data-link-mcp"
+version = "0.0.1"
+description = "Unofficial MCP wrapper for NASDAQ Data Link"
+authors = [{ name = "Stefano Amorelli", email = "stefano@amorelli.tech" }]
+dependencies = ["nasdaq-data-link", "pycountry"]
