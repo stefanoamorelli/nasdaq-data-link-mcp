@@ -36,6 +36,11 @@ In this first version (`0.0.1`) the project supports the following databases:
 
 Example conversations might include:
 
+> **You:** What were the most traded stocks by retailers yesterday?  
+> **Claude:** *calls `get_rtat(<yetserday>)` and returns relevant matches*
+
+Or:
+
 > **You:** What was the GDP of Italy in 2022?  
 > **Claude:** Let me look that up... *calls `get_indicator_value` tool*  
 > **Claude:** The GDP of Italy in 2022 was approximately `...` trillion USD.
