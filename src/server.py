@@ -6,6 +6,10 @@ from resources.world_data_bank.indicators import (
     search_indicators,
     list_all_indicators,
 )
+from resources.rtat.retail_activity import (
+    get_rtat10_data,
+    get_rtat_data,
+)
 from config import initialize_api
 
 # Initialize API configuration
@@ -32,3 +36,23 @@ def list_worldbank_indicators() -> List[str]:
 @mcp.tool()
 def search_worldbank_indicators(keyword: str) -> List[str]:
     return search_indicators(keyword)
+
+
+@mcp.tool()
+def get_rtat10(dates: str, tickers: str = None):
+    """
+    Retrieves Retail Trading Activity Tracker 10 (RTAT10) data for specific dates and optional tickers.
+    
+    Example: get_rtat10(dates='2025-03-31,2025-03-28,2025-03-27', tickers='TSLA,TQQQ,SQQQ')
+    """
+    return get_rtat10_data(dates, tickers)
+
+
+@mcp.tool()
+def get_rtat(dates: str, tickers: str = None):
+    """
+    Retrieves Retail Trading Activity (RTAT) data for specific dates and optional tickers.
+    
+    Example: get_rtat(dates='2025-03-31,2025-03-28,2025-03-27', tickers='TSLA,TQQQ,SQQQ')
+    """
+    return get_rtat_data(dates, tickers)
