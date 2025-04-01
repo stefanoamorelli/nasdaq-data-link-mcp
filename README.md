@@ -22,18 +22,15 @@ This project aims at making easy to access and explore Nasdaq Data Link’s exte
 
 ## 🌐 Usage
 
-<div align="center">
-    <a href="https://www.loom.com/share/a07e518bb6eb4de4b5a06a5a1a112a24">
-      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/a07e518bb6eb4de4b5a06a5a1a112a24-ff58182656db7dca-full-play.gif">
-    </a>
-    <a href="https://www.loom.com/share/a07e518bb6eb4de4b5a06a5a1a112a24">
-      <p>Nasdaq Data Link MCP - Usage</p>
-    </a>
-</div>
+| [![Retail Trading Activity](https://cdn.loom.com/sessions/thumbnails/b0299f6f6f1844669b5d2f73a86a3dcb-63f0e754bafcbe42-full-play.gif)](https://www.loom.com/share/b0299f6f6f1844669b5d2f73a86a3dcb) | [![World Bank Data](https://cdn.loom.com/sessions/thumbnails/a07e518bb6eb4de4b5a06a5a1a112a24-ff58182656db7dca-full-play.gif)](https://www.loom.com/share/a07e518bb6eb4de4b5a06a5a1a112a24) |
+|:--:|:--:|
+| [Nasdaq Data Link MCP - Retail Trading Activity](https://www.loom.com/share/b0299f6f6f1844669b5d2f73a86a3dcb) | [Nasdaq Data Link MCP - World Bank Data](https://www.loom.com/share/a07e518bb6eb4de4b5a06a5a1a112a24) |
 
 Once installed and connected to an `MCP`-compatible client (e.g., [Claude Desktop](https://claude.ai/download), this server exposes several tools that your AI assistant can use to fetch data.
 
-In this first version (`0.0.1`) the project only supports **the [World Bank dataset on Nasdaq Data Link](https://data.nasdaq.com/databases/WB)** (freely available for personal use).
+In this first version (`0.0.1`) the project supports the following databases:
+- [World Bank dataset on Nasdaq Data Link](https://data.nasdaq.com/databases/WB) (freely available for personal use);
+- [Nasdaq RTAT](https://data.nasdaq.com/databases/RTAT) (preview available for free, full data under subscription).
 
 Example conversations might include:
 
@@ -72,7 +69,7 @@ pip install mcp nasdaq-data-link pycountry
 
 Sign up on [https://data.nasdaq.com/](https://data.nasdaq.com/) and copy your API key.
 
-### 4. Download Metadata CSV
+### 4. Download `World Bank metadata` CSV (optional: only if you plan to use the `World Bank` database)
 
 Download the `World Bank metadata` from [Nasdaq Data Link](https://data.nasdaq.com/databases/WB):
 
@@ -110,6 +107,54 @@ This registers the server with your MCP client (e.g., Claude Desktop).
 ## 🛠️ Tools
 
 After installation, the following tools are exposed to MCP clients:
+
+---
+
+<details>
+<summary><strong>📈 Retail Trading Activity Tracker</strong></summary>
+
+### `get_rtat10`
+
+Retrieves Retail Trading Activity Tracker 10 (RTAT10) data for specific dates and optional tickers.
+
+```json
+{
+  "action": "tool",
+  "name": "get_rtat10",
+  "params": {
+    "dates": "2025-03-31,2025-03-28,2025-03-27",
+    "tickers": "TSLA,TQQQ,SQQQ"
+  }
+}
+```
+
+Returns RTAT10 data from Nasdaq Data Link for the given dates and tickers.
+
+---
+
+### `get_rtat`
+
+Retrieves Retail Trading Activity (RTAT) data for specific dates and optional tickers.
+
+```json
+{
+  "action": "tool",
+  "name": "get_rtat",
+  "params": {
+    "dates": "2025-03-31,2025-03-28,2025-03-27",
+    "tickers": "TSLA,TQQQ,SQQQ"
+  }
+}
+```
+
+Returns RTAT data from Nasdaq Data Link for the given dates and tickers.
+
+</details>
+
+---
+
+<details>
+<summary><strong>📊 World Bank Tools</strong></summary>
 
 ### `get_indicator_value`
 
@@ -173,6 +218,8 @@ Searches for indicators by keyword.
 }
 ```
 
+</details>
+
 ---
 
 ## 🧪 MCP Dev & Debugging
@@ -198,7 +245,8 @@ graph TD
   C -->|user prompt| D[LLM ie. Claude 3.7 Sonnet]
   D -->|calls tool| A
   A -->|fetches data| B[Nasdaq Data Link API]
-  B -.-> E[World Bank Metadata]
+  B -.-> E[Retail Trading Activity Tracker]
+  B -.-> F[World Bank Metadata]
 ```
 
 ---
