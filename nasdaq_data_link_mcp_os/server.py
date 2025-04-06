@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict, Optional
 from mcp.server.fastmcp import FastMCP
 from nasdaq_data_link_mcp_os.resources.common.countries import get_country_code
 from nasdaq_data_link_mcp_os.resources.world_data_bank.indicators import (
@@ -9,6 +9,10 @@ from nasdaq_data_link_mcp_os.resources.world_data_bank.indicators import (
 from nasdaq_data_link_mcp_os.resources.rtat.retail_activity import (
     get_rtat10_data,
     get_rtat_data,
+)
+from nasdaq_data_link_mcp_os.resources.equities_360.statistics import (
+    get_company_stats,
+    list_available_fields,
 )
 from config import initialize_api
 
@@ -56,3 +60,29 @@ def get_rtat(dates: str, tickers: str = None):
     Example: get_rtat(dates='2025-03-31,2025-03-28,2025-03-27', tickers='TSLA,TQQQ,SQQQ')
     """
     return get_rtat_data(dates, tickers)
+
+
+@mcp.tool()
+def get_stock_stats(symbol: Optional[str] = None, figi: Optional[str] = None):
+    """
+    Retrieves company statistics from Nasdaq Equities 360 database.
+    
+    Provides comprehensive statistics for a company including market cap, PE ratio, 
+    52-week highs/lows, dividend information, and more.
+    
+    Either symbol or figi must be provided.
+    
+    Example: get_stock_stats(symbol='MSFT')
+    Example: get_stock_stats(figi='BBG000BPH459')
+    """
+    return get_company_stats(symbol, figi)
+
+
+@mcp.tool()
+def list_stock_stat_fields() -> List[Dict[str, str]]:
+    """
+    Lists all available fields in the stock statistics database with descriptions.
+    
+    This helps users understand what data is available through the get_stock_stats tool.
+    """
+    return list_available_fields()

@@ -32,8 +32,9 @@ This project aims at making easy to access and explore Nasdaq Data Link’s exte
 Once installed and connected to an `MCP`-compatible client (e.g., [Claude Desktop](https://claude.ai/download), this server exposes several tools that your AI assistant can use to fetch data.
 
 In this version (`0.1.0`) the project supports the following databases:
-- [World Bank dataset on Nasdaq Data Link](https://data.nasdaq.com/databases/WB) (freely available for personal use);
-- [Nasdaq RTAT](https://data.nasdaq.com/databases/RTAT) (preview available for free, full data under subscription).
+- [World Bank dataset on Nasdaq Data Link](https://data.nasdaq.com/databases/WB) (freely available for personal use)
+- [Nasdaq RTAT](https://data.nasdaq.com/databases/RTAT) (preview available for free, full data under subscription)
+- [Equities 360](https://data.nasdaq.com/databases/E360) (company statistics and fundamental data)
 
 Example conversations might include:
 
@@ -50,6 +51,11 @@ Or:
 
 > **You:** List all indicators related to CO₂ emissions.  
 > **Claude:** *calls `search_worldbank_indicators("CO2")` and returns relevant matches*
+
+Or:
+
+> **You:** What's the market cap and P/E ratio of Microsoft?  
+> **Claude:** *calls `get_stock_stats(symbol="MSFT")` and presents the key statistics*
 
 ---
 
@@ -225,6 +231,56 @@ Searches for indicators by keyword.
   }
 }
 ```
+
+</details>
+
+---
+
+<details>
+<summary><strong>📈 Equities 360 Tools</strong></summary>
+
+### `get_stock_stats`
+
+Retrieves comprehensive statistics for a company from the Nasdaq Equities 360 database.
+
+```json
+{
+  "action": "tool",
+  "name": "get_stock_stats",
+  "params": {
+    "symbol": "MSFT"
+  }
+}
+```
+
+Or using FIGI:
+
+```json
+{
+  "action": "tool",
+  "name": "get_stock_stats",
+  "params": {
+    "figi": "BBG000BPH459"
+  }
+}
+```
+
+Returns company statistics including market cap, PE ratio, 52-week highs/lows, dividend information, and more.
+
+---
+
+### `list_stock_stat_fields`
+
+Lists all available fields in the stock statistics database with descriptions.
+
+```json
+{
+  "action": "tool",
+  "name": "list_stock_stat_fields"
+}
+```
+
+Returns information about all available fields that can be queried through the `get_stock_stats` tool.
 
 </details>
 
