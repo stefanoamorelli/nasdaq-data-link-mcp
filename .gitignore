@@ -5,3 +5,9 @@ __pycache__/
 *$py.class
 uv.lock
 *.csv
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
