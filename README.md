@@ -7,8 +7,9 @@
 <div align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![PyPI version](https://badge.fury.io/py/nasdaq-data-link-mcp-os.svg)](https://pypi.org/project/nasdaq-data-link-mcp-os/)
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
-![Build Status](https://img.shields.io/badge/build-manual-lightgrey.svg)
+![Build Status](https://img.shields.io/badge/build-passing-green.svg)
 ![Platform](https://img.shields.io/badge/platform-cross--platform-lightgrey.svg)
 
 </div>
@@ -30,7 +31,7 @@ This project aims at making easy to access and explore Nasdaq Data Link’s exte
 
 Once installed and connected to an `MCP`-compatible client (e.g., [Claude Desktop](https://claude.ai/download), this server exposes several tools that your AI assistant can use to fetch data.
 
-In this first version (`0.0.1`) the project supports the following databases:
+In this version (`0.1.0`) the project supports the following databases:
 - [World Bank dataset on Nasdaq Data Link](https://data.nasdaq.com/databases/WB) (freely available for personal use);
 - [Nasdaq RTAT](https://data.nasdaq.com/databases/RTAT) (preview available for free, full data under subscription).
 
