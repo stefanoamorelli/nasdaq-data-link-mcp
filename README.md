@@ -111,7 +111,7 @@ NASDAQ_DATA_LINK_API_KEY=your_api_key_here
 ### 6. Start the MCP Server
 
 ```bash
-mcp install src/server.py --env-file .env --name "NASDAQ Data Link MCP Server"
+mcp install nasdaq_data_link_mcp_os/server.py --env-file .env --name "NASDAQ Data Link MCP Server"
 ```
 
 This registers the server with your MCP client (e.g., Claude Desktop).
