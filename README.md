@@ -291,7 +291,7 @@ Returns information about all available fields that can be queried through the `
 To test the server locally with a UI:
 
 ```bash
-mcp dev src/server.py --env-file .env
+mcp dev nasdaq_data_link_mcp_os/server.py --env-file .env
 ```
 
 This opens the `MCP` Dev interface where you can call tools manually, inspect results, and troubleshoot.
