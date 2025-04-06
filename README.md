@@ -311,6 +311,7 @@ graph TD
   A -->|fetches data| B[Nasdaq Data Link API]
   B -.-> E[Retail Trading Activity Tracker]
   B -.-> F[World Bank Metadata]
+  B -.-> G[Equities 360 Statistics]
 ```
 
 ---
