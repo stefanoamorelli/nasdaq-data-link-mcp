@@ -38,7 +38,7 @@ from nasdaq_data_link_mcp_os.resources.equities_360.reference_data import (
     get_reference_data,
     list_available_reference_fields,
 )
-from config import initialize_api
+from nasdaq_data_link_mcp_os.config import initialize_api
 
 # Initialize API configuration
 initialize_api()
@@ -90,12 +90,12 @@ def get_rtat(dates: str, tickers: str = None):
 def get_stock_stats(symbol: Optional[str] = None, figi: Optional[str] = None):
     """
     Retrieves company statistics from Nasdaq Equities 360 database.
-    
-    Provides comprehensive statistics for a company including market cap, PE ratio, 
+
+    Provides comprehensive statistics for a company including market cap, PE ratio,
     52-week highs/lows, dividend information, and more.
-    
+
     Either symbol or figi must be provided.
-    
+
     Example: get_stock_stats(symbol='MSFT')
     Example: get_stock_stats(figi='BBG000BPH459')
     """
@@ -106,28 +106,33 @@ def get_stock_stats(symbol: Optional[str] = None, figi: Optional[str] = None):
 def list_stock_stat_fields() -> List[Dict[str, str]]:
     """
     Lists all available fields in the stock statistics database with descriptions.
-    
+
     This helps users understand what data is available through the get_stock_stats tool.
     """
     return list_available_fields()
 
 
 @mcp.tool()
-def get_fundamental_data(symbol: Optional[str] = None, figi: Optional[str] = None, calendardate: Optional[str] = None, dimension: Optional[str] = None):
+def get_fundamental_data(
+    symbol: Optional[str] = None,
+    figi: Optional[str] = None,
+    calendardate: Optional[str] = None,
+    dimension: Optional[str] = None,
+):
     """
     Retrieves fundamental financial data from Nasdaq Equities 360 Fundamental Summary database.
-    
+
     Provides comprehensive fundamental data including profitability ratios, valuation metrics,
     income statement items, and financial health indicators.
-    
+
     Either symbol or figi must be provided.
-    
+
     Parameters:
       - symbol: Stock ticker symbol (e.g., 'MSFT')
       - figi: Bloomberg FIGI identifier (e.g., 'BBG000BPH459')
       - calendardate: Calendar date in YYYY-MM-DD format (e.g., '2022-12-31')
       - dimension: Data dimension (MRQ: quarterly, MRY: annual, MRT: trailing twelve months)
-    
+
     Example: get_fundamental_data(symbol='MSFT', dimension='MRY')
     Example: get_fundamental_data(figi='BBG000BPH459', calendardate='2022-12-31')
     """
@@ -138,7 +143,7 @@ def get_fundamental_data(symbol: Optional[str] = None, figi: Optional[str] = Non
 def list_fundamental_fields() -> List[Dict[str, str]]:
     """
     Lists all available fields in the fundamental summary database with descriptions.
-    
+
     This helps users understand what data is available through the get_fundamental_data tool,
     including profitability ratios, valuation metrics, and financial health indicators.
     """
@@ -146,21 +151,26 @@ def list_fundamental_fields() -> List[Dict[str, str]]:
 
 
 @mcp.tool()
-def get_detailed_financials(symbol: Optional[str] = None, figi: Optional[str] = None, calendardate: Optional[str] = None, dimension: Optional[str] = None):
+def get_detailed_financials(
+    symbol: Optional[str] = None,
+    figi: Optional[str] = None,
+    calendardate: Optional[str] = None,
+    dimension: Optional[str] = None,
+):
     """
     Retrieves detailed financial data from Nasdaq Equities 360 Fundamental Details database.
-    
-    Provides comprehensive financial statement data including balance sheet items, income statement 
+
+    Provides comprehensive financial statement data including balance sheet items, income statement
     components, cash flow statement details, and financial ratios.
-    
+
     Either symbol or figi must be provided.
-    
+
     Parameters:
       - symbol: Stock ticker symbol (e.g., 'MSFT')
       - figi: Bloomberg FIGI identifier (e.g., 'BBG000BPH459')
       - calendardate: Calendar date in YYYY-MM-DD format (e.g., '2022-12-31')
       - dimension: Data dimension (MRQ: quarterly, MRY: annual, MRT: trailing twelve months)
-    
+
     Example: get_detailed_financials(symbol='MSFT', dimension='MRY')
     Example: get_detailed_financials(figi='BBG000BPH459', calendardate='2022-12-31')
     """
@@ -171,7 +181,7 @@ def get_detailed_financials(symbol: Optional[str] = None, figi: Optional[str] = 
 def list_detailed_financial_fields() -> List[Dict[str, str]]:
     """
     Lists all available fields in the fundamental details database with descriptions.
-    
+
     This helps users understand what data is available through the get_detailed_financials tool,
     including balance sheet items, income statement components, cash flow details, and more.
     """
@@ -179,21 +189,26 @@ def list_detailed_financial_fields() -> List[Dict[str, str]]:
 
 
 @mcp.tool()
-def get_balance_sheet_data(symbol: Optional[str] = None, figi: Optional[str] = None, calendardate: Optional[str] = None, dimension: Optional[str] = None):
+def get_balance_sheet_data(
+    symbol: Optional[str] = None,
+    figi: Optional[str] = None,
+    calendardate: Optional[str] = None,
+    dimension: Optional[str] = None,
+):
     """
     Retrieves balance sheet data from Nasdaq Equities 360 Balance Sheet database.
-    
-    Provides comprehensive balance sheet data including assets, liabilities, equity, 
+
+    Provides comprehensive balance sheet data including assets, liabilities, equity,
     and detailed breakdowns of each category.
-    
+
     Either symbol or figi must be provided.
-    
+
     Parameters:
       - symbol: Stock ticker symbol (e.g., 'MSFT')
       - figi: Bloomberg FIGI identifier (e.g., 'BBG000BPH459')
       - calendardate: Calendar date in YYYY-MM-DD format (e.g., '2022-12-31')
       - dimension: Data dimension (MRQ: quarterly, MRY: annual, MRT: trailing twelve months)
-    
+
     Example: get_balance_sheet_data(symbol='MSFT', dimension='MRY')
     Example: get_balance_sheet_data(figi='BBG000BPH459', calendardate='2022-12-31')
     """
@@ -204,7 +219,7 @@ def get_balance_sheet_data(symbol: Optional[str] = None, figi: Optional[str] = N
 def list_balance_sheet_fields() -> List[Dict[str, str]]:
     """
     Lists all available fields in the balance sheet database with descriptions.
-    
+
     This helps users understand what data is available through the get_balance_sheet_data tool,
     including assets, liabilities, equity, and detailed breakdowns of each category.
     """
@@ -212,21 +227,26 @@ def list_balance_sheet_fields() -> List[Dict[str, str]]:
 
 
 @mcp.tool()
-def get_cash_flow_data(symbol: Optional[str] = None, figi: Optional[str] = None, calendardate: Optional[str] = None, dimension: Optional[str] = None):
+def get_cash_flow_data(
+    symbol: Optional[str] = None,
+    figi: Optional[str] = None,
+    calendardate: Optional[str] = None,
+    dimension: Optional[str] = None,
+):
     """
     Retrieves cash flow statement data from Nasdaq Equities 360 Cash Flow database.
-    
+
     Provides cash flow statement data including operating, investing, and financing
     activities, as well as free cash flow and capital expenditure information.
-    
+
     Either symbol or figi must be provided.
-    
+
     Parameters:
       - symbol: Stock ticker symbol (e.g., 'MSFT')
       - figi: Bloomberg FIGI identifier (e.g., 'BBG000BPH459')
       - calendardate: Calendar date in YYYY-MM-DD format (e.g., '2022-12-31')
       - dimension: Data dimension (MRQ: quarterly, MRY: annual, MRT: trailing twelve months)
-    
+
     Example: get_cash_flow_data(symbol='MSFT', dimension='MRY')
     Example: get_cash_flow_data(figi='BBG000BPH459', calendardate='2022-12-31')
     """
@@ -237,7 +257,7 @@ def get_cash_flow_data(symbol: Optional[str] = None, figi: Optional[str] = None,
 def list_cash_flow_fields() -> List[Dict[str, str]]:
     """
     Lists all available fields in the cash flow statement database with descriptions.
-    
+
     This helps users understand what data is available through the get_cash_flow_data tool,
     including operating, investing, and financing cash flows, and related metrics.
     """
@@ -245,19 +265,24 @@ def list_cash_flow_fields() -> List[Dict[str, str]]:
 
 
 @mcp.tool()
-def get_corporate_action_data(symbol: Optional[str] = None, figi: Optional[str] = None, date: Optional[str] = None, action: Optional[str] = None):
+def get_corporate_action_data(
+    symbol: Optional[str] = None,
+    figi: Optional[str] = None,
+    date: Optional[str] = None,
+    action: Optional[str] = None,
+):
     """
     Retrieves corporate actions data from Nasdaq Equities 360 Corporate Actions database.
-    
+
     Provides information about corporate events such as stock splits, mergers, acquisitions,
     and other significant company actions that can affect stock price and ownership.
-    
+
     Parameters:
       - symbol: Stock ticker symbol (e.g., 'TSLA')
       - figi: Bloomberg FIGI identifier
       - date: Date of the corporate action in YYYY-MM-DD format (e.g., '2023-03-24')
       - action: Type of corporate action (e.g., 'split', 'merger')
-    
+
     Example: get_corporate_action_data(symbol='TSLA', action='split')
     Example: get_corporate_action_data(date='2023-03-24')
     """
@@ -268,7 +293,7 @@ def get_corporate_action_data(symbol: Optional[str] = None, figi: Optional[str] 
 def list_corporate_action_fields() -> List[Dict[str, str]]:
     """
     Lists all available fields in the corporate actions database with descriptions.
-    
+
     This helps users understand what data is available through the get_corporate_action_data tool,
     including date, action type, value, and related company information.
     """
@@ -276,19 +301,21 @@ def list_corporate_action_fields() -> List[Dict[str, str]]:
 
 
 @mcp.tool()
-def get_company_reference_data(symbol: Optional[str] = None, figi: Optional[str] = None):
+def get_company_reference_data(
+    symbol: Optional[str] = None, figi: Optional[str] = None
+):
     """
     Retrieves company reference data from Nasdaq Equities 360 Reference Data database.
-    
+
     Provides static information about companies including exchange, industry, sector,
     company website, SEC filings links, and location information.
-    
+
     Either symbol or figi must be provided.
-    
+
     Parameters:
       - symbol: Stock ticker symbol (e.g., 'AMD')
       - figi: Bloomberg FIGI identifier (e.g., 'BBG000BBQCY0')
-    
+
     Example: get_company_reference_data(symbol='AMD')
     Example: get_company_reference_data(figi='BBG000BBQCY0')
     """
@@ -299,7 +326,7 @@ def get_company_reference_data(symbol: Optional[str] = None, figi: Optional[str]
 def list_reference_data_fields() -> List[Dict[str, str]]:
     """
     Lists all available fields in the company reference database with descriptions.
-    
+
     This helps users understand what data is available through the get_company_reference_data tool,
     including exchange, industry, sector, company website, and location information.
     """
