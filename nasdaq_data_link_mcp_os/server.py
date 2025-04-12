@@ -34,6 +34,10 @@ from nasdaq_data_link_mcp_os.resources.equities_360.corporate_actions import (
     get_corporate_actions,
     list_available_corporate_action_fields,
 )
+from nasdaq_data_link_mcp_os.resources.equities_360.reference_data import (
+    get_reference_data,
+    list_available_reference_fields,
+)
 from config import initialize_api
 
 # Initialize API configuration
@@ -269,3 +273,34 @@ def list_corporate_action_fields() -> List[Dict[str, str]]:
     including date, action type, value, and related company information.
     """
     return list_available_corporate_action_fields()
+
+
+@mcp.tool()
+def get_company_reference_data(symbol: Optional[str] = None, figi: Optional[str] = None):
+    """
+    Retrieves company reference data from Nasdaq Equities 360 Reference Data database.
+    
+    Provides static information about companies including exchange, industry, sector,
+    company website, SEC filings links, and location information.
+    
+    Either symbol or figi must be provided.
+    
+    Parameters:
+      - symbol: Stock ticker symbol (e.g., 'AMD')
+      - figi: Bloomberg FIGI identifier (e.g., 'BBG000BBQCY0')
+    
+    Example: get_company_reference_data(symbol='AMD')
+    Example: get_company_reference_data(figi='BBG000BBQCY0')
+    """
+    return get_reference_data(symbol, figi)
+
+
+@mcp.tool()
+def list_reference_data_fields() -> List[Dict[str, str]]:
+    """
+    Lists all available fields in the company reference database with descriptions.
+    
+    This helps users understand what data is available through the get_company_reference_data tool,
+    including exchange, industry, sector, company website, and location information.
+    """
+    return list_available_reference_fields()

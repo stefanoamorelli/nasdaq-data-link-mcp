@@ -82,6 +82,11 @@ Or:
 > **You:** Has Tesla had any stock splits in the last two years?  
 > **Claude:** *calls `get_corporate_action_data(symbol="TSLA", action="split")` and presents the split history*
 
+Or:
+
+> **You:** What industry and sector is AMD in, and where is the company located?  
+> **Claude:** *calls `get_company_reference_data(symbol="AMD")` and presents industry, sector, and location information*
+
 ---
 
 ## 📦 Installation
@@ -545,6 +550,51 @@ Lists all available fields in the corporate actions database with descriptions.
 
 Returns information about all available fields that can be queried through the `get_corporate_action_data` tool.
 
+---
+
+### `get_company_reference_data`
+
+Retrieves company reference data from the Nasdaq Equities 360 Reference Data database.
+
+```json
+{
+  "action": "tool",
+  "name": "get_company_reference_data",
+  "params": {
+    "symbol": "AMD"
+  }
+}
+```
+
+Or using FIGI:
+
+```json
+{
+  "action": "tool",
+  "name": "get_company_reference_data",
+  "params": {
+    "figi": "BBG000BBQCY0"
+  }
+}
+```
+
+Returns static information about companies including exchange, industry, sector classification, website URLs, SEC filing links, and location information.
+
+---
+
+### `list_reference_data_fields`
+
+Lists all available fields in the company reference database with descriptions.
+
+```json
+{
+  "action": "tool",
+  "name": "list_reference_data_fields"
+}
+```
+
+Returns information about all available fields that can be queried through the `get_company_reference_data` tool.
+
 </details>
 
 ---
@@ -582,6 +632,7 @@ graph TD
     J[Balance Sheet NDAQ/BS]
     K[Cash Flow NDAQ/CF]
     L[Corporate Actions NDAQ/CA]
+    M[Reference Data NDAQ/RD]
   end
   
   B -.-> Equities 360
