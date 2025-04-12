@@ -8,14 +8,17 @@ version = "0.1.1"
 description = "Community maintained and open-source MCP server for the Nasdaq Data Link"
 authors = [{ name = "Stefano Amorelli", email = "stefano@amorelli.tech" }]
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.10"
 license = { file = "LICENSE" }
 classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
 ]
-dependencies = ["nasdaq-data-link", "pycountry"]
+dependencies = ["mcp[cli]>=1.6.0", "nasdaq-data-link", "pycountry"]
+
+[tool.setuptools]
+packages = ["nasdaq_data_link_mcp_os"]
 
 [project.urls]
 "Homepage" = "https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
