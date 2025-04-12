@@ -625,7 +625,7 @@ graph TD
   B -.-> E[Retail Trading Activity Tracker]
   B -.-> F[World Bank Metadata]
   
-  subgraph "Equities 360"
+  subgraph " "
     G[Statistics NDAQ/STAT]
     H[Fundamentals NDAQ/FS]
     I[Fundamental Details NDAQ/FD]
@@ -634,10 +634,9 @@ graph TD
     L[Corporate Actions NDAQ/CA]
     M[Reference Data NDAQ/RD]
   end
-  
-  B -.-> Equities 360
-```
 
+B -.->|Equities 360| G
+```
 ---
 
 ## 📚 References
