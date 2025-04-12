@@ -12,6 +12,7 @@
 ![Build Status](https://img.shields.io/badge/build-passing-green.svg)
 ![Platform](https://img.shields.io/badge/platform-cross--platform-lightgrey.svg)
 ![](https://badge.mcpx.dev?type=server 'MCP Server')
+![AI Powered](https://img.shields.io/badge/AI-powered-6f42c1?logo=anthropic&logoColor=white)
 
 </div>
 
