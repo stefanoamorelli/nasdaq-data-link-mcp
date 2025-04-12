@@ -57,6 +57,11 @@ Or:
 > **You:** What's the market cap and P/E ratio of Microsoft?  
 > **Claude:** *calls `get_stock_stats(symbol="MSFT")` and presents the key statistics*
 
+Or:
+
+> **You:** Show me Microsoft's profitability ratios for the most recent annual report.  
+> **Claude:** *calls `get_fundamental_data(symbol="MSFT", dimension="MRY")` and presents profitability metrics*
+
 ---
 
 ## 📦 Installation
@@ -282,6 +287,54 @@ Lists all available fields in the stock statistics database with descriptions.
 
 Returns information about all available fields that can be queried through the `get_stock_stats` tool.
 
+---
+
+### `get_fundamental_data`
+
+Retrieves fundamental financial data from the Nasdaq Equities 360 Fundamental Summary database.
+
+```json
+{
+  "action": "tool",
+  "name": "get_fundamental_data",
+  "params": {
+    "symbol": "MSFT",
+    "dimension": "MRY"
+  }
+}
+```
+
+Or using multiple parameters:
+
+```json
+{
+  "action": "tool",
+  "name": "get_fundamental_data",
+  "params": {
+    "figi": "BBG000BPH459",
+    "calendardate": "2022-12-31",
+    "dimension": "MRQ"
+  }
+}
+```
+
+Returns fundamental data including profitability ratios (ROA, ROE, ROS), valuation metrics (P/E, P/S), income statement items (revenue, gross profit), and financial health indicators (current ratio, debt-to-equity).
+
+---
+
+### `list_fundamental_fields`
+
+Lists all available fields in the fundamental summary database with descriptions.
+
+```json
+{
+  "action": "tool",
+  "name": "list_fundamental_fields"
+}
+```
+
+Returns information about all available fields that can be queried through the `get_fundamental_data` tool.
+
 </details>
 
 ---
@@ -312,6 +365,7 @@ graph TD
   B -.-> E[Retail Trading Activity Tracker]
   B -.-> F[World Bank Metadata]
   B -.-> G[Equities 360 Statistics]
+  B -.-> H[Equities 360 Fundamentals]
 ```
 
 ---

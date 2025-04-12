@@ -14,6 +14,10 @@ from nasdaq_data_link_mcp_os.resources.equities_360.statistics import (
     get_company_stats,
     list_available_fields,
 )
+from nasdaq_data_link_mcp_os.resources.equities_360.fundamentals import (
+    get_fundamental_summary,
+    list_available_fundamental_fields,
+)
 from config import initialize_api
 
 # Initialize API configuration
@@ -86,3 +90,36 @@ def list_stock_stat_fields() -> List[Dict[str, str]]:
     This helps users understand what data is available through the get_stock_stats tool.
     """
     return list_available_fields()
+
+
+@mcp.tool()
+def get_fundamental_data(symbol: Optional[str] = None, figi: Optional[str] = None, calendardate: Optional[str] = None, dimension: Optional[str] = None):
+    """
+    Retrieves fundamental financial data from Nasdaq Equities 360 Fundamental Summary database.
+    
+    Provides comprehensive fundamental data including profitability ratios, valuation metrics,
+    income statement items, and financial health indicators.
+    
+    Either symbol or figi must be provided.
+    
+    Parameters:
+      - symbol: Stock ticker symbol (e.g., 'MSFT')
+      - figi: Bloomberg FIGI identifier (e.g., 'BBG000BPH459')
+      - calendardate: Calendar date in YYYY-MM-DD format (e.g., '2022-12-31')
+      - dimension: Data dimension (MRQ: quarterly, MRY: annual, MRT: trailing twelve months)
+    
+    Example: get_fundamental_data(symbol='MSFT', dimension='MRY')
+    Example: get_fundamental_data(figi='BBG000BPH459', calendardate='2022-12-31')
+    """
+    return get_fundamental_summary(symbol, figi, calendardate, dimension)
+
+
+@mcp.tool()
+def list_fundamental_fields() -> List[Dict[str, str]]:
+    """
+    Lists all available fields in the fundamental summary database with descriptions.
+    
+    This helps users understand what data is available through the get_fundamental_data tool,
+    including profitability ratios, valuation metrics, and financial health indicators.
+    """
+    return list_available_fundamental_fields()
