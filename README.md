@@ -67,6 +67,11 @@ Or:
 > **You:** What's Microsoft's cash flow and R&D spending for the last quarter?  
 > **Claude:** *calls `get_detailed_financials(symbol="MSFT", dimension="MRQ")` and presents cash flow and R&D data*
 
+Or:
+
+> **You:** What's Microsoft's asset breakdown and debt-to-equity ratio from the latest balance sheet?  
+> **Claude:** *calls `get_balance_sheet_data(symbol="MSFT", dimension="MRQ")` and presents relevant balance sheet items*
+
 ---
 
 ## 📦 Installation
@@ -388,6 +393,54 @@ Lists all available fields in the fundamental details database with descriptions
 
 Returns information about all available fields that can be queried through the `get_detailed_financials` tool.
 
+---
+
+### `get_balance_sheet_data`
+
+Retrieves balance sheet data from the Nasdaq Equities 360 Balance Sheet database.
+
+```json
+{
+  "action": "tool",
+  "name": "get_balance_sheet_data",
+  "params": {
+    "symbol": "MSFT",
+    "dimension": "MRQ"
+  }
+}
+```
+
+Or using multiple parameters:
+
+```json
+{
+  "action": "tool",
+  "name": "get_balance_sheet_data",
+  "params": {
+    "figi": "BBG000BPH459",
+    "calendardate": "2022-12-31",
+    "dimension": "MRY"
+  }
+}
+```
+
+Returns comprehensive balance sheet data including assets (current, non-current, intangible), liabilities (current, non-current, debt), stockholders' equity, and key balance sheet metrics.
+
+---
+
+### `list_balance_sheet_fields`
+
+Lists all available fields in the balance sheet database with descriptions.
+
+```json
+{
+  "action": "tool",
+  "name": "list_balance_sheet_fields"
+}
+```
+
+Returns information about all available fields that can be queried through the `get_balance_sheet_data` tool.
+
 </details>
 
 ---
@@ -422,6 +475,7 @@ graph TD
     G[Statistics NDAQ/STAT]
     H[Fundamentals NDAQ/FS]
     I[Fundamental Details NDAQ/FD]
+    J[Balance Sheet NDAQ/BS]
   end
   
   B -.-> Equities 360

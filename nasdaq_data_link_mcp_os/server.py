@@ -22,6 +22,10 @@ from nasdaq_data_link_mcp_os.resources.equities_360.fundamental_details import (
     get_fundamental_details,
     list_available_detail_fields,
 )
+from nasdaq_data_link_mcp_os.resources.equities_360.balance_sheet import (
+    get_balance_sheet,
+    list_available_balance_sheet_fields,
+)
 from config import initialize_api
 
 # Initialize API configuration
@@ -160,3 +164,36 @@ def list_detailed_financial_fields() -> List[Dict[str, str]]:
     including balance sheet items, income statement components, cash flow details, and more.
     """
     return list_available_detail_fields()
+
+
+@mcp.tool()
+def get_balance_sheet_data(symbol: Optional[str] = None, figi: Optional[str] = None, calendardate: Optional[str] = None, dimension: Optional[str] = None):
+    """
+    Retrieves balance sheet data from Nasdaq Equities 360 Balance Sheet database.
+    
+    Provides comprehensive balance sheet data including assets, liabilities, equity, 
+    and detailed breakdowns of each category.
+    
+    Either symbol or figi must be provided.
+    
+    Parameters:
+      - symbol: Stock ticker symbol (e.g., 'MSFT')
+      - figi: Bloomberg FIGI identifier (e.g., 'BBG000BPH459')
+      - calendardate: Calendar date in YYYY-MM-DD format (e.g., '2022-12-31')
+      - dimension: Data dimension (MRQ: quarterly, MRY: annual, MRT: trailing twelve months)
+    
+    Example: get_balance_sheet_data(symbol='MSFT', dimension='MRY')
+    Example: get_balance_sheet_data(figi='BBG000BPH459', calendardate='2022-12-31')
+    """
+    return get_balance_sheet(symbol, figi, calendardate, dimension)
+
+
+@mcp.tool()
+def list_balance_sheet_fields() -> List[Dict[str, str]]:
+    """
+    Lists all available fields in the balance sheet database with descriptions.
+    
+    This helps users understand what data is available through the get_balance_sheet_data tool,
+    including assets, liabilities, equity, and detailed breakdowns of each category.
+    """
+    return list_available_balance_sheet_fields()
