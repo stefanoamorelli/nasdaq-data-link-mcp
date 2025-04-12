@@ -97,7 +97,8 @@ pip install mcp nasdaq-data-link pycountry
 
 Sign up on [https://data.nasdaq.com/](https://data.nasdaq.com/) and copy your API key.
 
-### 4. Download `World Bank metadata` CSV (optional: only if you plan to use the `World Bank` database)
+<details>
+<summary><strong>4. Download World Bank metadata CSV</strong> (optional: only if you plan to use the World Bank database)</summary>
 
 Download the `World Bank metadata` from [Nasdaq Data Link](https://data.nasdaq.com/databases/WB):
 
@@ -108,6 +109,7 @@ And save it as `metadata.csv` in the following directory:
 ```
 nasdaq-data-link-mcp/src/resources/world_data_bank/metadata/metadata.csv
 ```
+</details>
 
 
 ### 5. Configure the Environment
