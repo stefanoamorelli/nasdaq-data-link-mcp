@@ -31,20 +31,8 @@ const config = {
     locales: ['en'],
   },
   
-  // Redirect the home page to the intro doc
-  plugins: [
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        redirects: [
-          {
-            from: '/',
-            to: '/intro',
-          },
-        ],
-      },
-    ],
-  ],
+  // We don't need redirects anymore since we use index.md directly
+  plugins: [],
 
   presets: [
     [
@@ -56,8 +44,8 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/stefanoamorelli/nasdaq-data-link-mcp/tree/main/',
-          routeBasePath: '/', // Set this to empty string to make docs the homepage
+            'https://github.com/stefanoamorelli/nasdaq-data-link-mcp/tree/main/docs/',
+          routeBasePath: '/', // Make docs the homepage
         },
         blog: false,
         theme: {
