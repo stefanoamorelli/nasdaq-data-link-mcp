@@ -126,6 +126,11 @@ Then edit `.env` and add your API key:
 NASDAQ_DATA_LINK_API_KEY=your_api_key_here
 ```
 
+And the `PYTHONPATH`: 
+```
+PYTHONPATH=/path/to/your/local/cloned/repo/nasdaq-data-link-mcp
+```
+
 ### 6. Install the MCP Server
 
 ```bash
