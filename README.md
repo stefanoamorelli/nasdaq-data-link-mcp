@@ -11,6 +11,7 @@
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
 ![Build Status](https://img.shields.io/badge/build-passing-green.svg)
 ![Platform](https://img.shields.io/badge/platform-cross--platform-lightgrey.svg)
+![](https://badge.mcpx.dev?type=server 'MCP Server')
 
 </div>
 
