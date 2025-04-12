@@ -30,6 +30,10 @@ from nasdaq_data_link_mcp_os.resources.equities_360.cash_flow import (
     get_cash_flow,
     list_available_cash_flow_fields,
 )
+from nasdaq_data_link_mcp_os.resources.equities_360.corporate_actions import (
+    get_corporate_actions,
+    list_available_corporate_action_fields,
+)
 from config import initialize_api
 
 # Initialize API configuration
@@ -234,3 +238,34 @@ def list_cash_flow_fields() -> List[Dict[str, str]]:
     including operating, investing, and financing cash flows, and related metrics.
     """
     return list_available_cash_flow_fields()
+
+
+@mcp.tool()
+def get_corporate_action_data(symbol: Optional[str] = None, figi: Optional[str] = None, date: Optional[str] = None, action: Optional[str] = None):
+    """
+    Retrieves corporate actions data from Nasdaq Equities 360 Corporate Actions database.
+    
+    Provides information about corporate events such as stock splits, mergers, acquisitions,
+    and other significant company actions that can affect stock price and ownership.
+    
+    Parameters:
+      - symbol: Stock ticker symbol (e.g., 'TSLA')
+      - figi: Bloomberg FIGI identifier
+      - date: Date of the corporate action in YYYY-MM-DD format (e.g., '2023-03-24')
+      - action: Type of corporate action (e.g., 'split', 'merger')
+    
+    Example: get_corporate_action_data(symbol='TSLA', action='split')
+    Example: get_corporate_action_data(date='2023-03-24')
+    """
+    return get_corporate_actions(symbol, figi, date, action)
+
+
+@mcp.tool()
+def list_corporate_action_fields() -> List[Dict[str, str]]:
+    """
+    Lists all available fields in the corporate actions database with descriptions.
+    
+    This helps users understand what data is available through the get_corporate_action_data tool,
+    including date, action type, value, and related company information.
+    """
+    return list_available_corporate_action_fields()

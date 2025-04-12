@@ -77,6 +77,11 @@ Or:
 > **You:** How has Microsoft's free cash flow and capital expenditure changed over the past year?  
 > **Claude:** *calls `get_cash_flow_data(symbol="MSFT", dimension="MRY")` and analyzes free cash flow trends*
 
+Or:
+
+> **You:** Has Tesla had any stock splits in the last two years?  
+> **Claude:** *calls `get_corporate_action_data(symbol="TSLA", action="split")` and presents the split history*
+
 ---
 
 ## 📦 Installation
@@ -494,6 +499,52 @@ Lists all available fields in the cash flow statement database with descriptions
 
 Returns information about all available fields that can be queried through the `get_cash_flow_data` tool.
 
+---
+
+### `get_corporate_action_data`
+
+Retrieves corporate actions data from the Nasdaq Equities 360 Corporate Actions database.
+
+```json
+{
+  "action": "tool",
+  "name": "get_corporate_action_data",
+  "params": {
+    "symbol": "TSLA",
+    "action": "split"
+  }
+}
+```
+
+Or using other parameters:
+
+```json
+{
+  "action": "tool",
+  "name": "get_corporate_action_data",
+  "params": {
+    "date": "2023-03-24"
+  }
+}
+```
+
+Returns information about corporate events such as stock splits, mergers, acquisitions, and other significant company actions that can affect stock price and ownership.
+
+---
+
+### `list_corporate_action_fields`
+
+Lists all available fields in the corporate actions database with descriptions.
+
+```json
+{
+  "action": "tool",
+  "name": "list_corporate_action_fields"
+}
+```
+
+Returns information about all available fields that can be queried through the `get_corporate_action_data` tool.
+
 </details>
 
 ---
@@ -530,6 +581,7 @@ graph TD
     I[Fundamental Details NDAQ/FD]
     J[Balance Sheet NDAQ/BS]
     K[Cash Flow NDAQ/CF]
+    L[Corporate Actions NDAQ/CA]
   end
   
   B -.-> Equities 360
