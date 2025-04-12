@@ -26,6 +26,10 @@ from nasdaq_data_link_mcp_os.resources.equities_360.balance_sheet import (
     get_balance_sheet,
     list_available_balance_sheet_fields,
 )
+from nasdaq_data_link_mcp_os.resources.equities_360.cash_flow import (
+    get_cash_flow,
+    list_available_cash_flow_fields,
+)
 from config import initialize_api
 
 # Initialize API configuration
@@ -197,3 +201,36 @@ def list_balance_sheet_fields() -> List[Dict[str, str]]:
     including assets, liabilities, equity, and detailed breakdowns of each category.
     """
     return list_available_balance_sheet_fields()
+
+
+@mcp.tool()
+def get_cash_flow_data(symbol: Optional[str] = None, figi: Optional[str] = None, calendardate: Optional[str] = None, dimension: Optional[str] = None):
+    """
+    Retrieves cash flow statement data from Nasdaq Equities 360 Cash Flow database.
+    
+    Provides cash flow statement data including operating, investing, and financing
+    activities, as well as free cash flow and capital expenditure information.
+    
+    Either symbol or figi must be provided.
+    
+    Parameters:
+      - symbol: Stock ticker symbol (e.g., 'MSFT')
+      - figi: Bloomberg FIGI identifier (e.g., 'BBG000BPH459')
+      - calendardate: Calendar date in YYYY-MM-DD format (e.g., '2022-12-31')
+      - dimension: Data dimension (MRQ: quarterly, MRY: annual, MRT: trailing twelve months)
+    
+    Example: get_cash_flow_data(symbol='MSFT', dimension='MRY')
+    Example: get_cash_flow_data(figi='BBG000BPH459', calendardate='2022-12-31')
+    """
+    return get_cash_flow(symbol, figi, calendardate, dimension)
+
+
+@mcp.tool()
+def list_cash_flow_fields() -> List[Dict[str, str]]:
+    """
+    Lists all available fields in the cash flow statement database with descriptions.
+    
+    This helps users understand what data is available through the get_cash_flow_data tool,
+    including operating, investing, and financing cash flows, and related metrics.
+    """
+    return list_available_cash_flow_fields()

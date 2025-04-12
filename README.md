@@ -72,6 +72,11 @@ Or:
 > **You:** What's Microsoft's asset breakdown and debt-to-equity ratio from the latest balance sheet?  
 > **Claude:** *calls `get_balance_sheet_data(symbol="MSFT", dimension="MRQ")` and presents relevant balance sheet items*
 
+Or:
+
+> **You:** How has Microsoft's free cash flow and capital expenditure changed over the past year?  
+> **Claude:** *calls `get_cash_flow_data(symbol="MSFT", dimension="MRY")` and analyzes free cash flow trends*
+
 ---
 
 ## 📦 Installation
@@ -441,6 +446,54 @@ Lists all available fields in the balance sheet database with descriptions.
 
 Returns information about all available fields that can be queried through the `get_balance_sheet_data` tool.
 
+---
+
+### `get_cash_flow_data`
+
+Retrieves cash flow statement data from the Nasdaq Equities 360 Cash Flow database.
+
+```json
+{
+  "action": "tool",
+  "name": "get_cash_flow_data",
+  "params": {
+    "symbol": "MSFT",
+    "dimension": "MRQ"
+  }
+}
+```
+
+Or using multiple parameters:
+
+```json
+{
+  "action": "tool",
+  "name": "get_cash_flow_data",
+  "params": {
+    "figi": "BBG000BPH459",
+    "calendardate": "2022-12-31",
+    "dimension": "MRY"
+  }
+}
+```
+
+Returns cash flow statement data including operating activities (ncfo), investing activities (ncfi), financing activities (ncff), free cash flow (fcf), capital expenditures (capex), and more.
+
+---
+
+### `list_cash_flow_fields`
+
+Lists all available fields in the cash flow statement database with descriptions.
+
+```json
+{
+  "action": "tool",
+  "name": "list_cash_flow_fields"
+}
+```
+
+Returns information about all available fields that can be queried through the `get_cash_flow_data` tool.
+
 </details>
 
 ---
@@ -476,6 +529,7 @@ graph TD
     H[Fundamentals NDAQ/FS]
     I[Fundamental Details NDAQ/FD]
     J[Balance Sheet NDAQ/BS]
+    K[Cash Flow NDAQ/CF]
   end
   
   B -.-> Equities 360
