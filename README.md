@@ -62,6 +62,11 @@ Or:
 > **You:** Show me Microsoft's profitability ratios for the most recent annual report.  
 > **Claude:** *calls `get_fundamental_data(symbol="MSFT", dimension="MRY")` and presents profitability metrics*
 
+Or:
+
+> **You:** What's Microsoft's cash flow and R&D spending for the last quarter?  
+> **Claude:** *calls `get_detailed_financials(symbol="MSFT", dimension="MRQ")` and presents cash flow and R&D data*
+
 ---
 
 ## 📦 Installation
@@ -335,6 +340,54 @@ Lists all available fields in the fundamental summary database with descriptions
 
 Returns information about all available fields that can be queried through the `get_fundamental_data` tool.
 
+---
+
+### `get_detailed_financials`
+
+Retrieves detailed financial data from the Nasdaq Equities 360 Fundamental Details database.
+
+```json
+{
+  "action": "tool",
+  "name": "get_detailed_financials",
+  "params": {
+    "symbol": "MSFT",
+    "dimension": "MRQ"
+  }
+}
+```
+
+Or using multiple parameters:
+
+```json
+{
+  "action": "tool",
+  "name": "get_detailed_financials",
+  "params": {
+    "figi": "BBG000BPH459",
+    "calendardate": "2022-12-31",
+    "dimension": "MRY"
+  }
+}
+```
+
+Returns comprehensive financial statement data including balance sheet items (assets, liabilities, equity), income statement components (revenue, expenses, profit), cash flow details (operating, investing, financing), and detailed financial ratios.
+
+---
+
+### `list_detailed_financial_fields`
+
+Lists all available fields in the fundamental details database with descriptions.
+
+```json
+{
+  "action": "tool",
+  "name": "list_detailed_financial_fields"
+}
+```
+
+Returns information about all available fields that can be queried through the `get_detailed_financials` tool.
+
 </details>
 
 ---
@@ -368,6 +421,7 @@ graph TD
   subgraph "Equities 360"
     G[Statistics NDAQ/STAT]
     H[Fundamentals NDAQ/FS]
+    I[Fundamental Details NDAQ/FD]
   end
   
   B -.-> Equities 360

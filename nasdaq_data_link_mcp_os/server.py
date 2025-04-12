@@ -18,6 +18,10 @@ from nasdaq_data_link_mcp_os.resources.equities_360.fundamentals import (
     get_fundamental_summary,
     list_available_fundamental_fields,
 )
+from nasdaq_data_link_mcp_os.resources.equities_360.fundamental_details import (
+    get_fundamental_details,
+    list_available_detail_fields,
+)
 from config import initialize_api
 
 # Initialize API configuration
@@ -123,3 +127,36 @@ def list_fundamental_fields() -> List[Dict[str, str]]:
     including profitability ratios, valuation metrics, and financial health indicators.
     """
     return list_available_fundamental_fields()
+
+
+@mcp.tool()
+def get_detailed_financials(symbol: Optional[str] = None, figi: Optional[str] = None, calendardate: Optional[str] = None, dimension: Optional[str] = None):
+    """
+    Retrieves detailed financial data from Nasdaq Equities 360 Fundamental Details database.
+    
+    Provides comprehensive financial statement data including balance sheet items, income statement 
+    components, cash flow statement details, and financial ratios.
+    
+    Either symbol or figi must be provided.
+    
+    Parameters:
+      - symbol: Stock ticker symbol (e.g., 'MSFT')
+      - figi: Bloomberg FIGI identifier (e.g., 'BBG000BPH459')
+      - calendardate: Calendar date in YYYY-MM-DD format (e.g., '2022-12-31')
+      - dimension: Data dimension (MRQ: quarterly, MRY: annual, MRT: trailing twelve months)
+    
+    Example: get_detailed_financials(symbol='MSFT', dimension='MRY')
+    Example: get_detailed_financials(figi='BBG000BPH459', calendardate='2022-12-31')
+    """
+    return get_fundamental_details(symbol, figi, calendardate, dimension)
+
+
+@mcp.tool()
+def list_detailed_financial_fields() -> List[Dict[str, str]]:
+    """
+    Lists all available fields in the fundamental details database with descriptions.
+    
+    This helps users understand what data is available through the get_detailed_financials tool,
+    including balance sheet items, income statement components, cash flow details, and more.
+    """
+    return list_available_detail_fields()
