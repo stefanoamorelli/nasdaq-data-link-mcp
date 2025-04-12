@@ -9,10 +9,11 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://stefanoamorelli.github.io',
+  url: 'https://amorelli.tech',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/nasdaq-data-link-mcp/',
+  baseUrl: '/open-source/nasdaq-data-link-mcp/',
+
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -30,7 +31,7 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
-  
+
   // We don't need redirects anymore since we use index.md directly
   plugins: [],
 
