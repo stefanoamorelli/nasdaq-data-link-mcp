@@ -107,7 +107,7 @@ Download the `World Bank metadata` from [Nasdaq Data Link](https://data.nasdaq.c
 And save it as `metadata.csv` in the following directory:
 
 ```
-nasdaq-data-link-mcp/src/resources/world_data_bank/metadata/metadata.csv
+nasdaq-data-link-mcp/nasdaq_data_link_mcp_os/resources/world_data_bank/metadata/metadata.csv
 ```
 </details>
 
