@@ -124,7 +124,7 @@ Then edit `.env` and add your API key:
 NASDAQ_DATA_LINK_API_KEY=your_api_key_here
 ```
 
-### 6. Start the MCP Server
+### 6. Install the MCP Server
 
 ```bash
 mcp install nasdaq_data_link_mcp_os/server.py --env-file .env --name "Nasdaq Data Link MCP Server"
