@@ -36,56 +36,40 @@ In this version (`0.1.0`) the project supports the following databases:
 - [Nasdaq RTAT](https://data.nasdaq.com/databases/RTAT) (preview available for free, full data under subscription)
 - [Equities 360](https://data.nasdaq.com/databases/E360) (company statistics and fundamental data)
 
-Example conversations might include:
+<details>
+<summary><strong>Example conversations</strong></summary>
 
 > **You:** What were the most traded stocks by retailers yesterday?  
 > **Claude:** *calls `get_rtat(<yetserday>)` and returns relevant matches*
-
-Or:
 
 > **You:** What was the GDP of Italy in 2022?  
 > **Claude:** Let me look that up... *calls `get_indicator_value` tool*  
 > **Claude:** The GDP of Italy in 2022 was approximately `...` trillion USD.
 
-Or:
-
 > **You:** List all indicators related to CO₂ emissions.  
 > **Claude:** *calls `search_worldbank_indicators("CO2")` and returns relevant matches*
-
-Or:
 
 > **You:** What's the market cap and P/E ratio of Microsoft?  
 > **Claude:** *calls `get_stock_stats(symbol="MSFT")` and presents the key statistics*
 
-Or:
-
 > **You:** Show me Microsoft's profitability ratios for the most recent annual report.  
 > **Claude:** *calls `get_fundamental_data(symbol="MSFT", dimension="MRY")` and presents profitability metrics*
-
-Or:
 
 > **You:** What's Microsoft's cash flow and R&D spending for the last quarter?  
 > **Claude:** *calls `get_detailed_financials(symbol="MSFT", dimension="MRQ")` and presents cash flow and R&D data*
 
-Or:
-
 > **You:** What's Microsoft's asset breakdown and debt-to-equity ratio from the latest balance sheet?  
 > **Claude:** *calls `get_balance_sheet_data(symbol="MSFT", dimension="MRQ")` and presents relevant balance sheet items*
-
-Or:
 
 > **You:** How has Microsoft's free cash flow and capital expenditure changed over the past year?  
 > **Claude:** *calls `get_cash_flow_data(symbol="MSFT", dimension="MRY")` and analyzes free cash flow trends*
 
-Or:
-
 > **You:** Has Tesla had any stock splits in the last two years?  
 > **Claude:** *calls `get_corporate_action_data(symbol="TSLA", action="split")` and presents the split history*
 
-Or:
-
 > **You:** What industry and sector is AMD in, and where is the company located?  
 > **Claude:** *calls `get_company_reference_data(symbol="AMD")` and presents industry, sector, and location information*
+</details>
 
 ---
 
