@@ -30,6 +30,21 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  
+  // Redirect the home page to the intro doc
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            from: '/',
+            to: '/intro',
+          },
+        ],
+      },
+    ],
+  ],
 
   presets: [
     [
