@@ -51,4 +51,4 @@ Returns RTAT data from Nasdaq Data Link for the given dates and tickers.
 ## Learn More
 
 - [Nasdaq RTAT Database](https://data.nasdaq.com/databases/RTAT)
-- [Return to Tools List](../index#tools)
+- [Return to Tools List](/tools)

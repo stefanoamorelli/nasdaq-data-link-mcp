@@ -10,7 +10,7 @@ sidebar_position: 1
 
 <div align="center">
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/stefanoamorelli/nasdaq-data-link-mcp/blob/main/LICENSE)
 [![PyPI version](https://img.shields.io/badge/PyPI-v0.1.1-blue.svg)](https://pypi.org/project/nasdaq-data-link-mcp-os/)
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
 ![Build Status](https://img.shields.io/badge/build-passing-green.svg)
@@ -31,5 +31,5 @@ This project aims at making easy to access and explore Nasdaq Data Link's extens
 ## Quick Links
 
 - [Installation Guide](/installation)
-- [Available Tools](/category/tools)
+- [Available Tools](/tools)
 - [GitHub Repository](https://github.com/stefanoamorelli/nasdaq-data-link-mcp)

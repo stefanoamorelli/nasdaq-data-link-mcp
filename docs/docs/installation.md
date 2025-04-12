@@ -64,6 +64,6 @@ This opens the `MCP` Dev interface where you can call tools manually, inspect re
 ## Next Steps
 
 After installation, explore the available tools:
-- [Retail Trading Activity Tracker](/docs/tools/rtat)
-- [World Bank Tools](/docs/tools/worldbank)
-- [Equities 360 Tools](/docs/tools/equities360)
+- [Retail Trading Activity Tracker](/tools/rtat)
+- [World Bank Tools](/tools/worldbank)
+- [Equities 360 Tools](/tools/equities360)

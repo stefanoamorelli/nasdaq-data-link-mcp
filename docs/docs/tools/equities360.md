@@ -229,4 +229,4 @@ Lists all available fields in the company reference database with descriptions.
 ## Learn More
 
 - [Equities 360 on Nasdaq Data Link](https://data.nasdaq.com/databases/E360)
-- [Return to Tools List](../index#tools)
+- [Return to Tools List](/tools)

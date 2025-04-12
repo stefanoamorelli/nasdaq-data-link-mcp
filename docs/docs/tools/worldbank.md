@@ -77,4 +77,4 @@ Searches for indicators by keyword.
 ## Learn More
 
 - [World Bank dataset on Nasdaq Data Link](https://data.nasdaq.com/databases/WB)
-- [Return to Tools List](../index#tools)
+- [Return to Tools List](/tools)
