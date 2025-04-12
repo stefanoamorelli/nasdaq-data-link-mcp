@@ -7,7 +7,7 @@
 <div align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![PyPI version](https://badge.fury.io/py/nasdaq-data-link-mcp-os.svg)](https://pypi.org/project/nasdaq-data-link-mcp-os/)
+[![PyPI version](https://img.shields.io/badge/PyPI-v0.1.1-blue.svg)](https://pypi.org/project/nasdaq-data-link-mcp-os/)
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
 ![Build Status](https://img.shields.io/badge/build-passing-green.svg)
 ![Platform](https://img.shields.io/badge/platform-cross--platform-lightgrey.svg)
