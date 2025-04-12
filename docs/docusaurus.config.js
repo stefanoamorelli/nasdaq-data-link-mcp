@@ -65,6 +65,12 @@ const config = {
         },
         items: [
           {
+            type: 'docSidebar',
+            sidebarId: 'tutorialSidebar',
+            position: 'left',
+            label: 'Documentation',
+          },
+          {
             href: 'https://github.com/stefanoamorelli/nasdaq-data-link-mcp',
             label: 'GitHub',
             position: 'right',
