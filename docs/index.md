@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Nasdaq Data Link MCP
+permalink: /
 ---
 
 # 📈 Nasdaq Data Link MCP 🤖
