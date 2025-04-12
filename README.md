@@ -134,7 +134,7 @@ PYTHONPATH=/path/to/your/local/cloned/repo/nasdaq-data-link-mcp
 ### 6. Install the MCP Server
 
 ```bash
-mcp install nasdaq_data_link_mcp_os/server.py --env-file .env --name "Nasdaq Data Link MCP Server"
+mcp install nasdaq_data_link_mcp_os/server.py --env-file .env --name "Nasdaq Data Link MCP Server" --with nasdaq-data-link --with pycountry
 ```
 
 This registers the server with your MCP client (e.g., Claude Desktop).
