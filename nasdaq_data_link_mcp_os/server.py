@@ -38,6 +38,7 @@ from nasdaq_data_link_mcp_os.resources.equities_360.reference_data import (
     get_reference_data,
     list_available_reference_fields,
 )
+from nasdaq_data_link_mcp_os.resources.trade_summary.trade_data import get_trade_summary
 from nasdaq_data_link_mcp_os.config import initialize_api
 
 # Initialize API configuration
@@ -331,3 +332,16 @@ def list_reference_data_fields() -> List[Dict[str, str]]:
     including exchange, industry, sector, company website, and location information.
     """
     return list_available_reference_fields()
+
+
+@mcp.tool()
+def get_trade_summary_data(**kwargs):
+    """
+    Retrieves Trade Summary data from Nasdaq Data Link NDAQ/TS datatable.
+
+    Provides consolidated trade data including open, high, low, close, and volume.
+
+    Examples:
+      get_trade_summary_data() # Returns all available data (may be limited by API quotas)
+    """
+    return get_trade_summary(**kwargs)
