@@ -33,10 +33,10 @@ This project aims at making easy to access and explore Nasdaq Data Link’s exte
 
 Once installed and connected to an `MCP`-compatible client (e.g., [Claude Desktop](https://claude.ai/download), this server exposes several tools that your AI assistant can use to fetch data.
 
-In this version (`0.1.0`) the project supports the following databases:
-- [World Bank dataset on Nasdaq Data Link](https://data.nasdaq.com/databases/WB) (freely available for personal use)
-- [Nasdaq RTAT](https://data.nasdaq.com/databases/RTAT) (preview available for free, full data under subscription)
+This project currently supports the following databases:
 - [Equities 360](https://data.nasdaq.com/databases/E360) (company statistics and fundamental data)
+- [Nasdaq RTAT](https://data.nasdaq.com/databases/RTAT) (retail trading activity tracker)
+- [World Bank dataset on Nasdaq Data Link](https://data.nasdaq.com/databases/WB) (world bank database)
 
 <details>
 <summary><strong>Example conversations</strong></summary>
