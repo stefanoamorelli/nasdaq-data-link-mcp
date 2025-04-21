@@ -14,5 +14,6 @@ The MCP server provides tools for accessing different datasets available through
 - [Retail Trading Activity Tracker (RTAT)](/tools/rtat) - Access retail trading activity data
 - [World Bank Indicators](/tools/worldbank) - Access global economic and development indicators
 - [Equities 360](/tools/equities360) - Comprehensive financial data for companies
+- [Trade Summary](/tools/tradesummary) - Access consolidated trade data including open, high, low, close, and volume
 
 Click on each category to learn more about the specific tools and how to use them.
