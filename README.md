@@ -7,7 +7,7 @@
 <div align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![PyPI version](https://img.shields.io/badge/PyPI-v0.1.1-blue.svg)](https://pypi.org/project/nasdaq-data-link-mcp-os/)
+[![PyPI version](https://img.shields.io/badge/PyPI-v0.1.2-blue.svg)](https://pypi.org/project/nasdaq-data-link-mcp-os/)
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
 ![Build Status](https://img.shields.io/badge/build-passing-green.svg)
 ![Platform](https://img.shields.io/badge/platform-cross--platform-lightgrey.svg)
@@ -36,6 +36,7 @@ Once installed and connected to an `MCP`-compatible client (e.g., [Claude Deskto
 This project currently supports the following databases:
 - [Equities 360](https://data.nasdaq.com/databases/E360) (company statistics and fundamental data)
 - [Nasdaq RTAT](https://data.nasdaq.com/databases/RTAT) (retail trading activity tracker)
+- [Trade Summary](https://data.nasdaq.com/databases/TRDSUM) (consolidated trade data including OHLCV)
 - [World Bank dataset on Nasdaq Data Link](https://data.nasdaq.com/databases/WB) (world bank database)
 
 <details>
@@ -50,6 +51,12 @@ This project currently supports the following databases:
 
 > **You:** List all indicators related to CO₂ emissions.  
 > **Claude:** *calls `search_worldbank_indicators("CO2")` and returns relevant matches*
+
+> **You:** What's the latest trading data for Apple?  
+> **Claude:** *calls `get_trade_summary_data()` and presents the trading data*
+
+> **You:** Show me yesterday's trading volume for the top tech stocks.
+> **Claude:** *calls `get_trade_summary_data()` and analyzes volume data*
 
 > **You:** What's the market cap and P/E ratio of Microsoft?  
 > **Claude:** *calls `get_stock_stats(symbol="MSFT")` and presents the key statistics*
@@ -170,6 +177,26 @@ Retrieves Retail Trading Activity (RTAT) data for specific dates and optional ti
 ```
 
 Returns RTAT data from Nasdaq Data Link for the given dates and tickers.
+
+</details>
+
+---
+
+<details>
+<summary><strong>📊 Trade Summary Tool</strong></summary>
+
+### `get_trade_summary_data`
+
+Retrieves Trade Summary data from Nasdaq Data Link NDAQ/TS datatable.
+
+```json
+{
+  "action": "tool",
+  "name": "get_trade_summary_data"
+}
+```
+
+Returns consolidated trade data including open, high, low, close, and volume information.
 
 </details>
 
@@ -602,6 +629,7 @@ graph TD
   A -->|fetches data| B[Nasdaq Data Link API]
   B -.-> E[Retail Trading Activity Tracker]
   B -.-> F[World Bank Metadata]
+  B -.-> N[Trade Summary NDAQ/TS]
   
   subgraph " "
     G[Statistics NDAQ/STAT]
