@@ -7,7 +7,7 @@
 <div align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![PyPI version](https://img.shields.io/badge/PyPI-v0.1.2-blue.svg)](https://pypi.org/project/nasdaq-data-link-mcp-os/)
+[![PyPI version](https://img.shields.io/badge/PyPI-v0.1.3-blue.svg)](https://pypi.org/project/nasdaq-data-link-mcp-os/)
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
 ![Build Status](https://img.shields.io/badge/build-passing-green.svg)
 ![Platform](https://img.shields.io/badge/platform-cross--platform-lightgrey.svg)
@@ -40,6 +40,7 @@ This project currently supports the following databases:
 - [Nasdaq RTAT](https://data.nasdaq.com/databases/RTAT) (retail trading activity tracker)
 - [Trade Summary](https://data.nasdaq.com/databases/TRDSUM) (consolidated trade data including OHLCV)
 - [World Bank dataset on Nasdaq Data Link](https://data.nasdaq.com/databases/WB) (world bank database)
+- [Nasdaq Fund Network (NFN)](https://data.nasdaq.com/databases/MFR) (mutual fund and investment product data)
 
 <details>
 <summary><strong>Example conversations</strong></summary>
@@ -80,6 +81,9 @@ This project currently supports the following databases:
 
 > **You:** What industry and sector is AMD in, and where is the company located?  
 > **Claude:** *calls `get_company_reference_data(symbol="AMD")` and presents industry, sector, and location information*
+
+> **You:** Can you find information about mutual funds that are open-ended?  
+> **Claude:** *calls `get_fund_master_report(investment_company_type="N-1A")` and returns the fund information*
 </details>
 
 ---
@@ -606,6 +610,43 @@ Returns information about all available fields that can be queried through the `
 
 ---
 
+<details>
+<summary><strong>📊 Nasdaq Fund Network (NFN) Tool</strong></summary>
+
+### `get_fund_master_report`
+
+Retrieves Fund Master Report (NFN/MFRFM) data from Nasdaq Fund Network.
+
+```json
+{
+  "action": "tool",
+  "name": "get_fund_master_report",
+  "params": {
+    "fund_id": "12345"
+  }
+}
+```
+
+Returns fund data from Nasdaq Fund Network for the given fund ID.
+
+You can also filter by investment company type:
+
+```json
+{
+  "action": "tool",
+  "name": "get_fund_master_report",
+  "params": {
+    "investment_company_type": "N-1A"
+  }
+}
+```
+
+Returns data about mutual funds and other investment products, including fund identifiers, formation dates, and regulatory information.
+
+</details>
+
+---
+
 ## 🧪 MCP Dev & Debugging
 
 To test the server locally with a UI:
@@ -632,6 +673,7 @@ graph TD
   B -.-> E[Retail Trading Activity Tracker]
   B -.-> F[World Bank Metadata]
   B -.-> N[Trade Summary NDAQ/TS]
+  B -.-> O[Nasdaq Fund Network NFN/MFRFM]
   
   subgraph " "
     G[Statistics NDAQ/STAT]
