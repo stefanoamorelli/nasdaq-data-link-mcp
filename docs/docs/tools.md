@@ -15,5 +15,6 @@ The MCP server provides tools for accessing different datasets available through
 - [World Bank Indicators](/tools/worldbank) - Access global economic and development indicators
 - [Equities 360](/tools/equities360) - Comprehensive financial data for companies
 - [Trade Summary](/tools/tradesummary) - Access consolidated trade data including open, high, low, close, and volume
+- [Nasdaq Fund Network (NFN)](/tools/nfn) - Mutual fund and investment product data
 
 Click on each category to learn more about the specific tools and how to use them.

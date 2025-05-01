@@ -39,6 +39,7 @@ from nasdaq_data_link_mcp_os.resources.equities_360.reference_data import (
     list_available_reference_fields,
 )
 from nasdaq_data_link_mcp_os.resources.trade_summary.trade_data import get_trade_summary
+from nasdaq_data_link_mcp_os.resources.nfn.fund_master_report import get_mfrfm_data
 from nasdaq_data_link_mcp_os.config import initialize_api
 
 # Initialize API configuration
@@ -345,3 +346,23 @@ def get_trade_summary_data(**kwargs):
       get_trade_summary_data() # Returns all available data (may be limited by API quotas)
     """
     return get_trade_summary(**kwargs)
+
+
+@mcp.tool()
+def get_fund_master_report(fund_id: Optional[str] = None, name: Optional[str] = None, 
+                         investment_company_type: Optional[str] = None, **kwargs):
+    """
+    Retrieves Fund Master Report (NFN/MFRFM) data from Nasdaq Fund Network.
+    
+    Provides basic information about live NFN funds, mutual funds and closed-end funds.
+    
+    Parameters:
+      - fund_id: Optional unique fund identifier 
+      - name: Optional fund name
+      - investment_company_type: Optional investment company type (N-1A for Open-Ended mutual funds, N-2 for Closed-End funds)
+      - Additional parameters supported by the Nasdaq Data Link API
+      
+    Example: get_fund_master_report(fund_id='12345')
+    Example: get_fund_master_report(investment_company_type='N-1A')
+    """
+    return get_mfrfm_data(fund_id, name, investment_company_type, **kwargs)
