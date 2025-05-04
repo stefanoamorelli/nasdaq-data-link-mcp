@@ -17,9 +17,8 @@ classifiers = [
 ]
 dependencies = ["mcp[cli]>=1.6.0", "nasdaq-data-link", "pycountry"]
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["nasdaq_data_link_mcp_os"]
+[tool.setuptools]
+packages = ["nasdaq_data_link_mcp_os"]
 
 [project.urls]
 "Homepage" = "https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
