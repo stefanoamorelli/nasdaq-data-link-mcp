@@ -19,10 +19,20 @@ jobs:
           python-version: "3.11"
 
       - name: Install build tool
+        run: pip install --upgrade build setuptools
+
+      - name: Install build tool
         run: pip install build
 
       - name: Build package
         run: python -m build
+
+      - name: Check package metadata
+        run: pip install twine && twine check dist/*
+
+      - name: Inspect build artifacts
+        run: |
+          unzip -l dist/*.whl
 
       - name: Upload to PyPI
         uses: pypa/gh-action-pypi-publish@v1.8.11
