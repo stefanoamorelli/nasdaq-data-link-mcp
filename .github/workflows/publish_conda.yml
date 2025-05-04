@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: publish-to-conda
-        uses: stefanoamorelli/conda-package-publish-action@v3
+        uses: stefanoamorelli/conda-package-publish-action@v3-hotfix
         with:
           subDir: "conda"
           anacondaToken: ${{ secrets.ANACONDA_TOKEN }}
