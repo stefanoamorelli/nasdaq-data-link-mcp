@@ -27,6 +27,7 @@ This project aims at making easy to access and explore Nasdaq Data Link’s exte
 
 > [!TIP]
 > If you use this project in your research or work, please cite it using the [CITATION.cff](CITATION.cff) file, or the APA format:
+
 `Amorelli, S. (2025). Nasdaq Data Link MCP (Model Context Protocol) Server [Computer software]. GitHub. https://github.com/stefanoamorelli/nasdaq-data-link-mcp`
 
 
