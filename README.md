@@ -20,7 +20,7 @@ A community developed and maintained [Model Context Protocol (MCP)](https://gith
 
 This project aims at making easy to access and explore Nasdaq Data Link’s extensive and valuable financial and economic datasets through natural language interfaces and large language models (LLMs).
 
-🐍 `Nasdaq Data Link MCP` uses the official [nasdaq/data-link-python SDK](https://github.com/Nasdaq/data-link-python)
+🐍 `Nasdaq Data Link MCP` uses the official [Nasdaq/data-link-python](https://github.com/Nasdaq/data-link-python) SDK.
 
 > [!IMPORTANT]
 > This is an open-source project *not affiliated with or endorsed by Nasdaq, Inc.* Nasdaq® is a registered trademark of Nasdaq, Inc.
