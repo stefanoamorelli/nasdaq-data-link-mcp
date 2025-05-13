@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Amorelli
+    given-names: Stefano
+title: "Nasdaq Data Link MCP (Model Context Protocol) Server"
+version: 1.0.0
+date-released: 2025-04-06
+url: https://github.com/stefanoamorelli/nasdaq-data-link-mcp
