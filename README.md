@@ -13,6 +13,7 @@
 ![Platform](https://img.shields.io/badge/platform-cross--platform-lightgrey.svg)
 ![](https://badge.mcpx.dev?type=server 'MCP Server')
 ![AI Powered](https://img.shields.io/badge/AI-powered-6f42c1?logo=anthropic&logoColor=white)
+[![PyPI Downloads](https://static.pepy.tech/badge/nasdaq-data-link-mcp-os)](https://pepy.tech/projects/nasdaq-data-link-mcp-os)
 
 </div>
 
