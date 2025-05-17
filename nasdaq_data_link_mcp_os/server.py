@@ -39,7 +39,19 @@ from nasdaq_data_link_mcp_os.resources.equities_360.reference_data import (
     list_available_reference_fields,
 )
 from nasdaq_data_link_mcp_os.resources.trade_summary.trade_data import get_trade_summary
-from nasdaq_data_link_mcp_os.resources.nfn.fund_master_report import get_mfrfm_data
+from nasdaq_data_link_mcp_os.resources.nfn.fund_master_report import (
+    get_mfrfm_data,
+    get_mfrfi_data,
+    get_mfrsm_data,
+    get_mfrsi_data,
+    get_mfrph_data,
+    get_mfrph10_data,
+    get_mfrps_data,
+    get_mfrprb_data,
+    get_mfrpa_data,
+    get_mfrpm_data,
+    get_mfrmf_data
+)
 from nasdaq_data_link_mcp_os.config import initialize_api
 
 # Initialize API configuration
@@ -366,3 +378,193 @@ def get_fund_master_report(fund_id: Optional[str] = None, name: Optional[str] = 
     Example: get_fund_master_report(investment_company_type='N-1A')
     """
     return get_mfrfm_data(fund_id, name, investment_company_type, **kwargs)
+
+
+@mcp.tool()
+def get_fund_information(fund_id: Optional[str] = None, name: Optional[str] = None, 
+                       investment_company_type: Optional[str] = None, **kwargs):
+    """
+    Retrieves Fund Information Report (NFN/MFRFI) data from Nasdaq Fund Network.
+    
+    Provides detailed information about funds including investment strategy, objectives,
+    and classification data.
+    
+    Parameters:
+      - fund_id: Optional unique fund identifier 
+      - name: Optional fund name
+      - investment_company_type: Optional investment company type (N-1A for Open-Ended mutual funds, N-2 for Closed-End funds)
+      - Additional parameters supported by the Nasdaq Data Link API
+      
+    Example: get_fund_information(fund_id='12345')
+    Example: get_fund_information(investment_company_type='N-1A')
+    """
+    return get_mfrfi_data(fund_id, name, investment_company_type, **kwargs)
+
+
+@mcp.tool()
+def get_share_class_master(fund_id: Optional[str] = None, name: Optional[str] = None, **kwargs):
+    """
+    Retrieves Fund Share Class Master (NFN/MFRSM) data from Nasdaq Fund Network.
+    
+    Provides basic information about fund share classes, including identifiers and name.
+    
+    Parameters:
+      - fund_id: Optional unique fund identifier 
+      - name: Optional fund name
+      - Additional parameters supported by the Nasdaq Data Link API
+      
+    Example: get_share_class_master(fund_id='12345')
+    Example: get_share_class_master(name='Growth Fund')
+    """
+    return get_mfrsm_data(fund_id, name, **kwargs)
+
+
+@mcp.tool()
+def get_share_class_information(fund_id: Optional[str] = None, ticker: Optional[str] = None, **kwargs):
+    """
+    Retrieves Fund Share Class Information (NFN/MFRSI) data from Nasdaq Fund Network.
+    
+    Provides detailed information about fund share classes including minimum investments,
+    fees, and other attributes.
+    
+    Parameters:
+      - fund_id: Optional unique fund identifier 
+      - ticker: Optional ticker symbol
+      - Additional parameters supported by the Nasdaq Data Link API
+      
+    Example: get_share_class_information(fund_id='12345')
+    Example: get_share_class_information(ticker='ABCDX')
+    """
+    return get_mfrsi_data(fund_id, ticker, **kwargs)
+
+
+@mcp.tool()
+def get_price_history(fund_id: Optional[str] = None, ticker: Optional[str] = None, 
+                    start_date: Optional[str] = None, end_date: Optional[str] = None, **kwargs):
+    """
+    Retrieves Fund Price History (NFN/MFRPH) data from Nasdaq Fund Network.
+    
+    Provides historical NAV, offering, and redemption prices for funds.
+    
+    Parameters:
+      - fund_id: Optional unique fund identifier 
+      - ticker: Optional ticker symbol
+      - start_date: Optional start date for price history (YYYY-MM-DD format)
+      - end_date: Optional end date for price history (YYYY-MM-DD format)
+      - Additional parameters supported by the Nasdaq Data Link API
+      
+    Example: get_price_history(ticker='ABCDX', start_date='2024-01-01', end_date='2024-04-30')
+    Example: get_price_history(fund_id='12345')
+    """
+    return get_mfrph_data(fund_id, ticker, start_date, end_date, **kwargs)
+
+
+@mcp.tool()
+def get_recent_price_history(fund_id: Optional[str] = None, ticker: Optional[str] = None, 
+                           start_date: Optional[str] = None, end_date: Optional[str] = None, **kwargs):
+    """
+    Retrieves recent Fund Price History (NFN/MFRPH10) data from Nasdaq Fund Network.
+    
+    Provides historical NAV, offering, and redemption prices for funds for the last 10 trading days.
+    
+    Parameters:
+      - fund_id: Optional unique fund identifier 
+      - ticker: Optional ticker symbol
+      - start_date: Optional start date for price history (YYYY-MM-DD format)
+      - end_date: Optional end date for price history (YYYY-MM-DD format)
+      - Additional parameters supported by the Nasdaq Data Link API
+      
+    Example: get_recent_price_history(ticker='ABCDX')
+    Example: get_recent_price_history(fund_id='12345')
+    """
+    return get_mfrph10_data(fund_id, ticker, start_date, end_date, **kwargs)
+
+
+@mcp.tool()
+def get_performance_statistics(fund_id: Optional[str] = None, ticker: Optional[str] = None, **kwargs):
+    """
+    Retrieves Fund Performance Statistics (NFN/MFRPS) data from Nasdaq Fund Network.
+    
+    Provides performance returns for various time periods (1mo, 3mo, YTD, 1yr, 3yr, etc.).
+    
+    Parameters:
+      - fund_id: Optional unique fund identifier 
+      - ticker: Optional ticker symbol
+      - Additional parameters supported by the Nasdaq Data Link API
+      
+    Example: get_performance_statistics(ticker='ABCDX')
+    Example: get_performance_statistics(fund_id='12345')
+    """
+    return get_mfrps_data(fund_id, ticker, **kwargs)
+
+
+@mcp.tool()
+def get_performance_benchmark(fund_id: Optional[str] = None, ticker: Optional[str] = None, **kwargs):
+    """
+    Retrieves Fund Performance Benchmark (NFN/MFRPRB) data from Nasdaq Fund Network.
+    
+    Provides information about fund benchmark indexes used for performance comparison.
+    
+    Parameters:
+      - fund_id: Optional unique fund identifier 
+      - ticker: Optional ticker symbol
+      - Additional parameters supported by the Nasdaq Data Link API
+      
+    Example: get_performance_benchmark(ticker='ABCDX')
+    Example: get_performance_benchmark(fund_id='12345')
+    """
+    return get_mfrprb_data(fund_id, ticker, **kwargs)
+
+
+@mcp.tool()
+def get_performance_analytics(fund_id: Optional[str] = None, ticker: Optional[str] = None, **kwargs):
+    """
+    Retrieves Fund Performance Analytics (NFN/MFRPA) data from Nasdaq Fund Network.
+    
+    Provides analytical metrics such as alpha, beta, R-squared, Sharpe ratio, etc.
+    
+    Parameters:
+      - fund_id: Optional unique fund identifier 
+      - ticker: Optional ticker symbol
+      - Additional parameters supported by the Nasdaq Data Link API
+      
+    Example: get_performance_analytics(ticker='ABCDX')
+    Example: get_performance_analytics(fund_id='12345')
+    """
+    return get_mfrpa_data(fund_id, ticker, **kwargs)
+
+
+@mcp.tool()
+def get_fees_and_expenses(fund_id: Optional[str] = None, ticker: Optional[str] = None, **kwargs):
+    """
+    Retrieves Fund Fee and Expense Data (NFN/MFRPM) from Nasdaq Fund Network.
+    
+    Provides information about fund fees, expenses, and sales charges.
+    
+    Parameters:
+      - fund_id: Optional unique fund identifier 
+      - ticker: Optional ticker symbol
+      - Additional parameters supported by the Nasdaq Data Link API
+      
+    Example: get_fees_and_expenses(ticker='ABCDX')
+    Example: get_fees_and_expenses(fund_id='12345')
+    """
+    return get_mfrpm_data(fund_id, ticker, **kwargs)
+
+
+@mcp.tool()
+def get_monthly_flows(fund_id: Optional[str] = None, ticker: Optional[str] = None, **kwargs):
+    """
+    Retrieves Fund Monthly Flows (NFN/MFRMF) data from Nasdaq Fund Network.
+    
+    Provides historical fund flow data on a monthly basis.
+    
+    Parameters:
+      - fund_id: Optional unique fund identifier 
+      - ticker: Optional ticker symbol
+      - Additional parameters supported by the Nasdaq Data Link API
+      
+    Example: get_monthly_flows(ticker='ABCDX')
+    Example: get_monthly_flows(fund_id='12345')
+    """
+    return get_mfrmf_data(fund_id, ticker, **kwargs)

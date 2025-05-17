@@ -7,7 +7,7 @@
 <div align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![PyPI version](https://img.shields.io/badge/PyPI-v0.1.3.post2-blue.svg)](https://pypi.org/project/nasdaq-data-link-mcp-os/)
+[![PyPI version](https://img.shields.io/badge/PyPI-v0.2.0-blue.svg)](https://pypi.org/project/nasdaq-data-link-mcp-os/)
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
 ![Build Status](https://img.shields.io/badge/build-passing-green.svg)
 ![Platform](https://img.shields.io/badge/platform-cross--platform-lightgrey.svg)
@@ -91,6 +91,18 @@ This project currently supports the following databases:
 
 > **You:** Can you find information about mutual funds that are open-ended?  
 > **Claude:** *calls `get_fund_master_report(investment_company_type="N-1A")` and returns the fund information*
+
+> **You:** Show me the performance metrics for fund ABCDX for the past year  
+> **Claude:** *calls `get_performance_statistics(ticker="ABCDX")` and presents the performance metrics*
+
+> **You:** What are the fees associated with the Growth Fund?  
+> **Claude:** *first finds the fund ID with `get_fund_master_report(name="Growth Fund")`, then calls `get_fees_and_expenses(fund_id="{fund_id}")` and presents the fee structure*
+
+> **You:** Compare the historical NAV for ABCDX over the last month  
+> **Claude:** *calls `get_price_history(ticker="ABCDX", start_date="{30 days ago}", end_date="{today}")` and presents the NAV trend*
+
+> **You:** What is the investment strategy of fund ABCDX?  
+> **Claude:** *first finds the fund ID with `get_share_class_information(ticker="ABCDX")`, then calls `get_fund_information(fund_id="{fund_id}")` and presents the investment strategy*
 </details>
 
 ---
@@ -618,7 +630,7 @@ Returns information about all available fields that can be queried through the `
 ---
 
 <details>
-<summary><strong>📊 Nasdaq Fund Network (NFN) Tool</strong></summary>
+<summary><strong>📊 Nasdaq Fund Network (NFN) Tools</strong></summary>
 
 ### `get_fund_master_report`
 
@@ -634,21 +646,149 @@ Retrieves Fund Master Report (NFN/MFRFM) data from Nasdaq Fund Network.
 }
 ```
 
-Returns fund data from Nasdaq Fund Network for the given fund ID.
+Returns basic fund data from Nasdaq Fund Network for the given fund ID.
 
-You can also filter by investment company type:
+### `get_fund_information`
+
+Retrieves Fund Information Report (NFN/MFRFI) data with detailed information about funds.
 
 ```json
 {
   "action": "tool",
-  "name": "get_fund_master_report",
+  "name": "get_fund_information",
   "params": {
-    "investment_company_type": "N-1A"
+    "fund_id": "12345"
   }
 }
 ```
 
-Returns data about mutual funds and other investment products, including fund identifiers, formation dates, and regulatory information.
+### `get_share_class_master`
+
+Retrieves Fund Share Class Master (NFN/MFRSM) data with basic information about fund share classes.
+
+```json
+{
+  "action": "tool",
+  "name": "get_share_class_master",
+  "params": {
+    "fund_id": "12345"
+  }
+}
+```
+
+### `get_share_class_information`
+
+Retrieves Fund Share Class Information (NFN/MFRSI) data with detailed share class attributes.
+
+```json
+{
+  "action": "tool",
+  "name": "get_share_class_information",
+  "params": {
+    "ticker": "ABCDX"
+  }
+}
+```
+
+### `get_price_history`
+
+Retrieves Fund Price History (NFN/MFRPH) data with historical NAV and pricing.
+
+```json
+{
+  "action": "tool",
+  "name": "get_price_history",
+  "params": {
+    "ticker": "ABCDX",
+    "start_date": "2024-01-01",
+    "end_date": "2024-04-30"
+  }
+}
+```
+
+### `get_recent_price_history`
+
+Retrieves recent Fund Price History (NFN/MFRPH10) data for the last 10 trading days.
+
+```json
+{
+  "action": "tool",
+  "name": "get_recent_price_history",
+  "params": {
+    "ticker": "ABCDX"
+  }
+}
+```
+
+### `get_performance_statistics`
+
+Retrieves Fund Performance Statistics (NFN/MFRPS) data with performance returns.
+
+```json
+{
+  "action": "tool",
+  "name": "get_performance_statistics",
+  "params": {
+    "ticker": "ABCDX"
+  }
+}
+```
+
+### `get_performance_benchmark`
+
+Retrieves Fund Performance Benchmark (NFN/MFRPRB) data about benchmark indexes.
+
+```json
+{
+  "action": "tool",
+  "name": "get_performance_benchmark",
+  "params": {
+    "ticker": "ABCDX"
+  }
+}
+```
+
+### `get_performance_analytics`
+
+Retrieves Fund Performance Analytics (NFN/MFRPA) data with metrics like alpha, beta, etc.
+
+```json
+{
+  "action": "tool",
+  "name": "get_performance_analytics",
+  "params": {
+    "ticker": "ABCDX"
+  }
+}
+```
+
+### `get_fees_and_expenses`
+
+Retrieves Fund Fee and Expense Data (NFN/MFRPM) about fees, expenses, and sales charges.
+
+```json
+{
+  "action": "tool",
+  "name": "get_fees_and_expenses",
+  "params": {
+    "ticker": "ABCDX"
+  }
+}
+```
+
+### `get_monthly_flows`
+
+Retrieves Fund Monthly Flows (NFN/MFRMF) data showing historical fund flows.
+
+```json
+{
+  "action": "tool",
+  "name": "get_monthly_flows",
+  "params": {
+    "ticker": "ABCDX"
+  }
+}
+```
 
 </details>
 
@@ -680,7 +820,26 @@ graph TD
   B -.-> E[Retail Trading Activity Tracker]
   B -.-> F[World Bank Metadata]
   B -.-> N[Trade Summary NDAQ/TS]
-  B -.-> O[Nasdaq Fund Network NFN/MFRFM]
+  
+  subgraph "Nasdaq Fund Network (NFN)"
+    O1[Fund Master MFRFM]
+    O2[Fund Information MFRFI]
+    O3[Share Class Master MFRSM]
+    O4[Share Class Info MFRSI]
+    O5[Price History MFRPH/MFRPH10]
+    O6[Performance MFRPS/MFRPRB/MFRPA]
+    O7[Fees & Expenses MFRPM]
+    O8[Monthly Flows MFRMF]
+  end
+  
+  B -.-> O1
+  B -.-> O2
+  B -.-> O3
+  B -.-> O4
+  B -.-> O5
+  B -.-> O6
+  B -.-> O7
+  B -.-> O8
   
   subgraph " "
     G[Statistics NDAQ/STAT]
