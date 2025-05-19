@@ -8,7 +8,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![PyPI version](https://img.shields.io/badge/PyPI-v0.2.0-blue.svg)](https://pypi.org/project/nasdaq-data-link-mcp-os/)
-![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
+![Python 3.13+](https://img.shields.io/badge/Python-3.13%2B-blue.svg)
 ![Build Status](https://img.shields.io/badge/build-passing-green.svg)
 ![Platform](https://img.shields.io/badge/platform-cross--platform-lightgrey.svg)
 ![](https://badge.mcpx.dev?type=server 'MCP Server')
@@ -118,10 +118,11 @@ cd nasdaq-data-link-mcp
 
 ### 2. Install Requirements
 
-You'll need Python 3.10+ and the `mcp` CLI.
+You'll need Python 3.13+ and the `mcp` CLI.
 
 ```bash
-pip install mcp nasdaq-data-link pycountry
+uv init mcp
+uv add "mcp[cli]"
 ```
 
 > MCP SDK: https://github.com/modelcontextprotocol/python-sdk  
@@ -151,7 +152,7 @@ PYTHONPATH=/path/to/your/local/cloned/repo/nasdaq-data-link-mcp
 ### 5. Install the MCP Server
 
 ```bash
-mcp install nasdaq_data_link_mcp_os/server.py --env-file .env --name "Nasdaq Data Link MCP Server" --with nasdaq-data-link --with pycountry
+uv run mcp install nasdaq_data_link_mcp_os/server.py --env-file .env --name "Nasdaq Data Link MCP Server" --with nasdaq-data-link --with pycountry
 ```
 
 This registers the server with your MCP client (e.g., Claude Desktop).

@@ -12,7 +12,7 @@ sidebar_position: 1
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/stefanoamorelli/nasdaq-data-link-mcp/blob/main/LICENSE)
 [![PyPI version](https://img.shields.io/badge/PyPI-v0.1.1-blue.svg)](https://pypi.org/project/nasdaq-data-link-mcp-os/)
-![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
+![Python 3.13+](https://img.shields.io/badge/Python-3.13%2B-blue.svg)
 ![Build Status](https://img.shields.io/badge/build-passing-green.svg)
 ![Platform](https://img.shields.io/badge/platform-cross--platform-lightgrey.svg)
 ![](https://badge.mcpx.dev?type=server 'MCP Server')
