@@ -26,12 +26,6 @@ This project aims at making easy to access and explore Nasdaq Data Link’s exte
 > [!IMPORTANT]
 > This is an open-source project *not affiliated with or endorsed by Nasdaq, Inc.* Nasdaq® is a registered trademark of Nasdaq, Inc.
 
-> [!TIP]
-> If you use this project in your research or work, please cite it using the [CITATION.cff](CITATION.cff) file, or the APA format:
-
-`Amorelli, S. (2025). Nasdaq Data Link MCP (Model Context Protocol) Server [Computer software]. GitHub. https://github.com/stefanoamorelli/nasdaq-data-link-mcp`
-
-
 ## 🌐 Usage
 
 | [![Retail Trading Activity](https://cdn.loom.com/sessions/thumbnails/b0299f6f6f1844669b5d2f73a86a3dcb-63f0e754bafcbe42-full-play.gif)](https://www.loom.com/share/b0299f6f6f1844669b5d2f73a86a3dcb) | [![World Bank Data](https://cdn.loom.com/sessions/thumbnails/a07e518bb6eb4de4b5a06a5a1a112a24-ff58182656db7dca-full-play.gif)](https://www.loom.com/share/a07e518bb6eb4de4b5a06a5a1a112a24) |
@@ -39,6 +33,11 @@ This project aims at making easy to access and explore Nasdaq Data Link’s exte
 | [Nasdaq Data Link MCP - Retail Trading Activity](https://www.loom.com/share/b0299f6f6f1844669b5d2f73a86a3dcb) | [Nasdaq Data Link MCP - World Bank Data](https://www.loom.com/share/a07e518bb6eb4de4b5a06a5a1a112a24) |
 | [![Retail Trading Activity](https://cdn.loom.com/sessions/thumbnails/46c7df4cb4c4405aa9e0a49ce6cd75be-9a5eeaf2133bc160-full-play.gif)](https://www.loom.com/share/46c7df4cb4c4405aa9e0a49ce6cd75be) | |
 | [Nasdaq Data Link MCP - Groq + DeepSeek R1 RTAT 10](https://www.loom.com/share/46c7df4cb4c4405aa9e0a49ce6cd75be) | | 
+
+> [!TIP]
+> If you use this project in your research or work, please cite it using the [CITATION.cff](CITATION.cff) file, or the APA format:
+
+`Amorelli, S. (2025). Nasdaq Data Link MCP (Model Context Protocol) Server [Computer software]. GitHub. https://github.com/stefanoamorelli/nasdaq-data-link-mcp`
 
 Once installed and connected to an `MCP`-compatible client (e.g., [Claude Desktop](https://claude.ai/download), or [Groq Desktop (beta)](https://github.com/groq/groq-desktop-beta), this server exposes several tools that your AI assistant can use to fetch data.
 
