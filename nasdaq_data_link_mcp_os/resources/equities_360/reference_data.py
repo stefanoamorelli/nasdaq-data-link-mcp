@@ -28,7 +28,7 @@ def get_reference_data(
         data = nasdaqdatalink.get_table('NDAQ/RD', **params)
         
         if data.empty:
-            return f"No reference data found for the specified criteria."
+            return "No reference data found for the specified criteria."
         
         return data
     except Exception as e:

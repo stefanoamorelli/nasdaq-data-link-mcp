@@ -36,7 +36,7 @@ def get_corporate_actions(
         data = nasdaqdatalink.get_table('NDAQ/CA', **params)
         
         if data.empty:
-            return f"No corporate action data found for the specified criteria."
+            return "No corporate action data found for the specified criteria."
         
         return data
     except Exception as e:

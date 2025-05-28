@@ -31,7 +31,7 @@ def get_company_stats(
         data = nasdaqdatalink.get_table('NDAQ/STAT', **params)
         
         if data.empty:
-            return f"No data found for the specified criteria."
+            return "No data found for the specified criteria."
         
         return data
     except Exception as e:
