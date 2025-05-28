@@ -17,9 +17,16 @@ classifiers = [
 ]
 dependencies = ["mcp[cli]>=1.6.0", "nasdaq-data-link", "pycountry"]
 
+[project.optional-dependencies]
+dev = ["ruff"]
+
 [tool.setuptools]
 packages = ["nasdaq_data_link_mcp_os"]
 
 [project.urls]
 "Homepage" = "https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
 "Bug Tracker" = "https://github.com/stefanoamorelli/nasdaq-data-link-mcp/issues"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120

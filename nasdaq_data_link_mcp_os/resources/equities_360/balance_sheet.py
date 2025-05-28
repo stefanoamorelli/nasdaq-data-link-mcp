@@ -39,7 +39,7 @@ def get_balance_sheet(
         data = nasdaqdatalink.get_table('NDAQ/BS', **params)
         
         if data.empty:
-            return f"No data found for the specified criteria."
+            return "No data found for the specified criteria."
         
         return data
     except Exception as e:

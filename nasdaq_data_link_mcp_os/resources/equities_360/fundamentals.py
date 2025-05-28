@@ -39,7 +39,7 @@ def get_fundamental_summary(
         data = nasdaqdatalink.get_table('NDAQ/FS', **params)
         
         if data.empty:
-            return f"No data found for the specified criteria."
+            return "No data found for the specified criteria."
         
         return data
     except Exception as e:
