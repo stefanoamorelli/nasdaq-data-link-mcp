@@ -18,7 +18,7 @@ classifiers = [
 dependencies = ["mcp[cli]>=1.6.0", "nasdaq-data-link", "pycountry"]
 
 [project.optional-dependencies]
-dev = ["ruff"]
+dev = ["ruff", "mypy"]
 
 [tool.setuptools]
 packages = ["nasdaq_data_link_mcp_os"]
@@ -30,3 +30,12 @@ packages = ["nasdaq_data_link_mcp_os"]
 [tool.ruff]
 target-version = "py311"
 line-length = 120
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+show_error_codes = true
+pretty = true
