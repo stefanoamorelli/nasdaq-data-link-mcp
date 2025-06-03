@@ -1,4 +1,4 @@
-name: Ruff Lint
+name: Mypy
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 jobs:
-  lint:
+  mypy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,8 +14,6 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install dependencies
-        run: pip install ruff
-      - name: Check formatting
-        run: ruff format --check .
-      - name: Run ruff lint
-        run: ruff check .
+        run: pip install mypy
+      - name: Run mypy
+        run: mypy nasdaq_data_link_mcp_os
