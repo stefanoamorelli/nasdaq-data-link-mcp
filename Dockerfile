@@ -22,7 +22,7 @@ ENV PYTHONPATH=/app
 #       "--rm",
 #       "-i",
 #       "-e", "NASDAQ_DATA_LINK_API_KEY=your-api-key-here",
-#       "nasdaq-data-link-mcp"
+#       "stefanoamorelli/nasdaq-data-link-mcp:latest"
 #     ]
 #   }
 # }
