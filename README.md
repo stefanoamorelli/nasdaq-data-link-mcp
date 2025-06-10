@@ -156,6 +156,30 @@ uv run mcp install nasdaq_data_link_mcp_os/server.py --env-file .env --name "Nas
 
 This registers the server with your MCP client (e.g., Claude Desktop).
 
+### Docker 🐳
+
+If you prefer using a container, a prebuilt image is available on [Docker Hub](https://hub.docker.com/repository/docker/stefanoamorelli/nasdaq-data-link-mcp/tags/latest/). Pull the latest image and run it with your Nasdaq Data Link API key:
+
+```bash
+docker pull stefanoamorelli/nasdaq-data-link-mcp:latest
+docker run -e NASDAQ_DATA_LINK_API_KEY="your_api_key_here" stefanoamorelli/nasdaq-data-link-mcp:latest
+```
+
+The container automatically launches the MCP server defined in `nasdaq_data_link_mcp_os/server.py`, so once it starts you can connect to it just like the manual setup.
+
+### Cline example
+
+See the [Cline documentation](https://docs.cline.bot/mcp-servers/configuring-mcp-servers#editing-mcp-settings-files)
+for instructions on managing MCP configuration.
+
+Provide Cline with the following information:
+
+```
+I want to add the MCP server for Nasdaq Data Link.
+Here's the GitHub link: @https://github.com/stefanoamorelli/nasdaq-data-link-mcp
+Can you add it?
+```
+
 ---
 
 ## 🛠️ Tools
