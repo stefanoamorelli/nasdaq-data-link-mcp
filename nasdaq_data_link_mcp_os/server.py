@@ -568,3 +568,7 @@ def get_monthly_flows(fund_id: Optional[str] = None, ticker: Optional[str] = Non
     Example: get_monthly_flows(fund_id='12345')
     """
     return get_mfrmf_data(fund_id, ticker, **kwargs)
+
+
+if __name__ == "__main__":
+    mcp.run()
