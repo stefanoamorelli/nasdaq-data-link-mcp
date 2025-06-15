@@ -62,21 +62,58 @@ mcp = FastMCP("NASDAQ Data Link MCP", dependencies=["nasdaq-data-link", "pycount
 
 @mcp.tool()
 def get_indicator_value(country: str, indicator: str) -> str:
+    """
+    Retrieves World Bank indicator value for a specific country and indicator.
+    
+    Parameters:
+      - country: Country name or ISO code (e.g., 'United States', 'US')
+      - indicator: World Bank indicator code (e.g., 'NY.GDP.MKTP.CD')
+    
+    Example: get_indicator_value(country='United States', indicator='NY.GDP.MKTP.CD')
+    """
     return get_wb_indicator(country, indicator)
 
 
 @mcp.tool()
 def country_code(countryName: str) -> str:
+    """
+    Converts a country name to its ISO 3166-1 alpha-2 country code.
+    
+    Parameters:
+      - countryName: Full country name (e.g., 'United States', 'Germany')
+    
+    Returns the 2-letter ISO country code (e.g., 'US', 'DE')
+    
+    Example: country_code(countryName='United States') returns 'US'
+    """
     return get_country_code(countryName)
 
 
 @mcp.tool()
 def list_worldbank_indicators() -> List[str]:
+    """
+    Lists all available World Bank indicators.
+    
+    Returns a comprehensive list of all World Bank indicator codes and names
+    that can be used with the get_indicator_value function.
+    
+    Example: list_worldbank_indicators()
+    """
     return list_all_indicators()
 
 
 @mcp.tool()
 def search_worldbank_indicators(keyword: str) -> List[str]:
+    """
+    Searches World Bank indicators by keyword.
+    
+    Parameters:
+      - keyword: Search term to find relevant indicators (e.g., 'GDP', 'inflation', 'population')
+    
+    Returns a list of matching World Bank indicator codes and names.
+    
+    Example: search_worldbank_indicators(keyword='GDP')
+    """
     return search_indicators(keyword)
 
 
