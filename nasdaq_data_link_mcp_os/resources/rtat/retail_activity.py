@@ -1,8 +1,7 @@
-from typing import List, Optional
 import nasdaqdatalink
 
 
-def get_rtat10_data(dates: str, tickers: Optional[str] = None):
+def get_rtat10_data(dates: str, tickers: str | None = None):
     """
     Fetch Retail Trading Activity Tracker 10 (RTAT10) data for specific dates and tickers.
 
@@ -24,10 +23,10 @@ def get_rtat10_data(dates: str, tickers: Optional[str] = None):
             return "No RTAT10 data found for the specified parameters."
         return df
     except Exception as e:
-        return f"Error fetching RTAT10 data: {str(e)}"
+        return f"Error fetching RTAT10 data: {e!s}"
 
 
-def get_rtat_data(dates: str, tickers: Optional[str] = None):
+def get_rtat_data(dates: str, tickers: str | None = None):
     """
     Fetch Retail Trading Activity (RTAT) data for specific dates and tickers.
 
@@ -49,5 +48,5 @@ def get_rtat_data(dates: str, tickers: Optional[str] = None):
             return "No RTAT data found for the specified parameters."
         return df
     except Exception as e:
-        return f"Error fetching RTAT data: {str(e)}"
+        return f"Error fetching RTAT data: {e!s}"
 

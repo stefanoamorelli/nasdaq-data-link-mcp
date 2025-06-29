@@ -1,8 +1,9 @@
-from typing import Optional, Dict, Any
+from typing import Any
+
 import nasdaqdatalink
 
 
-def get_trade_summary(**kwargs: Dict[str, Any]):
+def get_trade_summary(**kwargs: dict[str, Any]):
     """
     Fetch Trade Summary data with optional filtering parameters.
 
@@ -26,4 +27,4 @@ def get_trade_summary(**kwargs: Dict[str, Any]):
             return "No Trade Summary data found for the specified parameters."
         return df
     except Exception as e:
-        return f"Error fetching Trade Summary data: {str(e)}"
+        return f"Error fetching Trade Summary data: {e!s}"

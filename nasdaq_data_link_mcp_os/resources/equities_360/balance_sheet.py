@@ -1,14 +1,15 @@
-from typing import Union, Optional, List, Dict, Any
+from typing import Any
+
 import nasdaqdatalink
 import pandas as pd
 
 
 def get_balance_sheet(
-    symbol: Optional[str] = None,
-    figi: Optional[str] = None,
-    calendardate: Optional[str] = None,
-    dimension: Optional[str] = None
-) -> Union[pd.DataFrame, str]:
+    symbol: str | None = None,
+    figi: str | None = None,
+    calendardate: str | None = None,
+    dimension: str | None = None
+) -> pd.DataFrame | str:
     """
     Fetch balance sheet data from Nasdaq Data Link E360 NDAQ/BS table.
     
@@ -23,7 +24,7 @@ def get_balance_sheet(
     """
     if not symbol and not figi:
         return "Error: Either symbol or figi must be provided."
-    
+
     try:
         params = {}
         if symbol:
@@ -34,19 +35,19 @@ def get_balance_sheet(
             params["calendardate"] = calendardate
         if dimension:
             params["dimension"] = dimension
-            
+
         # Fetch data from NDAQ/BS table
         data = nasdaqdatalink.get_table('NDAQ/BS', **params)
-        
+
         if data.empty:
-            return f"No data found for the specified criteria."
-        
+            return "No data found for the specified criteria."
+
         return data
     except Exception as e:
-        return f"Error fetching balance sheet data: {str(e)}"
+        return f"Error fetching balance sheet data: {e!s}"
 
 
-def list_available_balance_sheet_fields() -> List[Dict[str, Any]]:
+def list_available_balance_sheet_fields() -> list[dict[str, Any]]:
     """
     List available fields in the NDAQ/BS table with descriptions.
     

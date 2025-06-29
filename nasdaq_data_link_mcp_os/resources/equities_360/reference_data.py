@@ -1,12 +1,13 @@
-from typing import Union, Optional, List, Dict, Any
+from typing import Any
+
 import nasdaqdatalink
 import pandas as pd
 
 
 def get_reference_data(
-    symbol: Optional[str] = None,
-    figi: Optional[str] = None
-) -> Union[pd.DataFrame, str]:
+    symbol: str | None = None,
+    figi: str | None = None
+) -> pd.DataFrame | str:
     """
     Fetch reference data from Nasdaq Data Link E360 NDAQ/RD table.
     
@@ -23,19 +24,19 @@ def get_reference_data(
             params["symbol"] = symbol
         if figi:
             params["figi"] = figi
-            
+
         # Fetch data from NDAQ/RD table
         data = nasdaqdatalink.get_table('NDAQ/RD', **params)
-        
+
         if data.empty:
-            return f"No reference data found for the specified criteria."
-        
+            return "No reference data found for the specified criteria."
+
         return data
     except Exception as e:
-        return f"Error fetching reference data: {str(e)}"
+        return f"Error fetching reference data: {e!s}"
 
 
-def list_available_reference_fields() -> List[Dict[str, Any]]:
+def list_available_reference_fields() -> list[dict[str, Any]]:
     """
     List available fields in the NDAQ/RD table with descriptions.
     

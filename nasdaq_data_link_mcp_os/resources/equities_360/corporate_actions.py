@@ -1,14 +1,15 @@
-from typing import Union, Optional, List, Dict, Any
+from typing import Any
+
 import nasdaqdatalink
 import pandas as pd
 
 
 def get_corporate_actions(
-    symbol: Optional[str] = None,
-    figi: Optional[str] = None,
-    date: Optional[str] = None,
-    action: Optional[str] = None
-) -> Union[pd.DataFrame, str]:
+    symbol: str | None = None,
+    figi: str | None = None,
+    date: str | None = None,
+    action: str | None = None
+) -> pd.DataFrame | str:
     """
     Fetch corporate actions data from Nasdaq Data Link E360 NDAQ/CA table.
     
@@ -31,19 +32,19 @@ def get_corporate_actions(
             params["date"] = date
         if action:
             params["action"] = action
-            
+
         # Fetch data from NDAQ/CA table
         data = nasdaqdatalink.get_table('NDAQ/CA', **params)
-        
+
         if data.empty:
-            return f"No corporate action data found for the specified criteria."
-        
+            return "No corporate action data found for the specified criteria."
+
         return data
     except Exception as e:
-        return f"Error fetching corporate actions data: {str(e)}"
+        return f"Error fetching corporate actions data: {e!s}"
 
 
-def list_available_corporate_action_fields() -> List[Dict[str, Any]]:
+def list_available_corporate_action_fields() -> list[dict[str, Any]]:
     """
     List available fields in the NDAQ/CA table with descriptions.
     
