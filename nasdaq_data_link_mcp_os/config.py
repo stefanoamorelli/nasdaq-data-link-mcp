@@ -1,6 +1,7 @@
 import os
-from dotenv import load_dotenv
+
 import nasdaqdatalink
+from dotenv import load_dotenv
 
 
 def initialize_api():

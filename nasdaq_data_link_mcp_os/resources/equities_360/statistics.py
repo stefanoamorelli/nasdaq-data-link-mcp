@@ -1,12 +1,12 @@
-from typing import Union, Optional, List, Dict
+
 import nasdaqdatalink
 import pandas as pd
 
 
 def get_company_stats(
-    symbol: Optional[str] = None,
-    figi: Optional[str] = None
-) -> Union[pd.DataFrame, str]:
+    symbol: str | None = None,
+    figi: str | None = None
+) -> pd.DataFrame | str:
     """
     Fetch company statistics from Nasdaq Data Link E360 NDAQ/STAT table.
     
@@ -19,26 +19,26 @@ def get_company_stats(
     """
     if not symbol and not figi:
         return "Error: Either symbol or figi must be provided."
-    
+
     try:
         params = {}
         if symbol:
             params["symbol"] = symbol
         if figi:
             params["figi"] = figi
-            
+
         # Fetch data from NDAQ/STAT table
         data = nasdaqdatalink.get_table('NDAQ/STAT', **params)
-        
+
         if data.empty:
-            return f"No data found for the specified criteria."
-        
+            return "No data found for the specified criteria."
+
         return data
     except Exception as e:
-        return f"Error fetching company statistics: {str(e)}"
+        return f"Error fetching company statistics: {e!s}"
 
 
-def list_available_fields() -> List[Dict[str, str]]:
+def list_available_fields() -> list[dict[str, str]]:
     """
     List available fields in the NDAQ/STAT table with descriptions.
     
