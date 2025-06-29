@@ -13,10 +13,8 @@ Do not create a public GitHub issue.
 
 **Contact:**  
 - Email: `stefano@amorelli.tech`  
-- GitHub private vulnerability disclosure (if enabled)  
-- Public PGP key (if available): `link-to-key.asc`
 
-We will acknowledge your report within *2 business days* and aim to resolve confirmed issues within 90 days or faster, depending on severity. Credit will be given unless anonymity is requested.
+We will acknowledge your report within *7 business days* and aim to resolve confirmed issues within 90 days or faster, depending on severity. Credit will be given unless anonymity is requested.
 
 ---
 
