@@ -8,7 +8,7 @@ def get_corporate_actions(
     symbol: str | None = None,
     figi: str | None = None,
     date: str | None = None,
-    action: str | None = None
+    action: str | None = None,
 ) -> pd.DataFrame | str:
     """
     Fetch corporate actions data from Nasdaq Data Link E360 NDAQ/CA table.
@@ -34,7 +34,7 @@ def get_corporate_actions(
             params["action"] = action
 
         # Fetch data from NDAQ/CA table
-        data = nasdaqdatalink.get_table('NDAQ/CA', **params)
+        data = nasdaqdatalink.get_table("NDAQ/CA", **params)
 
         if data.empty:
             return "No corporate action data found for the specified criteria."
@@ -57,43 +57,43 @@ def list_available_corporate_action_fields() -> list[dict[str, Any]]:
             "description": "The date of the corporate action",
             "type": "Date",
             "filterable": True,
-            "primary_key": True
+            "primary_key": True,
         },
         {
             "name": "symbol",
             "description": "Symbol of the company",
             "type": "String",
             "filterable": True,
-            "primary_key": True
+            "primary_key": True,
         },
         {
             "name": "figi",
             "description": "Unique Identifier given by Bloomberg",
             "type": "String",
-            "filterable": True
+            "filterable": True,
         },
         {
             "name": "action",
             "description": "Corporate action type (e.g., 'split', 'merger')",
             "type": "String",
-            "primary_key": True
+            "primary_key": True,
         },
         {
             "name": "value",
             "description": "The total USD value of the action",
-            "type": "Double"
+            "type": "Double",
         },
         {
             "name": "contrasymbol",
             "description": "The contra symbol of the action, or N/A if not applicable",
             "type": "String",
-            "primary_key": True
+            "primary_key": True,
         },
         {
             "name": "contraname",
             "description": "The name of the contra company, or N/A if not applicable",
             "type": "String",
-            "primary_key": True
-        }
+            "primary_key": True,
+        },
     ]
     return fields

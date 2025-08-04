@@ -5,8 +5,7 @@ import pandas as pd
 
 
 def get_reference_data(
-    symbol: str | None = None,
-    figi: str | None = None
+    symbol: str | None = None, figi: str | None = None
 ) -> pd.DataFrame | str:
     """
     Fetch reference data from Nasdaq Data Link E360 NDAQ/RD table.
@@ -26,7 +25,7 @@ def get_reference_data(
             params["figi"] = figi
 
         # Fetch data from NDAQ/RD table
-        data = nasdaqdatalink.get_table('NDAQ/RD', **params)
+        data = nasdaqdatalink.get_table("NDAQ/RD", **params)
 
         if data.empty:
             return "No reference data found for the specified criteria."
@@ -49,77 +48,77 @@ def list_available_reference_fields() -> list[dict[str, Any]]:
             "description": "Symbol of the company",
             "type": "String",
             "filterable": True,
-            "primary_key": True
+            "primary_key": True,
         },
         {
             "name": "figi",
             "description": "Unique Identifier given by Bloomberg",
             "type": "String",
-            "filterable": True
+            "filterable": True,
         },
         {
             "name": "exchange",
             "description": (
                 "The exchange on which the security trades (e.g., 'NASDAQ', 'NYSE')"
             ),
-            "type": "String"
+            "type": "String",
         },
         {
             "name": "category",
             "description": "Security category (e.g., 'Domestic Common Stock')",
-            "type": "String"
+            "type": "String",
         },
         {
             "name": "cusips",
             "description": (
                 "Security identifier (space delimited for multiple identifiers)"
             ),
-            "type": "String"
+            "type": "String",
         },
         {
             "name": "name",
             "description": "Full legal name of the company",
-            "type": "String"
+            "type": "String",
         },
         {
             "name": "industry",
             "description": "Industry classification based on SIC codes",
-            "type": "String"
+            "type": "String",
         },
         {
             "name": "companysite",
             "description": "URL of the company website",
-            "type": "String"
+            "type": "String",
         },
         {
             "name": "sector",
             "description": "Sector classification based on SIC codes",
-            "type": "String"
+            "type": "String",
         },
         {
             "name": "sector_1",
             "description": "Primary sector exposure (TIIC level 1)",
-            "type": "String"
+            "type": "String",
         },
         {
             "name": "sector_2",
             "description": "Secondary sector exposure (TIIC level 1)",
-            "type": "String"
+            "type": "String",
         },
         {
             "name": "secfilings",
             "description": "URL to SEC filings with Central Index Key (CIK)",
-            "type": "String"
+            "type": "String",
         },
         {
             "name": "siccode",
             "description": "Standard Industrial Classification code",
-            "type": "Integer"
+            "type": "Integer",
         },
         {
             "name": "location",
             "description": "Company location as registered with the SEC",
-            "type": "String"
-        }
+            "type": "String",
+        },
     ]
     return fields

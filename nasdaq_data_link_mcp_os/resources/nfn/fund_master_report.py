@@ -1,10 +1,13 @@
-
 import nasdaqdatalink
 import pandas as pd
 
 
-def get_mfrfm_data(fund_id: str | None = None, name: str | None = None,
-                 investment_company_type: str | None = None, **kwargs) -> pd.DataFrame:
+def get_mfrfm_data(
+    fund_id: str | None = None,
+    name: str | None = None,
+    investment_company_type: str | None = None,
+    **kwargs,
+) -> pd.DataFrame:
     """
     Fetch Fund Master Report (NFN/MFRFM) data with optional filtering parameters.
 
@@ -41,8 +44,12 @@ def get_mfrfm_data(fund_id: str | None = None, name: str | None = None,
         return f"Error fetching fund data: {e!s}"
 
 
-def get_mfrfi_data(fund_id: str | None = None, name: str | None = None,
-                 investment_company_type: str | None = None, **kwargs) -> pd.DataFrame:
+def get_mfrfi_data(
+    fund_id: str | None = None,
+    name: str | None = None,
+    investment_company_type: str | None = None,
+    **kwargs,
+) -> pd.DataFrame:
     """
     Fetch Fund Information Report (NFN/MFRFI) data with optional filtering parameters.
 
@@ -79,8 +86,9 @@ def get_mfrfi_data(fund_id: str | None = None, name: str | None = None,
         return f"Error fetching fund information data: {e!s}"
 
 
-def get_mfrsm_data(fund_id: str | None = None, name: str | None = None,
-                 **kwargs) -> pd.DataFrame:
+def get_mfrsm_data(
+    fund_id: str | None = None, name: str | None = None, **kwargs
+) -> pd.DataFrame:
     """
     Fetch Fund Share Class Master (NFN/MFRSM) data with optional filtering parameters.
 
@@ -112,8 +120,9 @@ def get_mfrsm_data(fund_id: str | None = None, name: str | None = None,
         return f"Error fetching fund share class data: {e!s}"
 
 
-def get_mfrsi_data(fund_id: str | None = None, ticker: str | None = None,
-                 **kwargs) -> pd.DataFrame:
+def get_mfrsi_data(
+    fund_id: str | None = None, ticker: str | None = None, **kwargs
+) -> pd.DataFrame:
     """
     Fetch Fund Share Class Information (NFN/MFRSI) data with optional
     filtering parameters.
@@ -146,9 +155,13 @@ def get_mfrsi_data(fund_id: str | None = None, ticker: str | None = None,
         return f"Error fetching fund share class information: {e!s}"
 
 
-def get_mfrph_data(fund_id: str | None = None, ticker: str | None = None,
-                 start_date: str | None = None, end_date: str | None = None,
-                 **kwargs) -> pd.DataFrame:
+def get_mfrph_data(
+    fund_id: str | None = None,
+    ticker: str | None = None,
+    start_date: str | None = None,
+    end_date: str | None = None,
+    **kwargs,
+) -> pd.DataFrame:
     """
     Fetch Fund Price History (NFN/MFRPH) data with optional filtering parameters.
 
@@ -186,9 +199,13 @@ def get_mfrph_data(fund_id: str | None = None, ticker: str | None = None,
         return f"Error fetching fund price history: {e!s}"
 
 
-def get_mfrph10_data(fund_id: str | None = None, ticker: str | None = None,
-                   start_date: str | None = None, end_date: str | None = None,
-                   **kwargs) -> pd.DataFrame:
+def get_mfrph10_data(
+    fund_id: str | None = None,
+    ticker: str | None = None,
+    start_date: str | None = None,
+    end_date: str | None = None,
+    **kwargs,
+) -> pd.DataFrame:
     """
     Fetch Fund Price History 10-day (NFN/MFRPH10) data with optional
     filtering parameters.
@@ -227,8 +244,9 @@ def get_mfrph10_data(fund_id: str | None = None, ticker: str | None = None,
         return f"Error fetching 10-day fund price history: {e!s}"
 
 
-def get_mfrps_data(fund_id: str | None = None, ticker: str | None = None,
-                 **kwargs) -> pd.DataFrame:
+def get_mfrps_data(
+    fund_id: str | None = None, ticker: str | None = None, **kwargs
+) -> pd.DataFrame:
     """
     Fetch Fund Performance Statistics (NFN/MFRPS) data with optional
     filtering parameters.
@@ -261,8 +279,9 @@ def get_mfrps_data(fund_id: str | None = None, ticker: str | None = None,
         return f"Error fetching fund performance statistics: {e!s}"
 
 
-def get_mfrprb_data(fund_id: str | None = None, ticker: str | None = None,
-                  **kwargs) -> pd.DataFrame:
+def get_mfrprb_data(
+    fund_id: str | None = None, ticker: str | None = None, **kwargs
+) -> pd.DataFrame:
     """
     Fetch Fund Performance Benchmark (NFN/MFRPRB) data with optional
     filtering parameters.
@@ -290,16 +309,16 @@ def get_mfrprb_data(fund_id: str | None = None, ticker: str | None = None,
 
         if df.empty:
             return (
-                "No fund performance benchmark data found for the specified "
-                "parameters."
+                "No fund performance benchmark data found for the specified parameters."
             )
         return df
     except Exception as e:
         return f"Error fetching fund performance benchmark data: {e!s}"
 
 
-def get_mfrpa_data(fund_id: str | None = None, ticker: str | None = None,
-                 **kwargs) -> pd.DataFrame:
+def get_mfrpa_data(
+    fund_id: str | None = None, ticker: str | None = None, **kwargs
+) -> pd.DataFrame:
     """
     Fetch Fund Performance Analytics (NFN/MFRPA) data with optional
     filtering parameters.
@@ -332,8 +351,9 @@ def get_mfrpa_data(fund_id: str | None = None, ticker: str | None = None,
         return f"Error fetching fund performance analytics: {e!s}"
 
 
-def get_mfrpm_data(fund_id: str | None = None, ticker: str | None = None,
-                 **kwargs) -> pd.DataFrame:
+def get_mfrpm_data(
+    fund_id: str | None = None, ticker: str | None = None, **kwargs
+) -> pd.DataFrame:
     """
     Fetch Fund Fee and Expense Data (NFN/MFRPM) with optional filtering parameters.
 
@@ -365,8 +385,9 @@ def get_mfrpm_data(fund_id: str | None = None, ticker: str | None = None,
         return f"Error fetching fund fee and expense data: {e!s}"
 
 
-def get_mfrmf_data(fund_id: str | None = None, ticker: str | None = None,
-                 **kwargs) -> pd.DataFrame:
+def get_mfrmf_data(
+    fund_id: str | None = None, ticker: str | None = None, **kwargs
+) -> pd.DataFrame:
     """
     Fetch Fund Monthly Flows (NFN/MFRMF) data with optional filtering parameters.
 

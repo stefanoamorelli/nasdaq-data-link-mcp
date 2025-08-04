@@ -1,6 +1,7 @@
 """
 Tests for individual MCP tools
 """
+
 import os
 import sys
 from unittest.mock import Mock, patch
@@ -8,7 +9,7 @@ from unittest.mock import Mock, patch
 import pytest
 
 # Add the parent directory to the path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from nasdaq_data_link_mcp_os.resources.common.countries import get_country_code
 from nasdaq_data_link_mcp_os.resources.equities_360.company_statistics import (
@@ -22,13 +23,15 @@ from nasdaq_data_link_mcp_os.resources.world_data_bank.indicators import (
 class TestEquitiesTools:
     """Test tools from Equities 360 module"""
 
-    @patch('nasdaq_data_link_mcp_os.resources.equities_360.statistics.nasdaqdatalink')
+    @patch(
+        "nasdaq_data_link_mcp_os.resources.equities_360.company_statistics.nasdaqdatalink"
+    )
     def test_get_company_stats_with_symbol(self, mock_nasdaqdatalink):
         """Test get_company_stats tool with a valid symbol"""
         # Mock successful API response
         mock_response = Mock()
         mock_response.to_dict.return_value = {
-            'data': [{'symbol': 'MSFT', 'marketcap': 2800000000000}]
+            "data": [{"symbol": "MSFT", "marketcap": 2800000000000}]
         }
         mock_nasdaqdatalink.get_table.return_value = mock_response
 
@@ -59,8 +62,11 @@ class TestWorldBankTools:
             assert result is not None
         except Exception as e:
             # API exceptions are acceptable in tests
-            assert ("api" in str(e).lower() or "key" in str(e).lower() or
-                    "unauthorized" in str(e).lower())
+            assert (
+                "api" in str(e).lower()
+                or "key" in str(e).lower()
+                or "unauthorized" in str(e).lower()
+            )
 
 
 class TestCommonTools:
@@ -89,7 +95,7 @@ class TestToolRegistration:
     def test_tool_functions_exist(self):
         """Test that key tool functions exist and are callable"""
         from nasdaq_data_link_mcp_os.resources.common.countries import get_country_code
-        from nasdaq_data_link_mcp_os.resources.equities_360.statistics import (
+        from nasdaq_data_link_mcp_os.resources.equities_360.company_statistics import (
             get_company_stats,
         )
         from nasdaq_data_link_mcp_os.resources.world_data_bank.indicators import (
@@ -101,8 +107,8 @@ class TestToolRegistration:
         # Each tool should be callable
         for tool in tools:
             assert callable(tool), f"Tool {tool} is not callable"
-            assert hasattr(tool, '__name__'), "Tool missing name attribute"
-            assert hasattr(tool, '__doc__'), "Tool missing docstring"
+            assert hasattr(tool, "__name__"), "Tool missing name attribute"
+            assert hasattr(tool, "__doc__"), "Tool missing docstring"
             assert len(tool.__name__) > 0, "Tool has empty name"
 
 
@@ -125,8 +131,8 @@ class TestDataValidation:
         for date in valid_dates:
             # Basic format check
             assert len(date) == 10, f"Date {date} wrong length"
-            assert date.count('-') == 2, f"Date {date} wrong format"
+            assert date.count("-") == 2, f"Date {date} wrong format"
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pytest.main([__file__])

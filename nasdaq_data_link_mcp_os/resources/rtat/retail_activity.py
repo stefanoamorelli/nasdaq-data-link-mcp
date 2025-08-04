@@ -50,4 +50,3 @@ def get_rtat_data(dates: str, tickers: str | None = None):
         return df
     except Exception as e:
         return f"Error fetching RTAT data: {e!s}"
-

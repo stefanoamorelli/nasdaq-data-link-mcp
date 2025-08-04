@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 from mcp.server.fastmcp import FastMCP
 
@@ -58,10 +59,14 @@ from nasdaq_data_link_mcp_os.resources.world_data_bank.indicators import (
     search_indicators,
 )
 
-# Initialize API configuration
-initialize_api()
-
+# Create MCP instance first
 mcp = FastMCP("NASDAQ Data Link MCP", dependencies=["nasdaq-data-link", "pycountry"])
+
+# Initialize API configuration when not in test mode
+# Store whether API was successfully initialized
+api_initialized = False
+if "pytest" not in sys.modules:
+    api_initialized = initialize_api()
 
 
 @mcp.tool()

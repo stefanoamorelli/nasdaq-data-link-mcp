@@ -8,7 +8,7 @@ def get_cash_flow(
     symbol: str | None = None,
     figi: str | None = None,
     calendardate: str | None = None,
-    dimension: str | None = None
+    dimension: str | None = None,
 ) -> pd.DataFrame | str:
     """
     Fetch cash flow statement data from Nasdaq Data Link E360 NDAQ/CF table.
@@ -37,7 +37,7 @@ def get_cash_flow(
             params["dimension"] = dimension
 
         # Fetch data from NDAQ/CF table
-        data = nasdaqdatalink.get_table('NDAQ/CF', **params)
+        data = nasdaqdatalink.get_table("NDAQ/CF", **params)
 
         if data.empty:
             return "No data found for the specified criteria."
@@ -60,20 +60,20 @@ def list_available_cash_flow_fields() -> list[dict[str, Any]]:
             "description": "The Calendar Date represents the normalized reportperiod",
             "type": "Date",
             "filterable": True,
-            "primary_key": True
+            "primary_key": True,
         },
         {
             "name": "symbol",
             "description": "Symbol of the company",
             "type": "String",
             "filterable": True,
-            "primary_key": True
+            "primary_key": True,
         },
         {
             "name": "figi",
             "description": "Unique Identifier given by Bloomberg",
             "type": "String",
-            "filterable": True
+            "filterable": True,
         },
         {
             "name": "reportperiod",
@@ -81,7 +81,7 @@ def list_available_cash_flow_fields() -> list[dict[str, Any]]:
                 "The Report Period represents the end date of the fiscal period"
             ),
             "type": "Date",
-            "primary_key": True
+            "primary_key": True,
         },
         {
             "name": "dimension",
@@ -91,63 +91,63 @@ def list_available_cash_flow_fields() -> list[dict[str, Any]]:
             ),
             "type": "String",
             "filterable": True,
-            "primary_key": True
+            "primary_key": True,
         },
         {
             "name": "opex",
             "description": "Operating expenses (excluding cost of revenue)",
-            "type": "BigInt"
+            "type": "BigInt",
         },
         {
             "name": "ncfi",
             "description": "Net cash flow from investing activities",
-            "type": "BigInt"
+            "type": "BigInt",
         },
         {
             "name": "ncff",
             "description": "Net cash flow from financing activities",
-            "type": "BigInt"
+            "type": "BigInt",
         },
         {
             "name": "fcf",
             "description": "Free Cash Flow (ncfo minus capex)",
-            "type": "BigInt"
+            "type": "BigInt",
         },
         {
             "name": "ncfo",
             "description": "Net cash flow from operating activities",
-            "type": "BigInt"
+            "type": "BigInt",
         },
         {
             "name": "capex",
             "description": "Capital expenditure (acquisition of long-lived assets)",
-            "type": "BigInt"
+            "type": "BigInt",
         },
         {
             "name": "ncfbus",
             "description": "Net cash flow from business acquisitions/disposals",
-            "type": "BigInt"
+            "type": "BigInt",
         },
         {"name": "sbcomp", "description": "Stock-based compensation", "type": "BigInt"},
         {
             "name": "depamor",
             "description": "Depreciation, amortization, and accretion",
-            "type": "BigInt"
+            "type": "BigInt",
         },
         {
             "name": "ncfcommon",
             "description": "Net cash flow from common equity changes",
-            "type": "BigInt"
+            "type": "BigInt",
         },
         {
             "name": "ncfinv",
             "description": "Net cash flow from investments",
-            "type": "BigInt"
+            "type": "BigInt",
         },
         {
             "name": "debttoassets",
             "description": "Net cash flow from debt issuance/repayment",
-            "type": "BigInt"
-        }
+            "type": "BigInt",
+        },
     ]
     return fields

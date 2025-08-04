@@ -1,13 +1,14 @@
 """
 Basic functionality tests for Nasdaq Data Link MCP Server
 """
+
 import os
 import sys
 
 import pytest
 
 # Add the parent directory to the path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 
 class TestBasicFunctionality:
@@ -17,8 +18,9 @@ class TestBasicFunctionality:
         """Test that the server module can be imported"""
         try:
             from nasdaq_data_link_mcp_os.server import mcp
+
             assert mcp is not None
-            assert hasattr(mcp, 'name')
+            assert hasattr(mcp, "name")
         except ImportError as e:
             pytest.fail(f"Failed to import server: {e}")
 
@@ -76,12 +78,12 @@ class TestModuleStructure:
     def test_main_modules_exist(self):
         """Test that main resource modules can be imported"""
         modules_to_test = [
-            'nasdaq_data_link_mcp_os.config',
-            'nasdaq_data_link_mcp_os.resources.equities_360.statistics',
-            'nasdaq_data_link_mcp_os.resources.world_data_bank.indicators',
-            'nasdaq_data_link_mcp_os.resources.rtat.retail_activity',
-            'nasdaq_data_link_mcp_os.resources.trade_summary.trade_data',
-            'nasdaq_data_link_mcp_os.resources.nfn.fund_master_report'
+            "nasdaq_data_link_mcp_os.config",
+            "nasdaq_data_link_mcp_os.resources.equities_360.company_statistics",
+            "nasdaq_data_link_mcp_os.resources.world_data_bank.indicators",
+            "nasdaq_data_link_mcp_os.resources.rtat.retail_activity",
+            "nasdaq_data_link_mcp_os.resources.trade_summary.trade_data",
+            "nasdaq_data_link_mcp_os.resources.nfn.fund_master_report",
         ]
 
         for module_name in modules_to_test:
@@ -94,7 +96,7 @@ class TestModuleStructure:
         """Test that server has expected attributes"""
         from nasdaq_data_link_mcp_os.server import mcp
 
-        assert hasattr(mcp, 'name')
+        assert hasattr(mcp, "name")
         assert isinstance(mcp.name, str)
         assert len(mcp.name) > 0
 
@@ -105,12 +107,12 @@ class TestErrorHandling:
     def test_missing_api_key_handling(self):
         """Test that functions handle missing API key gracefully"""
         # Temporarily remove API key
-        original_key = os.environ.get('NASDAQ_DATA_LINK_API_KEY')
-        if 'NASDAQ_DATA_LINK_API_KEY' in os.environ:
-            del os.environ['NASDAQ_DATA_LINK_API_KEY']
+        original_key = os.environ.get("NASDAQ_DATA_LINK_API_KEY")
+        if "NASDAQ_DATA_LINK_API_KEY" in os.environ:
+            del os.environ["NASDAQ_DATA_LINK_API_KEY"]
 
         try:
-            from nasdaq_data_link_mcp_os.resources.equities_360.statistics import (
+            from nasdaq_data_link_mcp_os.resources.equities_360.company_statistics import (  # noqa: E501
                 get_company_stats,
             )
 
@@ -124,8 +126,8 @@ class TestErrorHandling:
         finally:
             # Restore API key
             if original_key:
-                os.environ['NASDAQ_DATA_LINK_API_KEY'] = original_key
+                os.environ["NASDAQ_DATA_LINK_API_KEY"] = original_key
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pytest.main([__file__])
