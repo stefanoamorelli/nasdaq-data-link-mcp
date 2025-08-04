@@ -22,14 +22,14 @@ def load_indicator_metadata() -> dict[str, dict[str, str]]:
                 }
 
         return metadata_dict
-    except Exception as e:
-        print(f"Error loading World Bank metadata: {e}")
+    except Exception:
         return {}
 
 
 def get_indicator_value(country: str, indicator: str) -> str:
     """
-    Fetch the most recent value of a World Bank development indicator for a given country.
+    Fetch the most recent value of a World Bank development indicator for a
+    given country.
 
     The `indicator` parameter can be either:
     1. An exact indicator code (e.g., 'NY.GDP.MKTP.CD')
@@ -50,7 +50,10 @@ def get_indicator_value(country: str, indicator: str) -> str:
         matches = search_indicators(indicator)
 
         if not matches:
-            return f"No indicators found matching '{indicator}'. Try a different search term."
+            return (
+                f"No indicators found matching '{indicator}'. "
+                "Try a different search term."
+            )
 
         # Use the first match's series_id
         indicator = matches[0].split(":")[0].strip()

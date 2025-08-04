@@ -11,7 +11,9 @@ def get_mfrfm_data(fund_id: str | None = None, name: str | None = None,
     Args:
         fund_id: Optional unique fund identifier
         name: Optional fund name
-        investment_company_type: Optional investment company type (N-1A for Open-Ended mutual funds, N-2 for Closed-End funds)
+        investment_company_type: Optional investment company type (
+            N-1A for Open-Ended mutual funds, N-2 for Closed-End funds
+        )
         **kwargs: Additional filtering parameters to pass to the API
 
     Returns:
@@ -43,13 +45,15 @@ def get_mfrfi_data(fund_id: str | None = None, name: str | None = None,
                  investment_company_type: str | None = None, **kwargs) -> pd.DataFrame:
     """
     Fetch Fund Information Report (NFN/MFRFI) data with optional filtering parameters.
-    
+
     Args:
         fund_id: Optional unique fund identifier
         name: Optional fund name
-        investment_company_type: Optional investment company type (N-1A for Open-Ended mutual funds, N-2 for Closed-End funds)
+        investment_company_type: Optional investment company type (
+            N-1A for Open-Ended mutual funds, N-2 for Closed-End funds
+        )
         **kwargs: Additional filtering parameters to pass to the API
-        
+
     Returns:
         DataFrame with Fund Information Report data
     """
@@ -79,12 +83,12 @@ def get_mfrsm_data(fund_id: str | None = None, name: str | None = None,
                  **kwargs) -> pd.DataFrame:
     """
     Fetch Fund Share Class Master (NFN/MFRSM) data with optional filtering parameters.
-    
+
     Args:
         fund_id: Optional unique fund identifier
         name: Optional fund name
         **kwargs: Additional filtering parameters to pass to the API
-        
+
     Returns:
         DataFrame with Fund Share Class Master data
     """
@@ -111,13 +115,14 @@ def get_mfrsm_data(fund_id: str | None = None, name: str | None = None,
 def get_mfrsi_data(fund_id: str | None = None, ticker: str | None = None,
                  **kwargs) -> pd.DataFrame:
     """
-    Fetch Fund Share Class Information (NFN/MFRSI) data with optional filtering parameters.
-    
+    Fetch Fund Share Class Information (NFN/MFRSI) data with optional
+    filtering parameters.
+
     Args:
         fund_id: Optional unique fund identifier
         ticker: Optional ticker symbol
         **kwargs: Additional filtering parameters to pass to the API
-        
+
     Returns:
         DataFrame with Fund Share Class Information data
     """
@@ -146,14 +151,14 @@ def get_mfrph_data(fund_id: str | None = None, ticker: str | None = None,
                  **kwargs) -> pd.DataFrame:
     """
     Fetch Fund Price History (NFN/MFRPH) data with optional filtering parameters.
-    
+
     Args:
         fund_id: Optional unique fund identifier
         ticker: Optional ticker symbol
         start_date: Optional start date for price history (YYYY-MM-DD format)
         end_date: Optional end date for price history (YYYY-MM-DD format)
         **kwargs: Additional filtering parameters to pass to the API
-        
+
     Returns:
         DataFrame with Fund Price History data
     """
@@ -185,15 +190,16 @@ def get_mfrph10_data(fund_id: str | None = None, ticker: str | None = None,
                    start_date: str | None = None, end_date: str | None = None,
                    **kwargs) -> pd.DataFrame:
     """
-    Fetch Fund Price History 10-day (NFN/MFRPH10) data with optional filtering parameters.
-    
+    Fetch Fund Price History 10-day (NFN/MFRPH10) data with optional
+    filtering parameters.
+
     Args:
         fund_id: Optional unique fund identifier
         ticker: Optional ticker symbol
         start_date: Optional start date for price history (YYYY-MM-DD format)
         end_date: Optional end date for price history (YYYY-MM-DD format)
         **kwargs: Additional filtering parameters to pass to the API
-        
+
     Returns:
         DataFrame with Fund Price History 10-day data
     """
@@ -224,13 +230,14 @@ def get_mfrph10_data(fund_id: str | None = None, ticker: str | None = None,
 def get_mfrps_data(fund_id: str | None = None, ticker: str | None = None,
                  **kwargs) -> pd.DataFrame:
     """
-    Fetch Fund Performance Statistics (NFN/MFRPS) data with optional filtering parameters.
-    
+    Fetch Fund Performance Statistics (NFN/MFRPS) data with optional
+    filtering parameters.
+
     Args:
         fund_id: Optional unique fund identifier
         ticker: Optional ticker symbol
         **kwargs: Additional filtering parameters to pass to the API
-        
+
     Returns:
         DataFrame with Fund Performance Statistics data
     """
@@ -257,13 +264,14 @@ def get_mfrps_data(fund_id: str | None = None, ticker: str | None = None,
 def get_mfrprb_data(fund_id: str | None = None, ticker: str | None = None,
                   **kwargs) -> pd.DataFrame:
     """
-    Fetch Fund Performance Benchmark (NFN/MFRPRB) data with optional filtering parameters.
-    
+    Fetch Fund Performance Benchmark (NFN/MFRPRB) data with optional
+    filtering parameters.
+
     Args:
         fund_id: Optional unique fund identifier
         ticker: Optional ticker symbol
         **kwargs: Additional filtering parameters to pass to the API
-        
+
     Returns:
         DataFrame with Fund Performance Benchmark data
     """
@@ -281,7 +289,10 @@ def get_mfrprb_data(fund_id: str | None = None, ticker: str | None = None,
         df = nasdaqdatalink.get_table("NFN/MFRPRB", **params)
 
         if df.empty:
-            return "No fund performance benchmark data found for the specified parameters."
+            return (
+                "No fund performance benchmark data found for the specified "
+                "parameters."
+            )
         return df
     except Exception as e:
         return f"Error fetching fund performance benchmark data: {e!s}"
@@ -290,13 +301,14 @@ def get_mfrprb_data(fund_id: str | None = None, ticker: str | None = None,
 def get_mfrpa_data(fund_id: str | None = None, ticker: str | None = None,
                  **kwargs) -> pd.DataFrame:
     """
-    Fetch Fund Performance Analytics (NFN/MFRPA) data with optional filtering parameters.
-    
+    Fetch Fund Performance Analytics (NFN/MFRPA) data with optional
+    filtering parameters.
+
     Args:
         fund_id: Optional unique fund identifier
         ticker: Optional ticker symbol
         **kwargs: Additional filtering parameters to pass to the API
-        
+
     Returns:
         DataFrame with Fund Performance Analytics data
     """
@@ -324,12 +336,12 @@ def get_mfrpm_data(fund_id: str | None = None, ticker: str | None = None,
                  **kwargs) -> pd.DataFrame:
     """
     Fetch Fund Fee and Expense Data (NFN/MFRPM) with optional filtering parameters.
-    
+
     Args:
         fund_id: Optional unique fund identifier
         ticker: Optional ticker symbol
         **kwargs: Additional filtering parameters to pass to the API
-        
+
     Returns:
         DataFrame with Fund Fee and Expense data
     """
@@ -357,12 +369,12 @@ def get_mfrmf_data(fund_id: str | None = None, ticker: str | None = None,
                  **kwargs) -> pd.DataFrame:
     """
     Fetch Fund Monthly Flows (NFN/MFRMF) data with optional filtering parameters.
-    
+
     Args:
         fund_id: Optional unique fund identifier
         ticker: Optional ticker symbol
         **kwargs: Additional filtering parameters to pass to the API
-        
+
     Returns:
         DataFrame with Fund Monthly Flows data
     """

@@ -12,6 +12,10 @@ from nasdaq_data_link_mcp_os.resources.equities_360.cash_flow import (
     get_cash_flow,
     list_available_cash_flow_fields,
 )
+from nasdaq_data_link_mcp_os.resources.equities_360.company_statistics import (
+    get_company_stats,
+    list_available_fields,
+)
 from nasdaq_data_link_mcp_os.resources.equities_360.corporate_actions import (
     get_corporate_actions,
     list_available_corporate_action_fields,
@@ -27,10 +31,6 @@ from nasdaq_data_link_mcp_os.resources.equities_360.fundamentals import (
 from nasdaq_data_link_mcp_os.resources.equities_360.reference_data import (
     get_reference_data,
     list_available_reference_fields,
-)
-from nasdaq_data_link_mcp_os.resources.equities_360.statistics import (
-    get_company_stats,
-    list_available_fields,
 )
 from nasdaq_data_link_mcp_os.resources.nfn.fund_master_report import (
     get_mfrfi_data,
@@ -79,18 +79,18 @@ def get_indicator_value(country: str, indicator: str) -> str:
 
 
 @mcp.tool()
-def country_code(countryName: str) -> str:
+def country_code(country_name: str) -> str:
     """
     Converts a country name to its ISO 3166-1 alpha-2 country code.
 
     Parameters:
-      - countryName: Full country name (e.g., 'United States', 'Germany')
+      - country_name: Full country name (e.g., 'United States', 'Germany')
 
     Returns the 2-letter ISO country code (e.g., 'US', 'DE')
 
-    Example: country_code(countryName='United States') returns 'US'
+    Example: country_code(country_name='United States') returns 'US'
     """
-    return get_country_code(countryName)
+    return get_country_code(country_name)
 
 
 @mcp.tool()
@@ -112,7 +112,8 @@ def search_worldbank_indicators(keyword: str) -> list[str]:
     Searches World Bank indicators by keyword.
 
     Parameters:
-      - keyword: Search term to find relevant indicators (e.g., 'GDP', 'inflation', 'population')
+      - keyword: Search term to find relevant indicators
+        (e.g., 'GDP', 'inflation', 'population')
 
     Returns a list of matching World Bank indicator codes and names.
 
@@ -124,9 +125,12 @@ def search_worldbank_indicators(keyword: str) -> list[str]:
 @mcp.tool()
 def get_rtat10(dates: str, tickers: str = None):
     """
-    Retrieves Retail Trading Activity Tracker 10 (RTAT10) data for specific dates and optional tickers.
+    Retrieves Retail Trading Activity Tracker 10 (RTAT10) data
+    for specific dates and optional tickers.
 
-    Example: get_rtat10(dates='2025-03-31,2025-03-28,2025-03-27', tickers='TSLA,TQQQ,SQQQ')
+    Example: get_rtat10(
+        dates='2025-03-31,2025-03-28,2025-03-27', tickers='TSLA,TQQQ,SQQQ'
+    )
     """
     return get_rtat10_data(dates, tickers)
 
@@ -134,9 +138,12 @@ def get_rtat10(dates: str, tickers: str = None):
 @mcp.tool()
 def get_rtat(dates: str, tickers: str = None):
     """
-    Retrieves Retail Trading Activity (RTAT) data for specific dates and optional tickers.
+    Retrieves Retail Trading Activity (RTAT) data for specific dates and optional
+    tickers.
 
-    Example: get_rtat(dates='2025-03-31,2025-03-28,2025-03-27', tickers='TSLA,TQQQ,SQQQ')
+    Example: get_rtat(
+        dates='2025-03-31,2025-03-28,2025-03-27', tickers='TSLA,TQQQ,SQQQ'
+    )
     """
     return get_rtat_data(dates, tickers)
 
@@ -175,10 +182,11 @@ def get_fundamental_data(
     dimension: str | None = None,
 ):
     """
-    Retrieves fundamental financial data from Nasdaq Equities 360 Fundamental Summary database.
+    Retrieves fundamental financial data from Nasdaq Equities 360 Fundamental
+    Summary database.
 
-    Provides comprehensive fundamental data including profitability ratios, valuation metrics,
-    income statement items, and financial health indicators.
+    Provides comprehensive fundamental data including profitability ratios,
+    valuation metrics, income statement items, and financial health indicators.
 
     Either symbol or figi must be provided.
 
@@ -186,7 +194,8 @@ def get_fundamental_data(
       - symbol: Stock ticker symbol (e.g., 'MSFT')
       - figi: Bloomberg FIGI identifier (e.g., 'BBG000BPH459')
       - calendardate: Calendar date in YYYY-MM-DD format (e.g., '2022-12-31')
-      - dimension: Data dimension (MRQ: quarterly, MRY: annual, MRT: trailing twelve months)
+      - dimension: Data dimension (MRQ: quarterly, MRY: annual,
+        MRT: trailing twelve months)
 
     Example: get_fundamental_data(symbol='MSFT', dimension='MRY')
     Example: get_fundamental_data(figi='BBG000BPH459', calendardate='2022-12-31')
@@ -199,8 +208,9 @@ def list_fundamental_fields() -> list[dict[str, str]]:
     """
     Lists all available fields in the fundamental summary database with descriptions.
 
-    This helps users understand what data is available through the get_fundamental_data tool,
-    including profitability ratios, valuation metrics, and financial health indicators.
+    This helps users understand what data is available through the
+    get_fundamental_data tool, including profitability ratios, valuation metrics,
+    and financial health indicators.
     """
     return list_available_fundamental_fields()
 
@@ -213,10 +223,11 @@ def get_detailed_financials(
     dimension: str | None = None,
 ):
     """
-    Retrieves detailed financial data from Nasdaq Equities 360 Fundamental Details database.
+    Retrieves detailed financial data from Nasdaq Equities 360 Fundamental
+    Details database.
 
-    Provides comprehensive financial statement data including balance sheet items, income statement
-    components, cash flow statement details, and financial ratios.
+    Provides comprehensive financial statement data including balance sheet items,
+    income statement components, cash flow statement details, and financial ratios.
 
     Either symbol or figi must be provided.
 
@@ -224,7 +235,8 @@ def get_detailed_financials(
       - symbol: Stock ticker symbol (e.g., 'MSFT')
       - figi: Bloomberg FIGI identifier (e.g., 'BBG000BPH459')
       - calendardate: Calendar date in YYYY-MM-DD format (e.g., '2022-12-31')
-      - dimension: Data dimension (MRQ: quarterly, MRY: annual, MRT: trailing twelve months)
+      - dimension: Data dimension (MRQ: quarterly, MRY: annual,
+        MRT: trailing twelve months)
 
     Example: get_detailed_financials(symbol='MSFT', dimension='MRY')
     Example: get_detailed_financials(figi='BBG000BPH459', calendardate='2022-12-31')
@@ -237,8 +249,9 @@ def list_detailed_financial_fields() -> list[dict[str, str]]:
     """
     Lists all available fields in the fundamental details database with descriptions.
 
-    This helps users understand what data is available through the get_detailed_financials tool,
-    including balance sheet items, income statement components, cash flow details, and more.
+    This helps users understand what data is available through the
+    get_detailed_financials tool, including balance sheet items, income statement
+    components, cash flow details, and more.
     """
     return list_available_detail_fields()
 
@@ -262,7 +275,8 @@ def get_balance_sheet_data(
       - symbol: Stock ticker symbol (e.g., 'MSFT')
       - figi: Bloomberg FIGI identifier (e.g., 'BBG000BPH459')
       - calendardate: Calendar date in YYYY-MM-DD format (e.g., '2022-12-31')
-      - dimension: Data dimension (MRQ: quarterly, MRY: annual, MRT: trailing twelve months)
+      - dimension: Data dimension (MRQ: quarterly, MRY: annual,
+        MRT: trailing twelve months)
 
     Example: get_balance_sheet_data(symbol='MSFT', dimension='MRY')
     Example: get_balance_sheet_data(figi='BBG000BPH459', calendardate='2022-12-31')
@@ -275,8 +289,9 @@ def list_balance_sheet_fields() -> list[dict[str, str]]:
     """
     Lists all available fields in the balance sheet database with descriptions.
 
-    This helps users understand what data is available through the get_balance_sheet_data tool,
-    including assets, liabilities, equity, and detailed breakdowns of each category.
+    This helps users understand what data is available through the
+    get_balance_sheet_data tool, including assets, liabilities, equity, and detailed
+    breakdowns of each category.
     """
     return list_available_balance_sheet_fields()
 
@@ -300,7 +315,8 @@ def get_cash_flow_data(
       - symbol: Stock ticker symbol (e.g., 'MSFT')
       - figi: Bloomberg FIGI identifier (e.g., 'BBG000BPH459')
       - calendardate: Calendar date in YYYY-MM-DD format (e.g., '2022-12-31')
-      - dimension: Data dimension (MRQ: quarterly, MRY: annual, MRT: trailing twelve months)
+      - dimension: Data dimension (MRQ: quarterly, MRY: annual,
+        MRT: trailing twelve months)
 
     Example: get_cash_flow_data(symbol='MSFT', dimension='MRY')
     Example: get_cash_flow_data(figi='BBG000BPH459', calendardate='2022-12-31')
@@ -313,8 +329,9 @@ def list_cash_flow_fields() -> list[dict[str, str]]:
     """
     Lists all available fields in the cash flow statement database with descriptions.
 
-    This helps users understand what data is available through the get_cash_flow_data tool,
-    including operating, investing, and financing cash flows, and related metrics.
+    This helps users understand what data is available through the
+    get_cash_flow_data tool, including operating, investing, and financing cash
+    flows, and related metrics.
     """
     return list_available_cash_flow_fields()
 
@@ -327,10 +344,12 @@ def get_corporate_action_data(
     action: str | None = None,
 ):
     """
-    Retrieves corporate actions data from Nasdaq Equities 360 Corporate Actions database.
+    Retrieves corporate actions data from Nasdaq Equities 360 Corporate Actions
+    database.
 
-    Provides information about corporate events such as stock splits, mergers, acquisitions,
-    and other significant company actions that can affect stock price and ownership.
+    Provides information about corporate events such as stock splits, mergers,
+    acquisitions, and other significant company actions that can affect stock price
+    and ownership.
 
     Parameters:
       - symbol: Stock ticker symbol (e.g., 'TSLA')
@@ -349,8 +368,9 @@ def list_corporate_action_fields() -> list[dict[str, str]]:
     """
     Lists all available fields in the corporate actions database with descriptions.
 
-    This helps users understand what data is available through the get_corporate_action_data tool,
-    including date, action type, value, and related company information.
+    This helps users understand what data is available through the
+    get_corporate_action_data tool, including date, action type, value, and related
+    company information.
     """
     return list_available_corporate_action_fields()
 
@@ -380,8 +400,9 @@ def list_reference_data_fields() -> list[dict[str, str]]:
     """
     Lists all available fields in the company reference database with descriptions.
 
-    This helps users understand what data is available through the get_company_reference_data tool,
-    including exchange, industry, sector, company website, and location information.
+    This helps users understand what data is available through the
+    get_company_reference_data tool, including exchange, industry, sector, company
+    website, and location information.
     """
     return list_available_reference_fields()
 
@@ -394,7 +415,8 @@ def get_trade_summary_data(**kwargs):
     Provides consolidated trade data including open, high, low, close, and volume.
 
     Examples:
-      get_trade_summary_data() # Returns all available data (may be limited by API quotas)
+      get_trade_summary_data()  # Returns all available data
+      # (may be limited by API quotas)
     """
     return get_trade_summary(**kwargs)
 
@@ -414,7 +436,8 @@ def get_fund_master_report(
     Parameters:
       - fund_id: Optional unique fund identifier
       - name: Optional fund name
-      - investment_company_type: Optional investment company type (N-1A for Open-Ended mutual funds, N-2 for Closed-End funds)
+      - investment_company_type: Optional investment company type
+        (N-1A for Open-Ended mutual funds, N-2 for Closed-End funds)
       - Additional parameters supported by the Nasdaq Data Link API
 
     Example: get_fund_master_report(fund_id='12345')
@@ -439,7 +462,8 @@ def get_fund_information(
     Parameters:
       - fund_id: Optional unique fund identifier
       - name: Optional fund name
-      - investment_company_type: Optional investment company type (N-1A for Open-Ended mutual funds, N-2 for Closed-End funds)
+      - investment_company_type: Optional investment company type
+        (N-1A for Open-Ended mutual funds, N-2 for Closed-End funds)
       - Additional parameters supported by the Nasdaq Data Link API
 
     Example: get_fund_information(fund_id='12345')
@@ -475,8 +499,8 @@ def get_share_class_information(
     """
     Retrieves Fund Share Class Information (NFN/MFRSI) data from Nasdaq Fund Network.
 
-    Provides detailed information about fund share classes including minimum investments,
-    fees, and other attributes.
+    Provides detailed information about fund share classes including minimum
+    investments, fees, and other attributes.
 
     Parameters:
       - fund_id: Optional unique fund identifier
@@ -509,7 +533,9 @@ def get_price_history(
       - end_date: Optional end date for price history (YYYY-MM-DD format)
       - Additional parameters supported by the Nasdaq Data Link API
 
-    Example: get_price_history(ticker='ABCDX', start_date='2024-01-01', end_date='2024-04-30')
+    Example: get_price_history(
+        ticker='ABCDX', start_date='2024-01-01', end_date='2024-04-30'
+    )
     Example: get_price_history(fund_id='12345')
     """
     return get_mfrph_data(fund_id, ticker, start_date, end_date, **kwargs)
@@ -526,7 +552,8 @@ def get_recent_price_history(
     """
     Retrieves recent Fund Price History (NFN/MFRPH10) data from Nasdaq Fund Network.
 
-    Provides historical NAV, offering, and redemption prices for funds for the last 10 trading days.
+    Provides historical NAV, offering, and redemption prices for funds for the
+    last 10 trading days.
 
     Parameters:
       - fund_id: Optional unique fund identifier
@@ -548,7 +575,8 @@ def get_performance_statistics(
     """
     Retrieves Fund Performance Statistics (NFN/MFRPS) data from Nasdaq Fund Network.
 
-    Provides performance returns for various time periods (1mo, 3mo, YTD, 1yr, 3yr, etc.).
+    Provides performance returns for various time periods
+    (1mo, 3mo, YTD, 1yr, 3yr, etc.).
 
     Parameters:
       - fund_id: Optional unique fund identifier
