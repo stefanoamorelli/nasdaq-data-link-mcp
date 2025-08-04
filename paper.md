@@ -21,20 +21,20 @@ bibliography: paper.bib
 
 # Summary
 
-The Nasdaq Data Link MCP (Model Context Protocol) Server is a Python-based server that provides Large Language Models (LLMs) with seamless access to financial and economic data from `Nasdaq Data Link`. Built on the Model Context Protocol framework [@modelcontextprotocol], this software enables natural language interactions with extensive financial datasets including equity statistics, fundamental data, retail trading activity, World Bank indicators, and mutual fund information.
+The Nasdaq Data Link MCP (Model Context Protocol) Server is a Python-based server that provides Large Language Models (LLMs) with seamless access to financial and economic data from `Nasdaq Data Link`. Built on the Model Context Protocol framework [@modelcontextprotocol], this software enables natural language interactions with extensive financial datasets including equity statistics, fundamental data, retail trading activity, World Bank indicators, and mutual fund information. This approach aligns with recent advances in using LLMs for financial data analysis [@llm-financial-analysis] and conversational interfaces for data access [@conversational-data-access].
 
 The server implements a standardized interface that allows AI assistants to query, retrieve, and analyze financial data through conversational interactions, making complex financial datasets accessible to researchers, analysts, and developers without requiring extensive API knowledge or programming expertise.
 
 # Statement of need
 
-Financial data analysis traditionally requires significant technical expertise to navigate complex APIs, understand data schemas, and write custom integration code. Existing solutions often require users to learn specific query languages or API endpoints, creating barriers for researchers and analysts who need quick access to financial information.
+Financial data analysis traditionally requires significant technical expertise to navigate complex APIs, understand data schemas, and write custom integration code. Existing solutions often require users to learn specific query languages or API endpoints, creating barriers for researchers and analysts who need quick access to financial information [@financial-data-barriers].
 
 The `Nasdaq Data Link MCP Server` addresses this gap by providing a natural language interface to financial data through LLM integration. Unlike traditional financial data tools that require specialized software or programming knowledge, this solution enables users to ask questions in plain English and receive structured financial data responses.
 
 Key features that distinguish this software include:
 
 - **Multi-database support**: Integrates five major financial databases (Equities 360, RTAT, Trade Summary, World Bank, NFN)
-- **MCP compatibility**: Works with any MCP-compatible client including Claude Desktop and Groq Desktop
+- **MCP compatibility**: Works with any MCP-compatible client including Claude Desktop [@claude-desktop] and Groq Desktop [@groq-desktop]
 - **Zero-code access**: Enables financial data queries through natural language conversations
 - **Comprehensive coverage**: Provides access to company statistics, fundamental data, trading activity, economic indicators, and mutual fund information
 - **Production-ready**: Includes proper error handling, logging, and configuration management
