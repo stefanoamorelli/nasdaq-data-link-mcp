@@ -3,7 +3,8 @@ import nasdaqdatalink
 
 def get_rtat10_data(dates: str, tickers: str | None = None):
     """
-    Fetch Retail Trading Activity Tracker 10 (RTAT10) data for specific dates and tickers.
+    Fetch Retail Trading Activity Tracker 10 (RTAT10) data for specific dates
+    and tickers.
 
     Args:
         dates: Comma-separated list of dates in format 'YYYY-MM-DD'
@@ -49,4 +50,3 @@ def get_rtat_data(dates: str, tickers: str | None = None):
         return df
     except Exception as e:
         return f"Error fetching RTAT data: {e!s}"
-

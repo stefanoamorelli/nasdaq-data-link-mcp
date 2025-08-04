@@ -17,9 +17,52 @@ classifiers = [
 ]
 dependencies = ["mcp[cli]>=1.6.0", "nasdaq-data-link", "pycountry"]
 
+[project.optional-dependencies]
+test = ["pytest>=7.0", "pytest-mock", "pytest-cov"]
+dev = ["ruff", "mypy", "pre-commit"]
+
 [tool.setuptools]
 packages = ["nasdaq_data_link_mcp_os"]
 
 [project.urls]
 "Homepage" = "https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
 "Bug Tracker" = "https://github.com/stefanoamorelli/nasdaq-data-link-mcp/issues"
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "S", "B", "A", "C4", "T20"]
+ignore = ["E203"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false  # Start lenient, can be made stricter later
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = ["-v", "--tb=short"]
+filterwarnings = [
+    "ignore::DeprecationWarning:pytest_asyncio.*",
+]
+
+[tool.coverage.run]
+source = ["nasdaq_data_link_mcp_os"]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]
