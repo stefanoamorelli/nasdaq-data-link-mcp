@@ -158,6 +158,25 @@ This registers the server with your MCP client (e.g., Claude Desktop).
 
 ---
 
+## 🧪 Testing
+
+Run the test suite:
+
+```bash
+python -m pytest tests/ -v
+```
+
+The test suite includes:
+- Basic functionality tests
+- Module import verification
+- Parameter validation
+- Error handling
+- Integration tests
+
+Tests are designed to work without requiring an API key for basic functionality verification.
+
+---
+
 ## 🛠️ Tools
 
 After installation, the following tools are exposed to MCP clients:
@@ -865,20 +884,3 @@ B -.->|Equities 360| G
 ## 📄 License
 
 [MIT License](LICENSE) © 2025 [Stefano Amorelli](https://github.com/stefanoamorelli)
-
-## 🧪 Testing
-
-Run the test suite:
-
-```bash
-python -m pytest tests/ -v
-```
-
-The test suite includes:
-- Basic functionality tests
-- Module import verification
-- Parameter validation
-- Error handling
-- Integration tests
-
-Tests are designed to work without requiring an API key for basic functionality verification.
