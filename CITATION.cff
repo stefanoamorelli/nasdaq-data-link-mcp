@@ -3,6 +3,7 @@ message: "If you use this software, please cite it as below."
 authors:
   - family-names: Amorelli
     given-names: Stefano
+    orcid: 0009-0004-4917-0999
 title: "Nasdaq Data Link MCP (Model Context Protocol) Server"
 version: 1.0.0
 date-released: 2025-04-06
