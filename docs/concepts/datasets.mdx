@@ -1,0 +1,281 @@
+---
+title: 'Datasets'
+description: 'Understanding dataset structure and formats'
+---
+
+## What are Datasets?
+
+Datasets are individual data tables within databases. Each dataset has:
+- Unique code (e.g., `WORLDBANK/USA_NY.GDP.MKTP.CD`)
+- Column structure
+- Time series or point-in-time data
+- Specific update frequency
+
+## Dataset Code Format
+
+Dataset codes follow the pattern: `DATABASE_CODE/DATASET_CODE`
+
+```
+WORLDBANK/USA_NY.GDP.MKTP.CD
+└─┬─────┘ └────────┬─────────┘
+  │               │
+  Database        Dataset identifier
+  code           (often includes country + indicator)
+```
+
+## Dataset Structure
+
+### Time Series Datasets
+
+Most datasets contain time series data with:
+- **Date column** - When the observation was recorded
+- **Value columns** - The actual data points
+
+Example from `WORLDBANK/USA_NY.GDP.MKTP.CD`:
+
+| Date       | Value         |
+|------------|---------------|
+| 2023-01-01 | 27360935000000|
+| 2022-01-01 | 25744100000000|
+| 2021-01-01 | 23315100000000|
+
+### Column Types
+
+<CodeGroup>
+
+```json Numeric
+{
+  "column": "GDP",
+  "type": "float",
+  "description": "GDP in current US dollars"
+}
+```
+
+```json String
+{
+  "column": "Country",
+  "type": "string",
+  "description": "Country name"
+}
+```
+
+```json Date
+{
+  "column": "Date",
+  "type": "datetime",
+  "description": "Observation date"
+}
+```
+
+</CodeGroup>
+
+## Metadata
+
+Every dataset has metadata you can inspect:
+
+```python
+get_dataset_metadata(dataset_code="WORLDBANK/USA_NY.GDP.MKTP.CD")
+```
+
+Returns:
+
+```json
+{
+  "code": "WORLDBANK/USA_NY.GDP.MKTP.CD",
+  "name": "United States GDP (current US$)",
+  "description": "GDP at purchaser's prices...",
+  "column_names": ["Date", "Value"],
+  "frequency": "annual",
+  "oldest_available_date": "1960-01-01",
+  "newest_available_date": "2023-01-01"
+}
+```
+
+## Finding Datasets
+
+### By Search
+
+Use `search_datasets` to find relevant data:
+
+```python
+# Ask Claude: "Find GDP datasets"
+search_datasets(query="GDP")
+
+# Returns:
+[
+  {
+    "code": "WORLDBANK/USA_NY.GDP.MKTP.CD",
+    "name": "United States GDP",
+    "description": "GDP at purchaser's prices..."
+  },
+  ...
+]
+```
+
+### By Database
+
+Browse a specific database:
+
+```python
+# Ask Claude: "What datasets are in the World Bank database?"
+search_datasets(query="WORLDBANK")
+```
+
+### By Topic
+
+Search by subject matter:
+
+```python
+search_datasets(query="inflation")
+search_datasets(query="stock prices")
+search_datasets(query="mutual funds")
+```
+
+## Working with Dataset Data
+
+### Get Full Dataset
+
+```python
+get_dataset(dataset_code="WORLDBANK/USA_NY.GDP.MKTP.CD")
+```
+
+Returns all available data points.
+
+### Filter by Date
+
+```python
+get_dataset(
+    dataset_code="WORLDBANK/USA_NY.GDP.MKTP.CD",
+    start_date="2020-01-01",
+    end_date="2023-12-31"
+)
+```
+
+Returns only data from 2020-2023.
+
+### Export in Different Formats
+
+```python
+export_dataset(
+    dataset_code="WORLDBANK/USA_NY.GDP.MKTP.CD",
+    output_format="json"
+)
+```
+
+Available formats: `csv`, `json`, `xml`
+
+## Dataset Naming Conventions
+
+Different databases use different naming patterns:
+
+<Tabs>
+  <Tab title="World Bank">
+    `WORLDBANK/{COUNTRY}_{INDICATOR}`
+
+    Examples:
+    - `WORLDBANK/USA_NY.GDP.MKTP.CD`
+    - `WORLDBANK/ITA_SP.POP.TOTL`
+    - `WORLDBANK/DEU_EN.ATM.CO2E.PC`
+  </Tab>
+
+  <Tab title="Equities 360">
+    `QOR/{TYPE}_{TICKER}`
+
+    Examples:
+    - `QOR/STATS_AAPL` (statistics)
+    - `QOR/FS_MSFT` (fundamentals)
+    - `QOR/BS_GOOGL` (balance sheet)
+  </Tab>
+
+  <Tab title="Fund Network">
+    `NFN/{REPORT_TYPE}`
+
+    Examples:
+    - `NFN/MFRFM` (fund master)
+    - `NFN/MFRPH` (price history)
+    - `NFN/MFRPS` (performance stats)
+  </Tab>
+</Tabs>
+
+## Data Quality
+
+### Update Frequency
+
+Datasets update on different schedules:
+
+| Frequency | Example |
+|-----------|---------|
+| Real-time | Market prices |
+| Daily | Stock data, retail trading |
+| Monthly | Some economic indicators |
+| Quarterly | Company financials |
+| Annual | GDP, population |
+
+Check `get_dataset_metadata()` for specific frequency.
+
+### Data Completeness
+
+Not all datasets have complete historical data:
+
+<Warning>
+  Some datasets may have gaps, especially for:
+  - Older time periods
+  - Emerging markets
+  - Newly added indicators
+</Warning>
+
+Use `oldest_available_date` and `newest_available_date` from metadata to check coverage.
+
+## Common Dataset Examples
+
+<AccordionGroup>
+  <Accordion icon="chart-line" title="Economic Indicators">
+    ```
+    WORLDBANK/USA_NY.GDP.MKTP.CD - US GDP
+    WORLDBANK/USA_FP.CPI.TOTL.ZG - US Inflation
+    WORLDBANK/USA_SL.UEM.TOTL.ZS - US Unemployment
+    ```
+  </Accordion>
+
+  <Accordion icon="building-columns" title="Company Data">
+    ```
+    QOR/STATS_AAPL - Apple statistics
+    QOR/FS_MSFT - Microsoft fundamentals
+    QOR/CF_GOOGL - Google cash flow
+    ```
+  </Accordion>
+
+  <Accordion icon="money-bill-trend-up" title="Fund Data">
+    ```
+    NFN/MFRFM - All funds master data
+    NFN/MFRPH - Historical NAV prices
+    NFN/MFRPS - Performance statistics
+    ```
+  </Accordion>
+
+  <Accordion icon="users" title="Retail Trading">
+    ```
+    NDAQ/RTAT - Daily retail activity
+    NDAQ/RTAT10 - Top 10 retail stocks
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Search Datasets"
+    icon="magnifying-glass"
+    href="/tools/search-datasets"
+  >
+    Start finding datasets
+  </Card>
+  <Card
+    title="Get Dataset Data"
+    icon="download"
+    href="/tools/get-dataset"
+  >
+    Learn to retrieve data
+  </Card>
+</CardGroup>

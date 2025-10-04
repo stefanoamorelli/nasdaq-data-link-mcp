@@ -1,0 +1,102 @@
+{
+  "name": "Nasdaq Data Link MCP",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#0D9373",
+    "light": "#07C983",
+    "dark": "#0D9373",
+    "anchors": {
+      "from": "#0D9373",
+      "to": "#07C983"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:stefano@amorelli.tech"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "GitHub",
+    "url": "https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
+  },
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
+    },
+    {
+      "name": "PyPI",
+      "icon": "python",
+      "url": "https://pypi.org/project/nasdaq-data-link-mcp-os/"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": [
+        "introduction",
+        "quickstart",
+        "installation"
+      ]
+    },
+    {
+      "group": "Core Concepts",
+      "pages": [
+        "concepts/overview",
+        "concepts/databases",
+        "concepts/datasets"
+      ]
+    },
+    {
+      "group": "Tools",
+      "pages": [
+        "tools/search-datasets",
+        "tools/get-dataset",
+        "tools/get-metadata",
+        "tools/list-databases",
+        "tools/export-dataset"
+      ]
+    },
+    {
+      "group": "Examples",
+      "pages": [
+        "examples/world-bank",
+        "examples/equities",
+        "examples/funds",
+        "examples/retail-trading"
+      ]
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        "api-reference/introduction"
+      ]
+    },
+    {
+      "group": "Tools",
+      "pages": [
+        "api-reference/tools/search-datasets",
+        "api-reference/tools/get-dataset",
+        "api-reference/tools/get-metadata",
+        "api-reference/tools/list-databases",
+        "api-reference/tools/export-dataset"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "github": "https://github.com/stefanoamorelli/nasdaq-data-link-mcp",
+    "twitter": "https://twitter.com/stefanoamorelli"
+  }
+}

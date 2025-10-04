@@ -1,0 +1,87 @@
+---
+title: Introduction
+description: 'Access financial and economic data from Nasdaq Data Link using natural language with Claude and other LLMs'
+---
+
+<img
+  className="block dark:hidden"
+  src="/images/hero-light.svg"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/hero-dark.svg"
+  alt="Hero Dark"
+/>
+
+## What is Nasdaq Data Link MCP?
+
+Nasdaq Data Link MCP is a community-maintained [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server that enables large language models like Claude to access and analyze data from [Nasdaq Data Link](https://data.nasdaq.com/).
+
+<CardGroup cols={2}>
+  <Card
+    title="5 Essential Tools"
+    icon="wrench"
+    href="/tools/search-datasets"
+  >
+    Simple, powerful tools that work with any Nasdaq Data Link database
+  </Card>
+  <Card
+    title="100+ Databases"
+    icon="database"
+    href="/concepts/databases"
+  >
+    Access World Bank, Equities 360, Fund Network, and more
+  </Card>
+  <Card
+    title="Natural Language"
+    icon="message"
+    href="/examples/world-bank"
+  >
+    Query financial data using plain English through Claude or other LLMs
+  </Card>
+  <Card
+    title="Open Source"
+    icon="github"
+    href="https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
+  >
+    MIT licensed and community maintained
+  </Card>
+</CardGroup>
+
+## Key Features
+
+<AccordionGroup>
+  <Accordion icon="magnifying-glass" title="Universal Search">
+    Search across all Nasdaq Data Link databases with a single query. Find GDP data, stock prices, fund information, and more.
+  </Accordion>
+  <Accordion icon="calendar" title="Date Filtering">
+    Retrieve data for specific time periods with flexible start and end date parameters.
+  </Accordion>
+  <Accordion icon="file-export" title="Multiple Formats">
+    Export data in CSV, JSON, or XML formats for use in your applications.
+  </Accordion>
+  <Accordion icon="info-circle" title="Metadata Access">
+    Inspect dataset structure and available columns before downloading data.
+  </Accordion>
+</AccordionGroup>
+
+## Quick Example
+
+```python
+# Ask Claude: "What was the GDP of Italy in 2022?"
+# Claude automatically calls:
+search_datasets(query="Italy GDP")
+get_dataset(dataset_code="WORLDBANK/ITA_NY.GDP.MKTP.CD")
+```
+
+## Why MCP?
+
+The Model Context Protocol allows AI assistants to safely access external data sources. With this server:
+- Claude can query real financial data on your behalf
+- All data stays secure in your local environment
+- No manual API calls needed - just ask questions
+
+<Note>
+  This is an independent, open-source project not affiliated with Nasdaq, Inc.
+</Note>

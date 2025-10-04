@@ -1,0 +1,41 @@
+---
+title: 'get_dataset_metadata'
+description: 'Inspect dataset structure without downloading data'
+---
+
+## Overview
+
+Returns metadata about a dataset including columns, date range, and update frequency without downloading the full data.
+
+## Parameters
+
+<ParamField path="dataset_code" type="string" required>
+  Dataset code in format `DATABASE/DATASET`
+</ParamField>
+
+## Response
+
+```json
+{
+  "code": "WORLDBANK/USA_NY.GDP.MKTP.CD",
+  "name": "United States GDP",
+  "description": "GDP at purchaser's prices...",
+  "column_names": ["Date", "Value"],
+  "frequency": "annual",
+  "oldest_available_date": "1960-01-01",
+  "newest_available_date": "2023-01-01"
+}
+```
+
+## Use Cases
+
+- Check available columns before fetching data
+- Verify date range coverage
+- Understand data frequency
+- Confirm dataset exists
+
+## Example
+
+```python
+get_dataset_metadata(dataset_code="WORLDBANK/USA_NY.GDP.MKTP.CD")
+```

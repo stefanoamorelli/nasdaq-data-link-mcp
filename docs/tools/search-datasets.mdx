@@ -1,0 +1,171 @@
+---
+title: 'search_datasets'
+description: 'Search for datasets by keyword across all databases'
+---
+
+## Overview
+
+Search for datasets across all Nasdaq Data Link databases using keywords. Returns matching datasets with their codes, names, and descriptions.
+
+## Parameters
+
+<ParamField path="query" type="string" required>
+  Search term to find relevant datasets. Can be:
+  - Keywords (e.g., "GDP", "inflation")
+  - Database names (e.g., "WORLDBANK")
+  - Ticker symbols (e.g., "AAPL", "MSFT")
+  - Topics (e.g., "oil prices", "mutual funds")
+</ParamField>
+
+## Response
+
+Returns a list of matching datasets:
+
+```json
+[
+  {
+    "code": "WORLDBANK/USA_NY.GDP.MKTP.CD",
+    "name": "United States GDP (current US$)",
+    "description": "GDP at purchaser's prices is the sum..."
+  },
+  ...
+]
+```
+
+## Examples
+
+### Search by Keyword
+
+<CodeGroup>
+
+```python Economic Data
+# Ask Claude:
+"Find GDP datasets"
+
+# Claude calls:
+search_datasets(query="GDP")
+```
+
+```python Stock Data
+# Ask Claude:
+"Find datasets about Apple stock"
+
+# Claude calls:
+search_datasets(query="AAPL")
+```
+
+```python Fund Data
+# Ask Claude:
+"Find mutual fund datasets"
+
+# Claude calls:
+search_datasets(query="mutual funds")
+```
+
+</CodeGroup>
+
+### Search by Database
+
+```python
+# Ask Claude:
+"What datasets are in the World Bank database?"
+
+# Claude calls:
+search_datasets(query="WORLDBANK")
+```
+
+### Search by Topic
+
+```python
+# Ask Claude:
+"Find data about oil prices"
+
+# Claude calls:
+search_datasets(query="oil prices")
+```
+
+## Use Cases
+
+<AccordionGroup>
+  <Accordion icon="magnifying-glass" title="Discovery">
+    Use when you don't know the exact dataset code but know what you're looking for.
+
+    Example: "Find datasets about renewable energy"
+  </Accordion>
+
+  <Accordion icon="compass" title="Exploration">
+    Browse available data in a specific domain.
+
+    Example: "What economic indicators are available?"
+  </Accordion>
+
+  <Accordion icon="filter" title="Filtering">
+    Narrow down datasets by topic or source.
+
+    Example: "Find World Bank data about education"
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+<Steps>
+  <Step title="Start Broad">
+    Begin with general keywords like "GDP" or "stocks"
+  </Step>
+
+  <Step title="Refine Results">
+    Add more specific terms: "GDP Italy" or "tech stocks"
+  </Step>
+
+  <Step title="Check Descriptions">
+    Read dataset descriptions to find the right match
+  </Step>
+
+  <Step title="Use Dataset Codes">
+    Once you find the right dataset, use `get_dataset` with its code
+  </Step>
+</Steps>
+
+## Tips
+
+<Tip>
+  Search returns up to 10 results. Be specific to get better matches.
+</Tip>
+
+<Tip>
+  Database codes can be used as search terms. Try "QOR" for Equities 360 data.
+</Tip>
+
+<Warning>
+  Search looks for exact word matches. "GDP" finds more than "gross domestic product"
+</Warning>
+
+## Common Searches
+
+| Query | Finds |
+|-------|-------|
+| `"GDP"` | GDP datasets for all countries |
+| `"AAPL"` | Apple stock datasets |
+| `"inflation"` | Inflation indicators |
+| `"funds"` | Mutual fund datasets |
+| `"retail"` | Retail trading data |
+| `"energy"` | Energy-related datasets |
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Get Dataset"
+    icon="download"
+    href="/tools/get-dataset"
+  >
+    Retrieve data from datasets you find
+  </Card>
+  <Card
+    title="Get Metadata"
+    icon="info-circle"
+    href="/tools/get-metadata"
+  >
+    Inspect dataset structure before downloading
+  </Card>
+</CardGroup>
