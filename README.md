@@ -32,76 +32,31 @@ This project aims at making easy to access and explore Nasdaq Data Link’s exte
 |:--:|:--:|
 | [Nasdaq Data Link MCP - Retail Trading Activity](https://www.loom.com/share/b0299f6f6f1844669b5d2f73a86a3dcb) | [Nasdaq Data Link MCP - World Bank Data](https://www.loom.com/share/a07e518bb6eb4de4b5a06a5a1a112a24) |
 | [![Retail Trading Activity](https://cdn.loom.com/sessions/thumbnails/46c7df4cb4c4405aa9e0a49ce6cd75be-9a5eeaf2133bc160-full-play.gif)](https://www.loom.com/share/46c7df4cb4c4405aa9e0a49ce6cd75be) | |
-| [Nasdaq Data Link MCP - Groq + DeepSeek R1 RTAT 10](https://www.loom.com/share/46c7df4cb4c4405aa9e0a49ce6cd75be) | | 
+| [Nasdaq Data Link MCP - Groq + DeepSeek R1 RTAT 10](https://www.loom.com/share/46c7df4cb4c4405aa9e0a49ce6cd75be) | |
 
-> [!TIP]
-> If you use this project in your research or work, please cite it using the [CITATION.cff](CITATION.cff) file, or the APA format:
+Once installed and connected to an `MCP`-compatible client (e.g., [Claude Desktop](https://claude.ai/download), or [Groq Desktop (beta)](https://github.com/groq/groq-desktop-beta), this server provides 5 essential tools that work with **any** Nasdaq Data Link database.
 
-`Amorelli, S. (2025). Nasdaq Data Link MCP (Model Context Protocol) Server [Computer software]. GitHub. https://github.com/stefanoamorelli/nasdaq-data-link-mcp`
-
-Once installed and connected to an `MCP`-compatible client (e.g., [Claude Desktop](https://claude.ai/download), or [Groq Desktop (beta)](https://github.com/groq/groq-desktop-beta), this server exposes several tools that your AI assistant can use to fetch data.
-
-This project currently supports the following databases:
-- [Equities 360](https://data.nasdaq.com/databases/E360) (company statistics and fundamental data)
-- [Nasdaq RTAT](https://data.nasdaq.com/databases/RTAT) (retail trading activity tracker)
-- [Trade Summary](https://data.nasdaq.com/databases/TRDSUM) (consolidated trade data including OHLCV)
-- [World Bank dataset on Nasdaq Data Link](https://data.nasdaq.com/databases/WB) (world bank database)
-- [Nasdaq Fund Network (NFN)](https://data.nasdaq.com/databases/MFR) (mutual fund and investment product data)
+**Featured databases:**
+- [World Bank](https://data.nasdaq.com/databases/WB) - Global development indicators
+- [Equities 360](https://data.nasdaq.com/databases/E360) - Company fundamentals and financials
+- [Nasdaq RTAT](https://data.nasdaq.com/databases/RTAT) - Retail trading activity
+- [Nasdaq Fund Network (NFN)](https://data.nasdaq.com/databases/MFR) - Mutual funds and ETFs
+- ...and 100+ more databases via dataset codes
 
 <details>
 <summary><strong>Example conversations</strong></summary>
 
-> **You:** What were the most traded stocks by retailers yesterday?  
-> **Claude:** *calls `get_rtat(<yetserday>)` and returns relevant matches*
+> **You:** What was the GDP of Italy in 2022?
+> **Claude:** *searches datasets, gets WORLDBANK/GDP data*
 
-> **You:** What was the GDP of Italy in 2022?  
-> **Claude:** Let me look that up... *calls `get_indicator_value` tool*  
-> **Claude:** The GDP of Italy in 2022 was approximately `...` trillion USD.
+> **You:** Show me Apple stock data for Q1 2024
+> **Claude:** *gets WIKI/AAPL dataset with date filters*
 
-> **You:** List all indicators related to CO₂ emissions.  
-> **Claude:** *calls `search_worldbank_indicators("CO2")` and returns relevant matches*
+> **You:** What datasets are available for CO₂ emissions?
+> **Claude:** *searches datasets for "CO2 emissions"*
 
-> **You:** What's the latest trading data for Apple?  
-> **Claude:** *calls `get_trade_summary_data()` and presents the trading data*
-
-> **You:** Show me yesterday's trading volume for the top tech stocks.
-> **Claude:** *calls `get_trade_summary_data()` and analyzes volume data*
-
-> **You:** What's the market cap and P/E ratio of Microsoft?  
-> **Claude:** *calls `get_stock_stats(symbol="MSFT")` and presents the key statistics*
-
-> **You:** Show me Microsoft's profitability ratios for the most recent annual report.  
-> **Claude:** *calls `get_fundamental_data(symbol="MSFT", dimension="MRY")` and presents profitability metrics*
-
-> **You:** What's Microsoft's cash flow and R&D spending for the last quarter?  
-> **Claude:** *calls `get_detailed_financials(symbol="MSFT", dimension="MRQ")` and presents cash flow and R&D data*
-
-> **You:** What's Microsoft's asset breakdown and debt-to-equity ratio from the latest balance sheet?  
-> **Claude:** *calls `get_balance_sheet_data(symbol="MSFT", dimension="MRQ")` and presents relevant balance sheet items*
-
-> **You:** How has Microsoft's free cash flow and capital expenditure changed over the past year?  
-> **Claude:** *calls `get_cash_flow_data(symbol="MSFT", dimension="MRY")` and analyzes free cash flow trends*
-
-> **You:** Has Tesla had any stock splits in the last two years?  
-> **Claude:** *calls `get_corporate_action_data(symbol="TSLA", action="split")` and presents the split history*
-
-> **You:** What industry and sector is AMD in, and where is the company located?  
-> **Claude:** *calls `get_company_reference_data(symbol="AMD")` and presents industry, sector, and location information*
-
-> **You:** Can you find information about mutual funds that are open-ended?  
-> **Claude:** *calls `get_fund_master_report(investment_company_type="N-1A")` and returns the fund information*
-
-> **You:** Show me the performance metrics for fund ABCDX for the past year  
-> **Claude:** *calls `get_performance_statistics(ticker="ABCDX")` and presents the performance metrics*
-
-> **You:** What are the fees associated with the Growth Fund?  
-> **Claude:** *first finds the fund ID with `get_fund_master_report(name="Growth Fund")`, then calls `get_fees_and_expenses(fund_id="{fund_id}")` and presents the fee structure*
-
-> **You:** Compare the historical NAV for ABCDX over the last month  
-> **Claude:** *calls `get_price_history(ticker="ABCDX", start_date="{30 days ago}", end_date="{today}")` and presents the NAV trend*
-
-> **You:** What is the investment strategy of fund ABCDX?  
-> **Claude:** *first finds the fund ID with `get_share_class_information(ticker="ABCDX")`, then calls `get_fund_information(fund_id="{fund_id}")` and presents the investment strategy*
+> **You:** Export Tesla data as JSON
+> **Claude:** *exports dataset in JSON format*
 </details>
 
 ---
@@ -179,637 +134,84 @@ Tests are designed to work without requiring an API key for basic functionality 
 
 ## 🛠️ Tools
 
-After installation, the following tools are exposed to MCP clients:
+The server exposes 5 essential tools that work with any Nasdaq Data Link database:
 
----
+### `search_datasets`
+Search for datasets by keyword.
 
-<details>
-<summary><strong>📈 Retail Trading Activity Tracker</strong></summary>
+**Examples:**
+```python
+# Find GDP datasets
+search_datasets(query="GDP")
 
-### `get_rtat10`
+# Search for oil prices
+search_datasets(query="oil prices")
 
-Retrieves Retail Trading Activity Tracker 10 (RTAT10) data for specific dates and optional tickers.
+# Find retail trading data
+search_datasets(query="retail trading")
 
-```json
-{
-  "action": "tool",
-  "name": "get_rtat10",
-  "params": {
-    "dates": "2025-03-31,2025-03-28,2025-03-27",
-    "tickers": "TSLA,TQQQ,SQQQ"
-  }
-}
+# Search for fund data
+search_datasets(query="mutual funds")
 ```
 
-Returns RTAT10 data from Nasdaq Data Link for the given dates and tickers.
+### `get_dataset`
+Get data from a specific dataset with optional date filters.
 
----
+**Examples:**
+```python
+# Get Apple stock data for Q1 2024
+get_dataset(dataset_code="WIKI/AAPL", start_date="2024-01-01", end_date="2024-03-31")
 
-### `get_rtat`
+# Get World Bank GDP data
+get_dataset(dataset_code="WORLDBANK/GDP_MKTP_CD")
 
-Retrieves Retail Trading Activity (RTAT) data for specific dates and optional tickers.
+# Get retail trading activity
+get_dataset(dataset_code="NDAQ/RTAT", start_date="2024-03-01")
 
-```json
-{
-  "action": "tool",
-  "name": "get_rtat",
-  "params": {
-    "dates": "2025-03-31,2025-03-28,2025-03-27",
-    "tickers": "TSLA,TQQQ,SQQQ"
-  }
-}
+# Get company fundamentals
+get_dataset(dataset_code="QOR/STATS_MSFT")
+
+# Get fund price history
+get_dataset(dataset_code="NFN/MFRPH_ABCDX", start_date="2024-01-01", end_date="2024-12-31")
 ```
 
-Returns RTAT data from Nasdaq Data Link for the given dates and tickers.
+### `get_dataset_metadata`
+Get metadata about a dataset without downloading data.
 
-</details>
+**Examples:**
+```python
+# Check GDP dataset structure
+get_dataset_metadata(dataset_code="WORLDBANK/GDP_MKTP_CD")
 
----
+# View available columns for Apple stock
+get_dataset_metadata(dataset_code="WIKI/AAPL")
 
-<details>
-<summary><strong>📊 Trade Summary Tool</strong></summary>
-
-### `get_trade_summary_data`
-
-Retrieves Trade Summary data from Nasdaq Data Link NDAQ/TS datatable.
-
-```json
-{
-  "action": "tool",
-  "name": "get_trade_summary_data"
-}
+# Inspect fund data structure
+get_dataset_metadata(dataset_code="NFN/MFRFM")
 ```
 
-Returns consolidated trade data including open, high, low, close, and volume information.
+### `list_databases`
+List available databases on Nasdaq Data Link.
 
-</details>
-
----
-
-<details>
-<summary><strong>📊 World Bank Tools</strong></summary>
-
-### `get_indicator_value`
-
-Fetch the value for a specific indicator and country.
-
-```json
-{
-  "action": "tool",
-  "name": "get_indicator_value",
-  "params": {
-    "country": "Italy",
-    "indicator": "NY.GDP.MKTP.CD"
-  }
-}
+**Example:**
+```python
+list_databases()
 ```
 
-Returns the latest value for that indicator.
+### `export_dataset`
+Export dataset in different formats (CSV, JSON, XML).
 
----
+**Examples:**
+```python
+# Export Apple data as JSON
+export_dataset(dataset_code="WIKI/AAPL", output_format="json", start_date="2024-01-01")
 
-### `country_code`
+# Export to CSV with date range
+export_dataset(dataset_code="WORLDBANK/GDP_MKTP_CD", output_format="csv", start_date="2020-01-01", end_date="2023-12-31")
 
-Returns the ISO 3-letter country code (e.g., `"ITA"` for Italy).
-
-```json
-{
-  "action": "tool",
-  "name": "country_code",
-  "params": {
-    "countryName": "Italy"
-  }
-}
+# Export as XML
+export_dataset(dataset_code="NDAQ/RTAT", output_format="xml")
 ```
-
----
-
-### `list_worldbank_indicators`
-
-Returns a list of all 1500+ indicators available.
-
-```json
-{
-  "action": "tool",
-  "name": "list_worldbank_indicators"
-}
-```
-
----
-
-### `search_worldbank_indicators`
-
-Searches for indicators by keyword.
-
-```json
-{
-  "action": "tool",
-  "name": "search_worldbank_indicators",
-  "params": {
-    "keyword": "population"
-  }
-}
-```
-
-</details>
-
----
-
-<details>
-<summary><strong>📈 Equities 360 Tools</strong></summary>
-
-### `get_stock_stats`
-
-Retrieves comprehensive statistics for a company from the Nasdaq Equities 360 database.
-
-```json
-{
-  "action": "tool",
-  "name": "get_stock_stats",
-  "params": {
-    "symbol": "MSFT"
-  }
-}
-```
-
-Or using FIGI:
-
-```json
-{
-  "action": "tool",
-  "name": "get_stock_stats",
-  "params": {
-    "figi": "BBG000BPH459"
-  }
-}
-```
-
-Returns company statistics including market cap, PE ratio, 52-week highs/lows, dividend information, and more.
-
----
-
-### `list_stock_stat_fields`
-
-Lists all available fields in the stock statistics database with descriptions.
-
-```json
-{
-  "action": "tool",
-  "name": "list_stock_stat_fields"
-}
-```
-
-Returns information about all available fields that can be queried through the `get_stock_stats` tool.
-
----
-
-### `get_fundamental_data`
-
-Retrieves fundamental financial data from the Nasdaq Equities 360 Fundamental Summary database.
-
-```json
-{
-  "action": "tool",
-  "name": "get_fundamental_data",
-  "params": {
-    "symbol": "MSFT",
-    "dimension": "MRY"
-  }
-}
-```
-
-Or using multiple parameters:
-
-```json
-{
-  "action": "tool",
-  "name": "get_fundamental_data",
-  "params": {
-    "figi": "BBG000BPH459",
-    "calendardate": "2022-12-31",
-    "dimension": "MRQ"
-  }
-}
-```
-
-Returns fundamental data including profitability ratios (ROA, ROE, ROS), valuation metrics (P/E, P/S), income statement items (revenue, gross profit), and financial health indicators (current ratio, debt-to-equity).
-
----
-
-### `list_fundamental_fields`
-
-Lists all available fields in the fundamental summary database with descriptions.
-
-```json
-{
-  "action": "tool",
-  "name": "list_fundamental_fields"
-}
-```
-
-Returns information about all available fields that can be queried through the `get_fundamental_data` tool.
-
----
-
-### `get_detailed_financials`
-
-Retrieves detailed financial data from the Nasdaq Equities 360 Fundamental Details database.
-
-```json
-{
-  "action": "tool",
-  "name": "get_detailed_financials",
-  "params": {
-    "symbol": "MSFT",
-    "dimension": "MRQ"
-  }
-}
-```
-
-Or using multiple parameters:
-
-```json
-{
-  "action": "tool",
-  "name": "get_detailed_financials",
-  "params": {
-    "figi": "BBG000BPH459",
-    "calendardate": "2022-12-31",
-    "dimension": "MRY"
-  }
-}
-```
-
-Returns comprehensive financial statement data including balance sheet items (assets, liabilities, equity), income statement components (revenue, expenses, profit), cash flow details (operating, investing, financing), and detailed financial ratios.
-
----
-
-### `list_detailed_financial_fields`
-
-Lists all available fields in the fundamental details database with descriptions.
-
-```json
-{
-  "action": "tool",
-  "name": "list_detailed_financial_fields"
-}
-```
-
-Returns information about all available fields that can be queried through the `get_detailed_financials` tool.
-
----
-
-### `get_balance_sheet_data`
-
-Retrieves balance sheet data from the Nasdaq Equities 360 Balance Sheet database.
-
-```json
-{
-  "action": "tool",
-  "name": "get_balance_sheet_data",
-  "params": {
-    "symbol": "MSFT",
-    "dimension": "MRQ"
-  }
-}
-```
-
-Or using multiple parameters:
-
-```json
-{
-  "action": "tool",
-  "name": "get_balance_sheet_data",
-  "params": {
-    "figi": "BBG000BPH459",
-    "calendardate": "2022-12-31",
-    "dimension": "MRY"
-  }
-}
-```
-
-Returns comprehensive balance sheet data including assets (current, non-current, intangible), liabilities (current, non-current, debt), stockholders' equity, and key balance sheet metrics.
-
----
-
-### `list_balance_sheet_fields`
-
-Lists all available fields in the balance sheet database with descriptions.
-
-```json
-{
-  "action": "tool",
-  "name": "list_balance_sheet_fields"
-}
-```
-
-Returns information about all available fields that can be queried through the `get_balance_sheet_data` tool.
-
----
-
-### `get_cash_flow_data`
-
-Retrieves cash flow statement data from the Nasdaq Equities 360 Cash Flow database.
-
-```json
-{
-  "action": "tool",
-  "name": "get_cash_flow_data",
-  "params": {
-    "symbol": "MSFT",
-    "dimension": "MRQ"
-  }
-}
-```
-
-Or using multiple parameters:
-
-```json
-{
-  "action": "tool",
-  "name": "get_cash_flow_data",
-  "params": {
-    "figi": "BBG000BPH459",
-    "calendardate": "2022-12-31",
-    "dimension": "MRY"
-  }
-}
-```
-
-Returns cash flow statement data including operating activities (ncfo), investing activities (ncfi), financing activities (ncff), free cash flow (fcf), capital expenditures (capex), and more.
-
----
-
-### `list_cash_flow_fields`
-
-Lists all available fields in the cash flow statement database with descriptions.
-
-```json
-{
-  "action": "tool",
-  "name": "list_cash_flow_fields"
-}
-```
-
-Returns information about all available fields that can be queried through the `get_cash_flow_data` tool.
-
----
-
-### `get_corporate_action_data`
-
-Retrieves corporate actions data from the Nasdaq Equities 360 Corporate Actions database.
-
-```json
-{
-  "action": "tool",
-  "name": "get_corporate_action_data",
-  "params": {
-    "symbol": "TSLA",
-    "action": "split"
-  }
-}
-```
-
-Or using other parameters:
-
-```json
-{
-  "action": "tool",
-  "name": "get_corporate_action_data",
-  "params": {
-    "date": "2023-03-24"
-  }
-}
-```
-
-Returns information about corporate events such as stock splits, mergers, acquisitions, and other significant company actions that can affect stock price and ownership.
-
----
-
-### `list_corporate_action_fields`
-
-Lists all available fields in the corporate actions database with descriptions.
-
-```json
-{
-  "action": "tool",
-  "name": "list_corporate_action_fields"
-}
-```
-
-Returns information about all available fields that can be queried through the `get_corporate_action_data` tool.
-
----
-
-### `get_company_reference_data`
-
-Retrieves company reference data from the Nasdaq Equities 360 Reference Data database.
-
-```json
-{
-  "action": "tool",
-  "name": "get_company_reference_data",
-  "params": {
-    "symbol": "AMD"
-  }
-}
-```
-
-Or using FIGI:
-
-```json
-{
-  "action": "tool",
-  "name": "get_company_reference_data",
-  "params": {
-    "figi": "BBG000BBQCY0"
-  }
-}
-```
-
-Returns static information about companies including exchange, industry, sector classification, website URLs, SEC filing links, and location information.
-
----
-
-### `list_reference_data_fields`
-
-Lists all available fields in the company reference database with descriptions.
-
-```json
-{
-  "action": "tool",
-  "name": "list_reference_data_fields"
-}
-```
-
-Returns information about all available fields that can be queried through the `get_company_reference_data` tool.
-
-</details>
-
----
-
-<details>
-<summary><strong>📊 Nasdaq Fund Network (NFN) Tools</strong></summary>
-
-### `get_fund_master_report`
-
-Retrieves Fund Master Report (NFN/MFRFM) data from Nasdaq Fund Network.
-
-```json
-{
-  "action": "tool",
-  "name": "get_fund_master_report",
-  "params": {
-    "fund_id": "12345"
-  }
-}
-```
-
-Returns basic fund data from Nasdaq Fund Network for the given fund ID.
-
-### `get_fund_information`
-
-Retrieves Fund Information Report (NFN/MFRFI) data with detailed information about funds.
-
-```json
-{
-  "action": "tool",
-  "name": "get_fund_information",
-  "params": {
-    "fund_id": "12345"
-  }
-}
-```
-
-### `get_share_class_master`
-
-Retrieves Fund Share Class Master (NFN/MFRSM) data with basic information about fund share classes.
-
-```json
-{
-  "action": "tool",
-  "name": "get_share_class_master",
-  "params": {
-    "fund_id": "12345"
-  }
-}
-```
-
-### `get_share_class_information`
-
-Retrieves Fund Share Class Information (NFN/MFRSI) data with detailed share class attributes.
-
-```json
-{
-  "action": "tool",
-  "name": "get_share_class_information",
-  "params": {
-    "ticker": "ABCDX"
-  }
-}
-```
-
-### `get_price_history`
-
-Retrieves Fund Price History (NFN/MFRPH) data with historical NAV and pricing.
-
-```json
-{
-  "action": "tool",
-  "name": "get_price_history",
-  "params": {
-    "ticker": "ABCDX",
-    "start_date": "2024-01-01",
-    "end_date": "2024-04-30"
-  }
-}
-```
-
-### `get_recent_price_history`
-
-Retrieves recent Fund Price History (NFN/MFRPH10) data for the last 10 trading days.
-
-```json
-{
-  "action": "tool",
-  "name": "get_recent_price_history",
-  "params": {
-    "ticker": "ABCDX"
-  }
-}
-```
-
-### `get_performance_statistics`
-
-Retrieves Fund Performance Statistics (NFN/MFRPS) data with performance returns.
-
-```json
-{
-  "action": "tool",
-  "name": "get_performance_statistics",
-  "params": {
-    "ticker": "ABCDX"
-  }
-}
-```
-
-### `get_performance_benchmark`
-
-Retrieves Fund Performance Benchmark (NFN/MFRPRB) data about benchmark indexes.
-
-```json
-{
-  "action": "tool",
-  "name": "get_performance_benchmark",
-  "params": {
-    "ticker": "ABCDX"
-  }
-}
-```
-
-### `get_performance_analytics`
-
-Retrieves Fund Performance Analytics (NFN/MFRPA) data with metrics like alpha, beta, etc.
-
-```json
-{
-  "action": "tool",
-  "name": "get_performance_analytics",
-  "params": {
-    "ticker": "ABCDX"
-  }
-}
-```
-
-### `get_fees_and_expenses`
-
-Retrieves Fund Fee and Expense Data (NFN/MFRPM) about fees, expenses, and sales charges.
-
-```json
-{
-  "action": "tool",
-  "name": "get_fees_and_expenses",
-  "params": {
-    "ticker": "ABCDX"
-  }
-}
-```
-
-### `get_monthly_flows`
-
-Retrieves Fund Monthly Flows (NFN/MFRMF) data showing historical fund flows.
-
-```json
-{
-  "action": "tool",
-  "name": "get_monthly_flows",
-  "params": {
-    "ticker": "ABCDX"
-  }
-}
-```
-
-</details>
 
 ---
 
@@ -878,6 +280,15 @@ B -.->|Equities 360| G
 
 - [Model Context Protocol Python SDK](https://github.com/modelcontextprotocol/python-sdk)
 - [Nasdaq Data Link Python SDK](https://github.com/Nasdaq/data-link-python)
+
+---
+
+## 📖 Citation
+
+> [!TIP]
+> If you use this project in your research or work, please cite it using the [CITATION.cff](CITATION.cff) file, or the APA format:
+
+`Amorelli, S. (2025). Nasdaq Data Link MCP (Model Context Protocol) Server [Computer software]. GitHub. https://github.com/stefanoamorelli/nasdaq-data-link-mcp`
 
 ---
 
