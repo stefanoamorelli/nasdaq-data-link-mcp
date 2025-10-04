@@ -1,0 +1,196 @@
+---
+title: 'Databases'
+description: 'Overview of available databases in Nasdaq Data Link'
+---
+
+## What are Databases?
+
+Databases are collections of related datasets. Each database focuses on a specific domain like economics, equities, or funds.
+
+## Featured Databases
+
+### World Bank (WORLDBANK)
+
+Global development indicators covering 200+ countries.
+
+<Card title="Coverage" icon="globe">
+  - GDP, Population, Inflation
+  - CO₂ emissions, Energy use
+  - Education, Health indicators
+  - Trade, Investment data
+</Card>
+
+**Example Datasets:**
+- `WORLDBANK/USA_NY.GDP.MKTP.CD` - US GDP
+- `WORLDBANK/ITA_SP.POP.TOTL` - Italy population
+- `WORLDBANK/DEU_EN.ATM.CO2E.PC` - Germany CO₂ per capita
+
+---
+
+### Equities 360 (QOR)
+
+Comprehensive company fundamental data and statistics.
+
+<Card title="Coverage" icon="building">
+  - Income statements
+  - Balance sheets
+  - Cash flow statements
+  - Valuation metrics
+  - Company statistics
+</Card>
+
+**Example Datasets:**
+- `QOR/STATS_MSFT` - Microsoft statistics
+- `QOR/FS_AAPL` - Apple fundamentals
+- `QOR/BS_GOOGL` - Google balance sheet
+
+---
+
+### Fund Network (NFN)
+
+Mutual fund and ETF information.
+
+<Card title="Coverage" icon="chart-line">
+  - Fund master data
+  - Share class information
+  - Price history
+  - Performance metrics
+  - Fees and expenses
+</Card>
+
+**Example Datasets:**
+- `NFN/MFRFM` - Fund master report
+- `NFN/MFRPH` - Price history
+- `NFN/MFRPS` - Performance statistics
+
+---
+
+### Retail Trading Activity (NDAQ/RTAT)
+
+Retail investor trading patterns.
+
+<Card title="Coverage" icon="users">
+  - Daily retail activity
+  - Top 10 traded stocks
+  - Buy/sell ratios
+  - Ticker-level details
+</Card>
+
+**Example Datasets:**
+- `NDAQ/RTAT` - Retail trading activity
+- `NDAQ/RTAT10` - Top 10 retail stocks
+
+---
+
+## Discovering Databases
+
+### Using list_databases
+
+```python
+# Ask Claude:
+"List all available databases"
+
+# Claude calls:
+list_databases()
+```
+
+Returns all databases with descriptions.
+
+### Using search_datasets
+
+```python
+# Ask Claude:
+"Find databases about economics"
+
+# Claude calls:
+search_datasets(query="economics")
+```
+
+Searches across all databases for relevant datasets.
+
+## Database Structure
+
+Each database contains multiple datasets:
+
+```
+WORLDBANK/
+├── USA_NY.GDP.MKTP.CD (US GDP)
+├── ITA_NY.GDP.MKTP.CD (Italy GDP)
+├── DEU_NY.GDP.MKTP.CD (Germany GDP)
+└── ... (thousands more)
+
+QOR/
+├── STATS_AAPL (Apple statistics)
+├── STATS_MSFT (Microsoft statistics)
+├── FS_AAPL (Apple fundamentals)
+└── ... (thousands more)
+```
+
+## Finding the Right Database
+
+<AccordionGroup>
+  <Accordion icon="earth-americas" title="For Economic Indicators">
+    Use **WORLDBANK** for:
+    - GDP, GNI, population
+    - Inflation, unemployment
+    - Trade, development metrics
+  </Accordion>
+
+  <Accordion icon="chart-candlestick" title="For Stock Data">
+    Use **QOR (Equities 360)** for:
+    - Company financials
+    - Valuation metrics
+    - Balance sheets, income statements
+  </Accordion>
+
+  <Accordion icon="money-bill-trend-up" title="For Fund Data">
+    Use **NFN (Fund Network)** for:
+    - Mutual fund information
+    - ETF data
+    - Performance history
+  </Accordion>
+
+  <Accordion icon="users" title="For Retail Trading">
+    Use **NDAQ/RTAT** for:
+    - Retail investor activity
+    - Most traded stocks
+    - Buy/sell patterns
+  </Accordion>
+</AccordionGroup>
+
+## Database Access
+
+All databases are accessible through the same 5 tools:
+
+1. **search_datasets** - Find datasets in any database
+2. **get_dataset** - Get data from any database
+3. **get_dataset_metadata** - Inspect structure
+4. **list_databases** - Browse all databases
+5. **export_dataset** - Export from any database
+
+## Premium Databases
+
+Some databases require paid Nasdaq Data Link subscriptions:
+
+<Warning>
+  Premium databases return authentication errors if accessed with a free API key. Check [data.nasdaq.com](https://data.nasdaq.com/) for pricing.
+</Warning>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Explore Datasets"
+    icon="table"
+    href="/concepts/datasets"
+  >
+    Learn about dataset structure
+  </Card>
+  <Card
+    title="Search Datasets"
+    icon="magnifying-glass"
+    href="/tools/search-datasets"
+  >
+    Start searching for data
+  </Card>
+</CardGroup>

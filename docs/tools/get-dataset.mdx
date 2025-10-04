@@ -1,0 +1,102 @@
+---
+title: 'get_dataset'
+description: 'Retrieve data from a specific dataset with optional date filtering'
+---
+
+## Overview
+
+Fetches data from a dataset using its code. Supports date range filtering to get specific time periods.
+
+## Parameters
+
+<ParamField path="dataset_code" type="string" required>
+  Dataset code in format `DATABASE/DATASET` (e.g., `WORLDBANK/USA_NY.GDP.MKTP.CD`)
+</ParamField>
+
+<ParamField path="start_date" type="string" optional>
+  Start date in `YYYY-MM-DD` format. Only returns data from this date onwards.
+</ParamField>
+
+<ParamField path="end_date" type="string" optional>
+  End date in `YYYY-MM-DD` format. Only returns data up to this date.
+</ParamField>
+
+## Response
+
+Returns data in JSON format:
+
+```json
+{
+  "columns": ["Date", "Value"],
+  "index": [0, 1, 2],
+  "data": [
+    ["2023-01-01", 27360935000000],
+    ["2022-01-01", 25744100000000],
+    ["2021-01-01", 23315100000000]
+  ]
+}
+```
+
+## Examples
+
+### Get Full Dataset
+
+```python
+get_dataset(dataset_code="WORLDBANK/USA_NY.GDP.MKTP.CD")
+```
+
+### Get Data for Date Range
+
+```python
+get_dataset(
+    dataset_code="WIKI/AAPL",
+    start_date="2024-01-01",
+    end_date="2024-03-31"
+)
+```
+
+### Get Recent Data
+
+```python
+get_dataset(
+    dataset_code="NDAQ/RTAT",
+    start_date="2024-03-01"
+)
+```
+
+## Common Patterns
+
+<Tabs>
+  <Tab title="Quarterly Data">
+    ```python
+    get_dataset(
+        dataset_code="QOR/FS_MSFT",
+        start_date="2024-01-01",
+        end_date="2024-03-31"
+    )
+    ```
+  </Tab>
+
+  <Tab title="Annual Data">
+    ```python
+    get_dataset(
+        dataset_code="WORLDBANK/ITA_NY.GDP.MKTP.CD",
+        start_date="2020-01-01",
+        end_date="2023-12-31"
+    )
+    ```
+  </Tab>
+
+  <Tab title="Last 30 Days">
+    ```python
+    get_dataset(
+        dataset_code="NDAQ/RTAT",
+        start_date="2024-09-05"  # 30 days ago
+    )
+    ```
+  </Tab>
+</Tabs>
+
+<Card title="See Examples" icon="lightbulb" href="/examples/world-bank">
+  View real-world usage examples
+</Card>

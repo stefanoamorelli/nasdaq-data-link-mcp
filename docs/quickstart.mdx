@@ -1,0 +1,126 @@
+---
+title: 'Quickstart'
+description: 'Get started with Nasdaq Data Link MCP in under 5 minutes'
+---
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+<AccordionGroup>
+  <Accordion icon="python" title="Python 3.13+">
+    Install Python 3.13 or higher from [python.org](https://python.org)
+  </Accordion>
+  <Accordion icon="key" title="Nasdaq Data Link API Key">
+    Sign up at [data.nasdaq.com](https://data.nasdaq.com/) and get your free API key
+  </Accordion>
+  <Accordion icon="robot" title="MCP-Compatible Client">
+    Use [Claude Desktop](https://claude.ai/download) or [Groq Desktop](https://github.com/groq/groq-desktop-beta)
+  </Accordion>
+</AccordionGroup>
+
+## Installation
+
+<Steps>
+  <Step title="Clone the Repository">
+    ```bash
+    git clone https://github.com/stefanoamorelli/nasdaq-data-link-mcp.git
+    cd nasdaq-data-link-mcp
+    ```
+  </Step>
+
+  <Step title="Set Up Environment">
+    ```bash
+    cp .env.example .env
+    ```
+
+    Edit `.env` and add your credentials:
+    ```bash
+    NASDAQ_DATA_LINK_API_KEY=your_api_key_here
+    PYTHONPATH=/path/to/nasdaq-data-link-mcp
+    ```
+  </Step>
+
+  <Step title="Install the MCP Server">
+    ```bash
+    uv init mcp
+    uv add "mcp[cli]"
+    uv run mcp install nasdaq_data_link_mcp_os/server.py \
+      --env-file .env \
+      --name "Nasdaq Data Link MCP Server" \
+      --with nasdaq-data-link \
+      --with pycountry
+    ```
+  </Step>
+
+  <Step title="Verify Installation">
+    Open Claude Desktop and try asking:
+    ```
+    "What was the GDP of the United States in 2023?"
+    ```
+
+    Claude should automatically search for and retrieve the data!
+  </Step>
+</Steps>
+
+## First Query
+
+Once installed, you can ask Claude questions like:
+
+<CodeGroup>
+
+```text World Bank Data
+"What was Italy's GDP in 2022?"
+```
+
+```text Stock Data
+"Show me Apple stock prices for Q1 2024"
+```
+
+```text Fund Information
+"Find mutual funds with 'growth' in their name"
+```
+
+```text Retail Trading
+"What were the most actively traded retail stocks yesterday?"
+```
+
+</CodeGroup>
+
+Claude will automatically:
+1. Search for relevant datasets
+2. Fetch the data with appropriate filters
+3. Present the results in a clear format
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Learn Core Concepts"
+    icon="book"
+    href="/concepts/overview"
+  >
+    Understand databases, datasets, and how they work together
+  </Card>
+  <Card
+    title="Explore Tools"
+    icon="wrench"
+    href="/tools/search-datasets"
+  >
+    Deep dive into each of the 5 essential tools
+  </Card>
+  <Card
+    title="View Examples"
+    icon="lightbulb"
+    href="/examples/world-bank"
+  >
+    See real-world usage examples and best practices
+  </Card>
+  <Card
+    title="API Reference"
+    icon="code"
+    href="/api-reference/introduction"
+  >
+    Complete technical reference for all tools
+  </Card>
+</CardGroup>

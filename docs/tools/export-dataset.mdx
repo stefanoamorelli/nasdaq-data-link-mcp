@@ -1,0 +1,36 @@
+---
+title: 'export_dataset'
+description: 'Export dataset in CSV, JSON, or XML format'
+---
+
+## Overview
+
+Export dataset data in different formats for use in external applications.
+
+## Parameters
+
+<ParamField path="dataset_code" type="string" required>
+  Dataset code in format `DATABASE/DATASET`
+</ParamField>
+
+<ParamField path="output_format" type="string" default="csv">
+  Export format: `csv`, `json`, or `xml`
+</ParamField>
+
+<ParamField path="start_date" type="string" optional>
+  Start date in `YYYY-MM-DD` format
+</ParamField>
+
+<ParamField path="end_date" type="string" optional>
+  End date in `YYYY-MM-DD` format
+</ParamField>
+
+## Examples
+
+```python
+export_dataset(
+    dataset_code="WIKI/AAPL",
+    output_format="json",
+    start_date="2024-01-01"
+)
+```

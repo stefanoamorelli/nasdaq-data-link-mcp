@@ -1,0 +1,183 @@
+---
+title: 'Installation'
+description: 'Detailed installation guide for Nasdaq Data Link MCP'
+---
+
+## System Requirements
+
+- **Python:** 3.13 or higher
+- **Operating System:** macOS, Linux, or Windows
+- **MCP Client:** Claude Desktop, Groq Desktop, or any MCP-compatible client
+
+## Step-by-Step Installation
+
+### 1. Install Python Dependencies
+
+First, ensure you have `uv` installed for package management:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### 2. Clone and Configure
+
+```bash
+# Clone the repository
+git clone https://github.com/stefanoamorelli/nasdaq-data-link-mcp.git
+cd nasdaq-data-link-mcp
+
+# Create environment file
+cp .env.example .env
+```
+
+### 3. Get API Key
+
+<Steps>
+  <Step title="Sign Up">
+    Visit [data.nasdaq.com](https://data.nasdaq.com/) and create a free account
+  </Step>
+
+  <Step title="Get API Key">
+    Navigate to your account settings and copy your API key
+  </Step>
+
+  <Step title="Add to .env">
+    Edit `.env` and add:
+    ```bash
+    NASDAQ_DATA_LINK_API_KEY=your_actual_api_key_here
+    PYTHONPATH=/full/path/to/nasdaq-data-link-mcp
+    ```
+  </Step>
+</Steps>
+
+### 4. Install MCP Server
+
+```bash
+# Initialize MCP
+uv init mcp
+uv add "mcp[cli]"
+
+# Install the server
+uv run mcp install nasdaq_data_link_mcp_os/server.py \
+  --env-file .env \
+  --name "Nasdaq Data Link MCP Server" \
+  --with nasdaq-data-link \
+  --with pycountry
+```
+
+## Verify Installation
+
+### Run Tests
+
+```bash
+python -m pytest tests/ -v
+```
+
+All tests should pass. The test suite includes:
+- Basic functionality checks
+- Parameter validation
+- Error handling
+- Integration tests
+
+### Test in MCP Dev UI
+
+```bash
+mcp dev nasdaq_data_link_mcp_os/server.py --env-file .env
+```
+
+This opens a local UI where you can:
+- Test tools manually
+- Inspect responses
+- Debug issues
+
+### Test with Claude
+
+Open Claude Desktop and ask:
+
+```
+"List available databases on Nasdaq Data Link"
+```
+
+Claude should respond with a list of databases.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion icon="triangle-exclamation" title="API Key Not Found">
+    **Error:** `NASDAQ_DATA_LINK_API_KEY environment variable is not set`
+
+    **Solution:**
+    - Ensure `.env` file exists in project root
+    - Check that `NASDAQ_DATA_LINK_API_KEY` is set correctly
+    - Verify `--env-file .env` flag was used during installation
+  </Accordion>
+
+  <Accordion icon="triangle-exclamation" title="Module Import Errors">
+    **Error:** `ModuleNotFoundError: No module named 'nasdaq_data_link_mcp_os'`
+
+    **Solution:**
+    - Set `PYTHONPATH` in `.env` to your project directory
+    - Use absolute paths, not relative paths
+    - Restart Claude Desktop after changes
+  </Accordion>
+
+  <Accordion icon="triangle-exclamation" title="Connection Issues">
+    **Error:** Claude can't connect to the server
+
+    **Solution:**
+    - Restart Claude Desktop
+    - Check MCP server is installed: `mcp list`
+    - Verify server shows as "active"
+    - Check logs in Claude Desktop settings
+  </Accordion>
+
+  <Accordion icon="triangle-exclamation" title="Rate Limiting">
+    **Error:** `429 Too Many Requests`
+
+    **Solution:**
+    - Nasdaq Data Link has rate limits on free tier
+    - Wait a few minutes before retrying
+    - Consider upgrading your Nasdaq Data Link account
+  </Accordion>
+</AccordionGroup>
+
+## Updating
+
+To update to the latest version:
+
+```bash
+cd nasdaq-data-link-mcp
+git pull origin main
+python -m pytest tests/ -v  # Verify updates work
+```
+
+Restart Claude Desktop to use the updated version.
+
+## Uninstalling
+
+To remove the MCP server:
+
+```bash
+mcp uninstall "Nasdaq Data Link MCP Server"
+```
+
+Then delete the repository directory if desired.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Quickstart Guide"
+    icon="rocket"
+    href="/quickstart"
+  >
+    Learn how to use the server with example queries
+  </Card>
+  <Card
+    title="Core Concepts"
+    icon="book"
+    href="/concepts/overview"
+  >
+    Understand databases and datasets
+  </Card>
+</CardGroup>
