@@ -40,6 +40,11 @@
       "name": "PyPI",
       "icon": "python",
       "url": "https://pypi.org/project/nasdaq-data-link-mcp-os/"
+    },
+    {
+      "name": "LinkedIn",
+      "icon": "linkedin",
+      "url": "https://www.linkedin.com/in/stefanoamorelli/"
     }
   ],
   "navigation": [
@@ -79,6 +84,14 @@
       ]
     },
     {
+      "group": "Community",
+      "pages": [
+        "contributors",
+        "license",
+        "attribution"
+      ]
+    },
+    {
       "group": "API Reference",
       "pages": [
         "api-reference/introduction"
@@ -97,6 +110,6 @@
   ],
   "footerSocials": {
     "github": "https://github.com/stefanoamorelli/nasdaq-data-link-mcp",
-    "twitter": "https://twitter.com/stefanoamorelli"
+    "linkedin": "https://www.linkedin.com/in/stefanoamorelli/"
   }
 }
