@@ -8,7 +8,7 @@ from mcp.server.fastmcp import FastMCP
 from nasdaq_data_link_mcp_os.config import initialize_api
 from nasdaq_data_link_mcp_os.resources_registry import get_databases_resource
 
-mcp = FastMCP("NASDAQ Data Link", dependencies=["nasdaq-data-link"])
+mcp = FastMCP("NASDAQ Data Link MCP", dependencies=["nasdaq-data-link", "pycountry"])
 
 api_initialized = False
 if "pytest" not in sys.modules:
