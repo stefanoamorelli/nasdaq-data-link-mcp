@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/stefanoamorelli-nasdaq-data-link-mcp-badge.png)](https://mseep.ai/app/stefanoamorelli-nasdaq-data-link-mcp)
+
 <div align="center">
 
 # 📈 Nasdaq Data Link MCP 🤖
