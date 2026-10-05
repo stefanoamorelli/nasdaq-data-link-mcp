@@ -12,6 +12,7 @@ from pydantic import ConfigDict
 
 from nasdaq_data_link_mcp_os.tools import (
     core,
+    equities,
     nasdaq,
     sql,
 )
@@ -28,6 +29,7 @@ TOOLSETS: dict[str, Toolset] = {
         core,
         sql,
         nasdaq,
+        equities,
     )
 }
 ALWAYS_ON = ("core",)
