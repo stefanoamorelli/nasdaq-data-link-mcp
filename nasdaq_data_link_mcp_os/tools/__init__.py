@@ -14,8 +14,10 @@ from nasdaq_data_link_mcp_os.tools import (
     core,
     equities,
     funds,
+    macro,
     nasdaq,
     sql,
+    world_bank,
 )
 from nasdaq_data_link_mcp_os.tools._common import (
     READ_ONLY_LOCAL,
@@ -32,6 +34,8 @@ TOOLSETS: dict[str, Toolset] = {
         nasdaq,
         equities,
         funds,
+        world_bank,
+        macro,
     )
 }
 ALWAYS_ON = ("core",)

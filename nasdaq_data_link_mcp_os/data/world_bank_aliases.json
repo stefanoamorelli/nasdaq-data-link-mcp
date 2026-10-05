@@ -1,0 +1,66 @@
+{
+  "source": "Written for this project: common English names and abbreviations of World Bank economies and aggregates, on top of the names in wb_economies.json.",
+  "license": "MIT, as the rest of this repository.",
+  "aliases": {
+    "UK": "GBR",
+    "Britain": "GBR",
+    "Great Britain": "GBR",
+    "United States of America": "USA",
+    "South Korea": "KOR",
+    "North Korea": "PRK",
+    "Russia": "RUS",
+    "Turkey": "TUR",
+    "Ivory Coast": "CIV",
+    "EU": "EUU",
+    "Eurozone": "EMU",
+    "OECD": "OED",
+    "UAE": "ARE",
+    "Bahamas": "BHS",
+    "Gambia": "GMB",
+    "Egypt": "EGY",
+    "Iran": "IRN",
+    "Venezuela": "VEN",
+    "Yemen": "YEM",
+    "Hong Kong": "HKG",
+    "Macao": "MAC",
+    "Macau": "MAC",
+    "Laos": "LAO",
+    "Kyrgyzstan": "KGZ",
+    "Slovakia": "SVK",
+    "Czech Republic": "CZE",
+    "Syria": "SYR",
+    "Vietnam": "VNM",
+    "Micronesia": "FSM",
+    "Brunei": "BRN",
+    "Cape Verde": "CPV",
+    "East Timor": "TLS",
+    "Palestine": "PSE",
+    "Burma": "MMR",
+    "Macedonia": "MKD",
+    "Swaziland": "SWZ",
+    "Saint Kitts and Nevis": "KNA",
+    "Saint Lucia": "LCA",
+    "Saint Vincent and the Grenadines": "VCT",
+    "Saint Martin": "MAF",
+    "Sint Maarten": "SXM",
+    "US Virgin Islands": "VIR",
+    "DRC": "COD",
+    "Democratic Republic of the Congo": "COD",
+    "Republic of the Congo": "COG",
+    "XK": "XKX"
+  },
+  "ambiguous": {
+    "Korea": [
+      "KOR",
+      "PRK"
+    ],
+    "Congo": [
+      "COD",
+      "COG"
+    ],
+    "Virgin Islands": [
+      "VGB",
+      "VIR"
+    ]
+  }
+}
