@@ -1,0 +1,25 @@
+# Install once with `uv run pre-commit install`; run on demand with
+# `uv run pre-commit run --all-files`. Revisions are pinned to commit SHAs;
+# update them with `uv run pre-commit autoupdate --freeze` and keep the ruff
+# revision equal to the ruff version in uv.lock.
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: f12be1ebaa5351c1fc76472de98db2c3446c8253 # frozen: v0.16.10
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # frozen: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+        # Generated data files are written by scripts, not by hand.
+        exclude: ^nasdaq_data_link_mcp_os/data/
+      - id: end-of-file-fixer
+        exclude: ^nasdaq_data_link_mcp_os/data/
+      - id: check-yaml
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: detect-private-key

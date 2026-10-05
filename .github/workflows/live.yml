@@ -1,0 +1,64 @@
+name: Live API tests
+
+# Runs the tests marked `live` against the real Nasdaq Data Link API. They need
+# the repository secret NASDAQ_DATA_LINK_API_KEY (a free key is enough); without
+# it the job reports a notice and skips the test steps.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 5 * * 1" # Mondays 05:23 UTC
+
+permissions:
+  contents: read
+
+# A free key allows one running request at a time, so never overlap runs.
+concurrency:
+  group: live-api
+  cancel-in-progress: false
+
+env:
+  UV_VERSION: "0.12.23"
+  FORCE_COLOR: "1"
+
+jobs:
+  live:
+    name: Live tests
+    if: github.repository == 'stefanoamorelli/nasdaq-data-link-mcp' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check for the API key secret
+        id: key
+        env:
+          NASDAQ_DATA_LINK_API_KEY: ${{ secrets.NASDAQ_DATA_LINK_API_KEY }}
+        run: |
+          if [ -n "${NASDAQ_DATA_LINK_API_KEY}" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Live tests skipped::Set the NASDAQ_DATA_LINK_API_KEY repository secret to run them."
+          fi
+      - if: steps.key.outputs.present == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - if: steps.key.outputs.present == 'true'
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: ${{ env.UV_VERSION }}
+          python-version: "3.13"
+      - if: steps.key.outputs.present == 'true'
+        run: uv sync --locked
+      - name: pytest -m live
+        if: steps.key.outputs.present == 'true'
+        env:
+          NASDAQ_DATA_LINK_API_KEY: ${{ secrets.NASDAQ_DATA_LINK_API_KEY }}
+        run: uv run --no-sync pytest -m live -q -rs
+      # Runs even when pytest failed, so one run reports both. About 80 API
+      # calls: every tool through the installed console script over stdio.
+      - name: End-to-end over stdio
+        if: ${{ !cancelled() && steps.key.outputs.present == 'true' }}
+        env:
+          NASDAQ_DATA_LINK_API_KEY: ${{ secrets.NASDAQ_DATA_LINK_API_KEY }}
+        run: uv run --no-sync python scripts/live_e2e.py

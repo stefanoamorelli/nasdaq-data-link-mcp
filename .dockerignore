@@ -1,0 +1,10 @@
+# Allowlist: the build context holds only what the image needs, so local
+# secrets (.env, .secrets), VCS metadata and tool caches can never be copied in.
+*
+!pyproject.toml
+!uv.lock
+!README.md
+!LICENSE
+!nasdaq_data_link_mcp_os/
+nasdaq_data_link_mcp_os/**/__pycache__
+nasdaq_data_link_mcp_os/**/*.py[cod]
