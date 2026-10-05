@@ -1,68 +1,101 @@
 [build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
 
 [project]
 name = "nasdaq-data-link-mcp-os"
-version = "0.2.1"
-description = "Community maintained and open-source MCP server for the Nasdaq Data Link"
+version = "2.0.0"
+description = "Community-maintained, open-source MCP server for the Nasdaq Data Link Tables API (unofficial)"
 authors = [{ name = "Stefano Amorelli", email = "stefano@amorelli.tech" }]
 readme = "README.md"
-requires-python = ">=3.13"
-license = { file = "LICENSE" }
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["mcp", "model-context-protocol", "nasdaq", "data-link", "finance", "llm"]
 classifiers = [
-  "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: MIT License",
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Financial and Insurance Industry",
   "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Office/Business :: Financial",
 ]
-dependencies = ["mcp[cli]>=1.6.0", "nasdaq-data-link", "pycountry"]
+dependencies = [
+  "mcp>=2.3.0,<3",
+  "httpx2>=2.10.0",
+  "pydantic>=2.11",
+  "anyio>=4.5",
+  "python-dotenv>=1.0",
+]
 
 [project.optional-dependencies]
-test = ["pytest>=7.0", "pytest-mock", "pytest-cov"]
-dev = ["ruff", "mypy", "pre-commit"]
+cli = ["mcp[cli]>=2.3.0,<3"]
 
-[tool.setuptools]
-packages = ["nasdaq_data_link_mcp_os"]
+[project.scripts]
+nasdaq-data-link-mcp = "nasdaq_data_link_mcp_os.server:main"
+# Same entry point under the distribution name, so `uvx nasdaq-data-link-mcp-os`
+# (how the MCP Registry starts PyPI servers) finds an executable.
+nasdaq-data-link-mcp-os = "nasdaq_data_link_mcp_os.server:main"
 
 [project.urls]
-"Homepage" = "https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
+Homepage = "https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
+Repository = "https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
 "Bug Tracker" = "https://github.com/stefanoamorelli/nasdaq-data-link-mcp/issues"
+Changelog = "https://github.com/stefanoamorelli/nasdaq-data-link-mcp/blob/main/CHANGELOG.md"
+
+[dependency-groups]
+dev = [
+  "pytest>=9.1",
+  "pytest-cov>=7.1",
+  "ruff>=0.16",
+  "mypy>=2.4",
+  "pre-commit>=4.6",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["nasdaq_data_link_mcp_os"]
+
+[tool.hatch.build.targets.sdist]
+include = ["nasdaq_data_link_mcp_os", "tests", "README.md", "CHANGELOG.md", "LICENSE"]
 
 [tool.ruff]
 line-length = 88
-target-version = "py313"
+target-version = "py311"
+extend-exclude = ["*.md", "*.mdx", "docs"]
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "I", "N", "UP", "S", "B", "A", "C4", "T20"]
-ignore = ["E203"]
+select = ["E", "F", "W", "I", "N", "UP", "S", "B", "A", "C4", "T20", "ASYNC", "RUF"]
+ignore = ["E203", "RUF001", "RUF002", "RUF003"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["S101"]
+"tests/*" = ["S101", "S104", "S105", "S106"]
+"scripts/*" = ["T201", "S101"]
 
 [tool.mypy]
-python_version = "3.13"
+python_version = "3.11"
 warn_return_any = true
 warn_unused_configs = true
-disallow_untyped_defs = false  # Start lenient, can be made stricter later
+check_untyped_defs = true
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
-addopts = ["-v", "--tb=short"]
+addopts = ["-ra", "--strict-markers", "-m", "not live"]
+markers = [
+  "live: calls the real Nasdaq Data Link API (needs NASDAQ_DATA_LINK_API_KEY); run with -m live",
+]
 filterwarnings = [
-    "ignore::DeprecationWarning:pytest_asyncio.*",
+  "error",
+  "default::mcp.MCPDeprecationWarning",
+  "default::DeprecationWarning",
 ]
 
 [tool.coverage.run]
 source = ["nasdaq_data_link_mcp_os"]
-omit = ["tests/*"]
 
 [tool.coverage.report]
-exclude_lines = [
-    "pragma: no cover",
-    "def __repr__",
-    "raise AssertionError",
-    "raise NotImplementedError",
-]
+exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:", "raise NotImplementedError"]

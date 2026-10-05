@@ -1,14 +1,30 @@
-.aider*
+# Secrets and local configuration
 .env
 .secrets
+
+# Tools
+.aider*
+.venv/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
-uv.lock
-*.csv
+
+# Coverage
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
 
 # Distribution / packaging
 dist/
 build/
 *.egg-info/
 *.egg
+
+# Data exports
+*.csv

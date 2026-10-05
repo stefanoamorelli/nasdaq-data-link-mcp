@@ -1,26 +1,25 @@
-# Pull Request
+## What and why
 
-## Description
-Brief description of changes made.
+<!-- What does this change, and why is it needed? Link the issue if there is one. -->
 
-## Type of Change
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] Documentation update
-- [ ] Refactoring (no functional changes)
+## Type of change
 
-## Testing
-- [ ] Tests pass locally (`pytest tests/`)
-- [ ] New tests added for new functionality
-- [ ] Manual testing completed
+- [ ] Bug fix
+- [ ] New tool, toolset or catalog update
+- [ ] Breaking change (tool names, parameters, output shape or settings)
+- [ ] Documentation
+- [ ] CI, packaging or Docker
+- [ ] Refactoring (no behaviour change)
 
-## Checklist
-- [ ] Code follows project style guidelines
-- [ ] Self-review of code completed
-- [ ] Documentation updated (if applicable)
-- [ ] No breaking changes to existing functionality
-- [ ] Changes are backwards compatible
+## Checks
 
-## Additional Notes
-Any additional information about the changes.
+- [ ] `uv run pytest` passes (offline tests, no API key needed)
+- [ ] `uv run ruff check .` and `uv run ruff format --check .` pass
+- [ ] `uv run mypy nasdaq_data_link_mcp_os` passes
+- [ ] New or changed tools have offline tests (`tests/test_<toolset>.py`)
+- [ ] Live tests run with a real key, if the change touches API calls (`uv run pytest -m live`)
+- [ ] CHANGELOG.md updated for user-visible changes
+
+## Notes for reviewers
+
+<!-- Data caveats, access levels (free / sample / subscription), anything you could not test. -->

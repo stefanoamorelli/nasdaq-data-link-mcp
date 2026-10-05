@@ -1,0 +1,76 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stefanoamorelli/nasdaq-data-link-mcp",
+  "title": "Nasdaq Data Link (community)",
+  "description": "Unofficial server for the Nasdaq Data Link Tables API: equities, funds, macro, commodities, crypto",
+  "version": "2.0.0",
+  "websiteUrl": "https://github.com/stefanoamorelli/nasdaq-data-link-mcp",
+  "repository": {
+    "url": "https://github.com/stefanoamorelli/nasdaq-data-link-mcp",
+    "source": "github",
+    "id": "957599131"
+  },
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stefanoamorelli/nasdaq-data-link-mcp/main/nasdaq-mcp-server-logo.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "120x120"
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "nasdaq-data-link-mcp-os",
+      "version": "2.0.0",
+      "runtimeHint": "uvx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "NASDAQ_DATA_LINK_API_KEY",
+          "description": "Nasdaq Data Link API key. A free key (https://data.nasdaq.com/sign-up) reads the free tables and premium samples.",
+          "isRequired": true,
+          "isSecret": true,
+          "format": "string"
+        },
+        {
+          "name": "NDL_TOOLSETS",
+          "description": "Comma-separated toolsets to enable, or 'all' (the default). 'core' is always on; the README lists the toolsets.",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string",
+          "default": "all"
+        }
+      ]
+    },
+    {
+      "registryType": "oci",
+      "identifier": "docker.io/stefanoamorelli/nasdaq-data-link-mcp:2.0.0",
+      "runtimeHint": "docker",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "NASDAQ_DATA_LINK_API_KEY",
+          "description": "Nasdaq Data Link API key. A free key (https://data.nasdaq.com/sign-up) reads the free tables and premium samples.",
+          "isRequired": true,
+          "isSecret": true,
+          "format": "string"
+        },
+        {
+          "name": "NDL_TOOLSETS",
+          "description": "Comma-separated toolsets to enable, or 'all' (the default). 'core' is always on; the README lists the toolsets.",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string",
+          "default": "all"
+        }
+      ]
+    }
+  ]
+}

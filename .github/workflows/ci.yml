@@ -2,59 +2,142 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  UV_VERSION: "0.12.23"
+  FORCE_COLOR: "1"
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: ${{ env.UV_VERSION }}
+      - name: ruff check
+        run: uv run --locked --only-group dev ruff check --output-format=github .
+      - name: ruff format
+        run: uv run --locked --only-group dev ruff format --check --diff .
+
+  typecheck:
+    name: Type check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: ${{ env.UV_VERSION }}
+          python-version: "3.13"
+      - run: uv sync --locked
+      - name: mypy
+        run: uv run --no-sync mypy nasdaq_data_link_mcp_os scripts
+
   test:
-    runs-on: ubuntu-latest
+    name: Test (Python ${{ matrix.python-version }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ["3.13"]
-
+        os: [ubuntu-latest]
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
+        include:
+          - os: macos-latest
+            python-version: "3.13"
+          - os: windows-latest
+            python-version: "3.13"
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: ${{ env.UV_VERSION }}
+          python-version: ${{ matrix.python-version }}
+      - run: uv sync --locked
+      - name: pytest (offline; live tests are deselected by default)
+        run: uv run --no-sync pytest -q --cov --cov-report=xml --cov-report=term
+      - name: Upload coverage
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          files: ./coverage.xml
+          flags: unittests
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-
-    - name: Install uv
-      uses: astral-sh/setup-uv@v3
-      with:
-        version: "latest"
-
-    - name: Create virtual environment and install dependencies
-      run: |
-        uv venv
-        uv pip install -e ".[test]"
-
-    - name: Run tests
-      run: |
-        uv run pytest tests/ -v --tb=short
-
-    - name: Test import functionality
-      run: |
-        uv run python -c "from nasdaq_data_link_mcp_os.server import mcp; print(f'Server name: {mcp.name}')"
-
-  security:
+  build:
+    name: Build distributions
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: ${{ env.UV_VERSION }}
+      - run: uv build
+      - name: twine check
+        run: uvx twine@7.0.0 check --strict dist/*
+      - name: Check the wheel ships the bundled data
+        run: |
+          python3 - <<'EOF'
+          import glob, zipfile
+          wheel = glob.glob("dist/*.whl")[0]
+          names = set(zipfile.ZipFile(wheel).namelist())
+          required = {"nasdaq_data_link_mcp_os/data/catalog.json"}
+          missing = sorted(required - names)
+          if missing:
+              raise SystemExit(f"{wheel} is missing {missing}")
+          print(f"{wheel}: {len(names)} files, bundled data present")
+          EOF
+      - name: Run the console script from the wheel
+        shell: bash
+        run: uvx --from "$(ls dist/*.whl)" nasdaq-data-link-mcp --version
 
-    - name: Run Trivy vulnerability scanner
-      uses: aquasecurity/trivy-action@master
-      with:
-        scan-type: 'fs'
-        scan-ref: '.'
-        format: 'sarif'
-        output: 'trivy-results.sarif'
-
-    - name: Upload Trivy scan results to GitHub Security tab
-      uses: github/codeql-action/upload-sarif@v3
-      with:
-        sarif_file: 'trivy-results.sarif'
+  docker:
+    name: Docker image
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build
+        run: docker build --pull --tag nasdaq-data-link-mcp:ci .
+      - name: Smoke test over stdio (no API key)
+        run: >-
+          python3 .github/scripts/mcp_stdio_smoke.py
+          --expect-tool ndl_search_tables --expect-tool ndl_describe_table
+          --expect-tool ndl_query_table --expect-tool ndl_check_api_status
+          --call ndl_search_tables --arguments '{"query": "WB/DATA", "limit": 1}'
+          -- docker run --rm -i nasdaq-data-link-mcp:ci
+      - name: Check the image runs as non-root and holds no local files
+        run: |
+          docker run --rm --entrypoint sh nasdaq-data-link-mcp:ci -c '
+            set -eu
+            if [ "$(id -u)" = 0 ]; then echo "image runs as root"; exit 1; fi
+            leaks=$(find / -xdev \( -name .env -o -name .secrets -o -name .git \
+              -o -name .claude -o -name ".aider*" -o -name uv.lock \) -print 2>/dev/null || true)
+            if [ -n "$leaks" ]; then echo "unexpected files in image:"; echo "$leaks"; exit 1; fi
+            echo "uid=$(id -u), no stray files"
+          '
