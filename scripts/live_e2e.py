@@ -433,7 +433,7 @@ def secret_forms(key: str) -> dict[str, str]:
     return {name: value for name, value in forms.items() if len(value) >= 8}
 
 
-def find_secrets(text: str, secrets: dict[str, str]) -> list[str]:
+def leaked_forms(text: str, secrets: dict[str, str]) -> list[str]:
     # Log handlers wrap long lines, so also search with all whitespace removed.
     squashed = re.sub(r"\s+", "", text)
     return sorted(
@@ -750,13 +750,13 @@ async def run(args: argparse.Namespace, key: str, errlog: TextIO) -> Report:
 
 def finish(report: Report, stderr_text: str, json_path: Path | None) -> int:
     calls = stderr_text.count("HTTP Request:")
-    leaks = find_secrets("\n".join(report.transcript), report.secrets)
+    leaks = leaked_forms("\n".join(report.transcript), report.secrets)
     report.add(
         "API key absent from responses",
         not leaks,
         f"forms found: {leaks}" if leaks else f"{len(report.transcript)} responses",
     )
-    leaks = find_secrets(stderr_text, report.secrets)
+    leaks = leaked_forms(stderr_text, report.secrets)
     report.add(
         "API key absent from server stderr",
         not leaks,
@@ -838,7 +838,7 @@ def main() -> None:
         args.command = args.command[1:]
     key = os.environ.get(API_KEY_ENV, "").strip()
     if not key:
-        print(f"{API_KEY_ENV} is not set; this script needs a real key.")
+        print("NASDAQ_DATA_LINK_API_KEY is not set; this script needs a real key.")
         raise SystemExit(2)
 
     with tempfile.TemporaryFile("w+", encoding="utf-8") as errlog:
