@@ -11,6 +11,7 @@ from mcp.server.mcpserver.utilities.func_metadata import ArgModelBase
 from pydantic import ConfigDict
 
 from nasdaq_data_link_mcp_os.tools import (
+    commodities,
     core,
     equities,
     funds,
@@ -36,6 +37,7 @@ TOOLSETS: dict[str, Toolset] = {
         funds,
         world_bank,
         macro,
+        commodities,
     )
 }
 ALWAYS_ON = ("core",)
