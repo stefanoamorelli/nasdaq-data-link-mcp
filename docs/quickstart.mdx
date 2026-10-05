@@ -1,0 +1,147 @@
+---
+title: "Quick start"
+description: "Get a free API key and add the server to Claude Desktop, Claude Code, Cursor, VS Code or Docker."
+---
+
+<Steps>
+  <Step title="Get an API key">
+    Create a free account at [data.nasdaq.com/sign-up](https://data.nasdaq.com/sign-up).
+    The API key is shown in your account settings. A free key reads the free
+    tables and the samples of premium tables; see [access levels](/access-levels).
+  </Step>
+  <Step title="Install uv">
+    The server is published on PyPI as `nasdaq-data-link-mcp-os`.
+    [uv](https://docs.astral.sh/uv/getting-started/installation/)'s `uvx`
+    command runs it without a separate install. Check that it works:
+
+    ```bash
+    uvx nasdaq-data-link-mcp-os --version
+    ```
+  </Step>
+  <Step title="Add the server to your client">
+    Use one of the configurations below, then restart the client.
+  </Step>
+  <Step title="Try it">
+    Ask "Check my Nasdaq Data Link API status." The `ndl_check_api_status` tool
+    reports whether the key works and how many calls it has left today.
+  </Step>
+</Steps>
+
+## Claude Desktop
+
+Open Settings > Developer > Edit Config and add the server to
+`claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "nasdaq-data-link": {
+      "command": "uvx",
+      "args": ["nasdaq-data-link-mcp-os"],
+      "env": {
+        "NASDAQ_DATA_LINK_API_KEY": "your_api_key"
+      }
+    }
+  }
+}
+```
+
+If Claude Desktop cannot start `uvx`, use the absolute path that `which uvx`
+prints: apps started from the dock do not see your shell's `PATH`.
+
+## Claude Code
+
+```bash
+claude mcp add nasdaq-data-link -e NASDAQ_DATA_LINK_API_KEY=your_api_key -- uvx nasdaq-data-link-mcp-os
+```
+
+Add `--scope user` to make it available in every project.
+
+## Cursor
+
+Put the same `mcpServers` block as for Claude Desktop in `~/.cursor/mcp.json`
+(all projects) or `.cursor/mcp.json` (one project).
+
+## VS Code
+
+Create `.vscode/mcp.json` in your workspace. VS Code asks for the key on first
+start and stores it:
+
+```json
+{
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "ndl-api-key",
+      "description": "Nasdaq Data Link API key",
+      "password": true
+    }
+  ],
+  "servers": {
+    "nasdaq-data-link": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["nasdaq-data-link-mcp-os"],
+      "env": {
+        "NASDAQ_DATA_LINK_API_KEY": "${input:ndl-api-key}"
+      }
+    }
+  }
+}
+```
+
+## Docker
+
+The image `stefanoamorelli/nasdaq-data-link-mcp` (linux/amd64 and
+linux/arm64) runs the same server over stdio as a non-root user. Release tags
+have no `v` prefix: `2.0.0`, `2.0`, `2` and `latest`.
+
+```json
+{
+  "mcpServers": {
+    "nasdaq-data-link": {
+      "command": "docker",
+      "args": [
+        "run", "--rm", "-i",
+        "-e", "NASDAQ_DATA_LINK_API_KEY",
+        "stefanoamorelli/nasdaq-data-link-mcp:2"
+      ],
+      "env": {
+        "NASDAQ_DATA_LINK_API_KEY": "your_api_key"
+      }
+    }
+  }
+}
+```
+
+`-e NASDAQ_DATA_LINK_API_KEY` without a value passes the variable from the
+client's environment into the container, so the key does not appear in the
+`docker run` arguments. Other [settings](/configuration) work the same way:
+add `"-e", "NDL_TOOLSETS"` to `args` and the value to `env`.
+
+<Note>
+  The server is also listed in the Docker MCP Catalog as
+  [nasdaq-data-link](https://hub.docker.com/mcp/server/nasdaq-data-link/overview)
+  (image `mcp/nasdaq-data-link`). Docker builds that image from a commit pinned
+  in [docker/mcp-registry](https://github.com/docker/mcp-registry/tree/main/servers/nasdaq-data-link).
+  Until the pin moves to a 2.x release, the catalog image runs the five pre-2.0
+  tools, which no longer work; use the image above in the meantime.
+</Note>
+
+## From a checkout
+
+```bash
+git clone https://github.com/stefanoamorelli/nasdaq-data-link-mcp.git
+cd nasdaq-data-link-mcp
+uv sync
+uv run nasdaq-data-link-mcp --version
+```
+
+In the client configuration, use `"command": "uv"` and
+`"args": ["--directory", "/absolute/path/to/nasdaq-data-link-mcp", "run", "nasdaq-data-link-mcp"]`.
+
+## Load fewer tools
+
+All 11 toolsets are loaded by default. To give the model fewer tools to choose
+from, set `NDL_TOOLSETS` in the `env` block, for example
+`"NDL_TOOLSETS": "equities,world_bank"`. The `core` toolset is always loaded.

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Nasdaq Data Link MCP (community)",
+  "description": "Unofficial, open-source MCP server for the Nasdaq Data Link Tables API.",
+  "colors": {
+    "primary": "#0D9373"
+  },
+  "banner": {
+    "content": "Community project, not affiliated with Nasdaq, Inc. For Nasdaq's own MCP server, see [Official Nasdaq MCP server](/official-mcp).",
+    "dismissible": true
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "PyPI",
+        "href": "https://pypi.org/project/nasdaq-data-link-mcp-os/"
+      }
+    ],
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
+    }
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get started",
+        "pages": [
+          "introduction",
+          "quickstart",
+          "configuration",
+          "access-levels",
+          "migration",
+          "official-mcp"
+        ]
+      },
+      {
+        "group": "Tools",
+        "pages": [
+          "tools/overview",
+          "tools/core",
+          "tools/sql",
+          "tools/nasdaq",
+          "tools/equities",
+          "tools/funds",
+          "tools/world_bank",
+          "tools/macro",
+          "tools/commodities",
+          "tools/crypto",
+          "tools/housing",
+          "tools/carbon"
+        ]
+      },
+      {
+        "group": "Help",
+        "pages": [
+          "troubleshooting",
+          "development"
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
+    }
+  }
+}

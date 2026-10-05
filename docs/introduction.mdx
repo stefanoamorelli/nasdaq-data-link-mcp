@@ -1,0 +1,78 @@
+---
+title: "Introduction"
+description: "An unofficial, open-source MCP server for the Nasdaq Data Link Tables API."
+---
+
+<Warning>
+  This is a community project. It is not affiliated with, endorsed by or
+  supported by Nasdaq, Inc. Nasdaq® is a registered trademark of Nasdaq, Inc.
+  Nasdaq runs its own MCP server; see [Official Nasdaq MCP server](/official-mcp).
+</Warning>
+
+Nasdaq Data Link MCP is a [Model Context Protocol](https://modelcontextprotocol.io)
+server for the [Nasdaq Data Link](https://data.nasdaq.com) Tables API. It runs
+next to your MCP client (Claude Desktop, Claude Code, Cursor, VS Code and
+others) with your own API key, and gives the model 38 read-only tools. A free
+Nasdaq Data Link API key is enough for most of them.
+
+## What it covers
+
+| Toolset | Data |
+|---|---|
+| [core](/tools/core) | Search over a bundled catalog of Nasdaq Data Link tables, table schemas, queries on any table, CSV exports, an API key check. Always on. |
+| [sql](/tools/sql) | DataLink SQL (Trino) for rankings, aggregates and joins on Nasdaq's side. |
+| [nasdaq](/tools/nasdaq) | Retail trading activity (RTAT), ticker symbol changes, Equities 360. |
+| [equities](/tools/equities) | US equities from Sharadar and Zacks: tickers, fundamentals, prices, valuation, corporate actions, S&P 500 membership, insider trades, 8-K events, analyst estimates. |
+| [funds](/tools/funds) | Nasdaq Fund Network mutual fund reports: fees, returns, holdings, managers. |
+| [world_bank](/tools/world_bank) | World Bank World Development Indicators. |
+| [macro](/tools/macro) | IMF World Economic Outlook (April 2023) and ICE BofA corporate bond indices. |
+| [commodities](/tools/commodities) | CFTC Commitments of Traders, JODI oil and gas, OPEC basket price, LME warehouse stocks, USDA WASDE. |
+| [crypto](/tools/crypto) | Bitfinex daily prices and Bitcoin network metrics. |
+| [housing](/tools/housing) | Zillow home values, rents, inventory and sales for US regions. |
+| [carbon](/tools/carbon) | Puro.earth carbon removal certificates (CORCs). |
+
+The [tools overview](/tools/overview) lists every tool with its main
+parameters and what a free key gets from it.
+
+## How it works
+
+- **Catalog.** Nasdaq Data Link has no search endpoint, so the server ships a
+  short list of tables: the ones its tools read plus every free table. For
+  each it records a one-line description written for this project, the
+  filters and what a free key receives: the full data, a fixed sample, or
+  nothing. `ndl_search_tables` searches it and names the typed tool for a
+  table when there is one; the generic tools read any table, listed or not.
+  See [access levels](/access-levels).
+- **Typed tools.** Most tools wrap one dataset: they resolve names (a company,
+  a country, a futures market, a ZIP code) to the codes the table uses, apply
+  filters Nasdaq cannot apply itself, return rows in a meaningful order
+  (usually newest first) and say where the data ends.
+- **Generic tools.** `ndl_describe_table`, `ndl_query_table`,
+  `ndl_export_table` and `ndl_sql_query` read any table your key can access.
+- **Results.** Each result is compact JSON with structured content: `columns`,
+  `rows` aligned with them, `has_more`, `refreshed_at`, the table's `access`
+  level and `notes` with caveats (sample data, a table Nasdaq no longer
+  updates). Rows are capped by `limit` and by a response-size budget.
+- **Errors.** Error messages start with a label, such as `[AUTH]`,
+  `[RATE_LIMIT]` or `[SUBSCRIPTION]`, and say what to do next. See
+  [troubleshooting](/troubleshooting).
+
+## What changed in 2.0
+
+Version 2.0 is a rewrite. Nasdaq retired the time-series API (the
+`datasets`/`databases` endpoints and codes such as `WIKI/AAPL` or `FRED/GDP`),
+which the five tools of the previous `main` branch called, so every call
+failed. 2.0 is built on the Tables API and MCP SDK 2.x, needs Python 3.11 or
+newer, and renames every tool with an `ndl_` prefix. [Migrating](/migration)
+maps the old tools to the new ones.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Quick start" icon="rocket" href="/quickstart">
+    Get a free key and add the server to your MCP client.
+  </Card>
+  <Card title="Configuration" icon="sliders" href="/configuration">
+    Environment variables, command-line options and HTTP mode.
+  </Card>
+</CardGroup>

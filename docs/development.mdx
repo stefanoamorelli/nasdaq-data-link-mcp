@@ -1,0 +1,88 @@
+---
+title: "Development"
+description: "Set up a checkout, run the tests, regenerate the tool reference, and release."
+---
+
+## Setup
+
+```bash
+git clone https://github.com/stefanoamorelli/nasdaq-data-link-mcp.git
+cd nasdaq-data-link-mcp
+uv sync                                    # runtime and dev dependencies in .venv
+uv run pytest                              # offline tests; no API key needed
+uv run ruff check . && uv run ruff format --check .
+uv run mypy nasdaq_data_link_mcp_os scripts
+uv run python scripts/generate_tool_docs.py   # after changing a tool, prompt or the catalog
+uv run pre-commit install                  # ruff and file checks on every commit
+```
+
+The offline tests run every tool against a fake Nasdaq API, so they need no
+key and no network.
+
+## Live tests
+
+`uv run pytest -m live` runs the tests marked `live` against the real API. They
+need `NASDAQ_DATA_LINK_API_KEY` (a free key is enough), make a little under
+200 API calls and take a few minutes. A free key allows one request at a time,
+so do not run them while another client uses the same key. The `live.yml`
+workflow runs them weekly when the repository has the key as a secret.
+
+## Generated reference
+
+`scripts/generate_tool_docs.py` builds the server, lists its tools, prompts and
+resources through an MCP client, and writes:
+
+- the tool, free-table and prompt tables in `README.md`;
+- `docs/tools/overview.mdx` and one page per toolset in `docs/tools/`;
+- the free-table list in `docs/access-levels.mdx`;
+- the Tools group of `docs/docs.json`.
+
+CI runs `uv run python scripts/generate_tool_docs.py --check`, which fails
+when any of these is out of date. Edit tool descriptions in the code, not in
+the generated files.
+
+## Catalog
+
+`nasdaq_data_link_mcp_os/data/catalog.json` lists the tables the tools read
+plus every table a free key reads in full, one table per line. Names,
+descriptions and notes are written for this project: no text copied from
+Nasdaq or vendor pages, no column lists, and no values read from sample rows
+(tickers, identifiers, row counts, exact sample dates). The loader rejects
+fields outside that shape. `scripts/refresh_catalog.py` revalidates access
+levels, filters, primary keys and refresh times against the documented
+Tables API with a free key (two calls per table); run
+`uv run python scripts/refresh_catalog.py --help` for the options, then
+regenerate the reference.
+
+## Documentation site
+
+This site uses [Mintlify](https://mintlify.com). Preview it from the `docs/`
+directory:
+
+```bash
+cd docs
+npx mint dev
+```
+
+`npx mint broken-links` checks the internal links.
+
+## Adding a toolset
+
+See [CONTRIBUTING.md](https://github.com/stefanoamorelli/nasdaq-data-link-mcp/blob/main/CONTRIBUTING.md):
+a toolset is a module in `nasdaq_data_link_mcp_os/tools/` with plain functions
+and a `TOOLSET` of `ToolSpec` entries that name the tables each tool reads.
+
+## Releasing
+
+1. Set the new version in `pyproject.toml` and `server.json` (its `version`,
+   the PyPI package `version`, and the tag of the OCI image identifier), run
+   `uv lock`, and replace `Unreleased` in the version's `CHANGELOG.md` heading
+   with the release date.
+2. Check that the versions agree:
+   `uv run python .github/scripts/check_release_version.py vX.Y.Z`.
+3. Merge to `main` and publish a GitHub release whose tag is `vX.Y.Z`.
+
+Publishing the release starts `publish_pypi.yml` (PyPI through Trusted
+Publishing, then the MCP Registry) and `docker-publish.yml` (Docker Hub tags
+`X.Y.Z`, `X.Y`, `X` and `latest`). The repository README describes the
+one-time setup of the `pypi` and `dockerhub` environments.

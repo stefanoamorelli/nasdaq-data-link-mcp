@@ -1,0 +1,73 @@
+---
+title: "Migrating to 2.0"
+description: "Which 2.0 tool replaces each tool of earlier versions."
+---
+
+Nasdaq retired the time-series API (the `datasets`/`databases` endpoints and
+codes such as `WIKI/AAPL` or `FRED/GDP`). Version 2.0 rebuilds the server on
+the Tables API and MCP SDK 2.x and renames every tool with an `ndl_` prefix.
+The [changelog](https://github.com/stefanoamorelli/nasdaq-data-link-mcp/blob/main/CHANGELOG.md)
+lists every change.
+
+## Tools from PR #16
+
+The five tools on `main` since October 2025, which the Docker MCP Catalog
+image also runs, called the retired API, so every call failed.
+
+| Old tool | Use instead |
+|---|---|
+| `search_datasets` | `ndl_search_tables` (searches the bundled catalog) |
+| `get_dataset` | `ndl_query_table` with a `VENDOR/TABLE` code, or a typed tool |
+| `get_dataset_metadata` | `ndl_describe_table` |
+| `list_databases` | `ndl_search_tables` with `vendor`, or the `ndl://catalog` resource |
+| `export_dataset` | `ndl_export_table` (returns a zipped CSV link) |
+| resource `nasdaq://databases` | resource `ndl://catalog` |
+
+## Tools from 0.x and 1.0
+
+These shipped in PyPI 0.2.0 and the Docker image `v0.2.1`.
+
+| Old tool | Use instead |
+|---|---|
+| `get_rtat10`, `get_rtat` | `ndl_get_retail_trading_activity` with `dataset="rtat10"` or `"rtat"` |
+| `get_indicator_value` | `ndl_get_world_bank_data` |
+| `list_worldbank_indicators`, `search_worldbank_indicators` | `ndl_search_world_bank_indicators` |
+| `country_code` | not needed: `countries` takes names, ISO2/ISO3 codes and aggregates |
+| `get_stock_stats` | `ndl_get_equities360` with `dataset="statistics"` |
+| `get_fundamental_data` | `ndl_get_equities360` with `dataset="fundamentals_summary"` |
+| `get_detailed_financials` | `ndl_get_equities360` with `dataset="fundamentals_details"` |
+| `get_balance_sheet_data` | `ndl_get_equities360` with `dataset="balance_sheet"` |
+| `get_cash_flow_data` | `ndl_get_equities360` with `dataset="cash_flow"` |
+| `get_corporate_action_data` | `ndl_get_equities360` with `dataset="corporate_actions"` |
+| `get_company_reference_data` | `ndl_get_equities360` with `dataset="reference_data"` |
+| `list_stock_stat_fields` and the six other `list_*_fields` tools | `ndl_describe_table` with the table code, e.g. `NDAQ/STAT` |
+| `get_trade_summary_data` | `ndl_query_table` on `NDAQ/TS` (subscription only) |
+| `get_fund_master_report` | `ndl_search_mutual_funds`, or `ndl_get_mutual_fund_report` with `report="fund_master"` |
+| `get_fund_information` | `ndl_get_mutual_fund_report` with `report="fund_info"` |
+| `get_share_class_master` | `ndl_get_mutual_fund_report` with `report="share_classes"` |
+| `get_share_class_information` | `ndl_get_mutual_fund_report` with `report="fees"` (NFN/MFRSI) |
+| `get_price_history` | `ndl_get_mutual_fund_report` with `report="holdings"`: it read NFN/MFRPH, which holds portfolio holdings, not prices |
+| `get_recent_price_history` | `ndl_get_mutual_fund_report` with `report="top_holdings"` (NFN/MFRPH10, top 10 holdings) |
+| `get_performance_statistics` | `ndl_get_mutual_fund_report` with `report="pricing"` (NFN/MFRPS) |
+| `get_performance_benchmark` | `ndl_get_mutual_fund_report` with `report="benchmarks"` (it read NFN/MFRPRB, which does not exist; benchmarks are NFN/MFRPB) |
+| `get_performance_analytics` | `ndl_get_mutual_fund_report` with `report="performance"` (NFN/MFRPA) |
+| `get_fees_and_expenses` | `ndl_get_mutual_fund_report` with `report="fees"`; the old tool read NFN/MFRPM, which is `report="managers"` |
+| `get_monthly_flows` | `ndl_get_mutual_fund_report` with `report="flows"` (subscription only) |
+
+Equities 360 needs a paid subscription. With a free key, use
+`ndl_search_tickers`, `ndl_get_fundamentals` and `ndl_get_stock_prices`, which
+read Sharadar's free ticker list and samples.
+
+## Other changes
+
+- No more `mcp install nasdaq_data_link_mcp_os/server.py` or `PYTHONPATH`:
+  run the published package with `uvx nasdaq-data-link-mcp-os`, or the
+  `nasdaq-data-link-mcp` command from a checkout. See the [quick start](/quickstart).
+- Python 3.11 or newer, MCP SDK 2.x. The `nasdaq-data-link` SDK and
+  `pycountry` are no longer dependencies.
+- Docker tags drop the `v`: a release `2.0.0` is tagged `2.0.0`, `2.0`, `2`
+  and `latest`.
+- The conda package is gone; it shipped an empty package.
+- Unknown tool arguments are rejected instead of ignored: a misspelled
+  parameter fails with a validation error ("Extra inputs are not permitted")
+  rather than returning unfiltered data.

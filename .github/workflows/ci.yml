@@ -33,6 +33,8 @@ jobs:
         run: uv run --locked --only-group dev ruff check --output-format=github .
       - name: ruff format
         run: uv run --locked --only-group dev ruff format --check --diff .
+      - name: Generated tool docs are up to date
+        run: uv run --locked --no-dev python scripts/generate_tool_docs.py --check
 
   typecheck:
     name: Type check

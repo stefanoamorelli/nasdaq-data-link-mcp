@@ -1,0 +1,102 @@
+---
+title: "Configuration"
+description: "Environment variables, command-line options, .env files and HTTP mode."
+---
+
+## Environment variables
+
+Every setting is an environment variable, so it can go in the `env` block of
+the client configuration. Invalid values stop the server at startup with
+`Invalid configuration: ...`.
+
+| Variable | Default | Values | Effect |
+|---|---|---|---|
+| `NASDAQ_DATA_LINK_API_KEY` | none | your key | Required for every tool that calls Nasdaq. Without it, `ndl_search_tables` still answers (it works offline), `ndl_check_api_status` reports the missing key, and the other tools fail with `[AUTH]`. |
+| `NDL_TOOLSETS` | `all` | comma-separated toolset names, or `all` | Toolsets to load: `core`, `sql`, `nasdaq`, `equities`, `funds`, `world_bank`, `macro`, `commodities`, `crypto`, `housing`, `carbon`. `core` is always loaded. |
+| `NDL_BASE_URL` | `https://data.nasdaq.com` | an `https://` origin, no path | Where requests, and the API key, are sent. Read only from the real environment, never from a `.env` file. |
+| `NDL_TIMEOUT_SECONDS` | `30` | 1 or more | Timeout for one HTTP request. |
+| `NDL_SQL_TIMEOUT_SECONDS` | `50` | 5 or more | How long a DataLink SQL statement may run before it is cancelled. |
+| `NDL_TOOL_DEADLINE_SECONDS` | `50` | 5 or more | Limit for a whole tool call, retries included; below the 60 s request timeout many clients use. |
+| `NDL_MAX_RETRIES` | `3` | 0 to 10 | Retries after rate limits and transient errors. |
+| `NDL_MAX_CONCURRENCY` | `1` | 1 to 5 | Requests in flight at once. Free keys allow 1, premium keys up to 5. |
+| `NDL_CACHE_TTL_SECONDS` | `300` | 0 or more | How long data pages stay cached; 0 disables the cache. |
+| `NDL_METADATA_CACHE_TTL_SECONDS` | `21600` | 0 or more | How long table metadata stays cached (6 hours). |
+| `NDL_DEFAULT_LIMIT` | `100` | 1 to 1000 | Rows returned when a call gives no `limit` (capped at `NDL_MAX_LIMIT`). A few tools have their own default, such as 52 weeks for COT reports. |
+| `NDL_MAX_LIMIT` | `1000` | 1 to 1000 | Upper bound for any `limit`. |
+| `NDL_MAX_RESPONSE_BYTES` | `100000` | 5000 to 5000000 | Size budget for one result; rows beyond it are dropped and `has_more` is set. 100 kB of compact JSON is roughly 25,000 to 35,000 tokens. |
+| `NDL_LOG_LEVEL` | `WARNING` | `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL` | Log level; logs go to stderr. |
+| `NDL_HTTP_TOKEN` | none | any string | Bearer token for the HTTP transports. Required when binding anything but loopback. |
+| `NDL_ALLOWED_HOSTS` | none | comma-separated host names | Host names the HTTP transports accept. See [HTTP mode](#http-mode). |
+
+## Command-line options
+
+The package installs two equivalent commands, `nasdaq-data-link-mcp` and
+`nasdaq-data-link-mcp-os` (the second matches the package name, so
+`uvx nasdaq-data-link-mcp-os` works).
+
+| Option | Default | Effect |
+|---|---|---|
+| `--transport {stdio,streamable-http,sse}` | `stdio` | Transport. |
+| `--host HOST` | `127.0.0.1` | Bind address for the HTTP transports. Any other address requires `NDL_HTTP_TOKEN`. |
+| `--port PORT` | `8000` | Port for the HTTP transports. |
+| `--toolsets LIST` | `NDL_TOOLSETS`, else all | Comma-separated toolsets; overrides `NDL_TOOLSETS`. |
+| `--env-file PATH` | `./.env` | Read the API key and `NDL_*` settings from this file. The server exits if it does not exist. |
+| `--version` | | Print the version and exit. |
+
+## .env files
+
+At startup the server reads `.env` from its working directory, not from parent
+directories, or the file given with `--env-file`. It takes
+`NASDAQ_DATA_LINK_API_KEY` and `NDL_*` variables from it, except
+`NDL_BASE_URL`, and variables already set in the environment win. MCP clients
+often start servers in a directory you did not choose, so put settings in the
+client's `env` block or pass `--env-file` with an absolute path. The
+repository's `.env.example` lists every variable.
+
+## HTTP mode
+
+stdio is the default and needs no network port. To share one server between
+clients, or run it on another machine, use Streamable HTTP (or SSE for older
+clients):
+
+```bash
+NASDAQ_DATA_LINK_API_KEY=your_api_key uvx nasdaq-data-link-mcp-os --transport streamable-http
+```
+
+This listens on `http://127.0.0.1:8000/mcp` (SSE: `--transport sse`, endpoint
+`/sse`). On loopback no token is needed, and requests whose `Host` header is
+not a loopback name are rejected with HTTP 421, which blocks DNS-rebinding
+attacks from web pages.
+
+Every tool call spends your API key's quota, and the HTTP transports have no
+user accounts, so any other bind address requires a token:
+
+```bash
+export NDL_HTTP_TOKEN="$(openssl rand -hex 32)"
+uvx nasdaq-data-link-mcp-os --transport streamable-http --host 0.0.0.0 --port 8000
+```
+
+Without `NDL_HTTP_TOKEN` the server refuses to start. Clients send
+`Authorization: Bearer <token>`; anything else gets HTTP 401. With Claude Code:
+
+```bash
+claude mcp add --transport http nasdaq-data-link http://127.0.0.1:8000/mcp --header "Authorization: Bearer $NDL_HTTP_TOKEN"
+```
+
+When clients reach the server under a public name, for example behind a
+reverse proxy, set `NDL_ALLOWED_HOSTS=mcp.example.com` (comma-separated) to
+check the `Host` and `Origin` headers against that list. The list replaces the
+default, so include `127.0.0.1` or `localhost` if local clients connect
+directly. On a non-loopback bind without `NDL_ALLOWED_HOSTS`, host checks are
+off and the token is the only control. The server speaks plain HTTP; put a TLS
+proxy in front of it for anything beyond your own machine.
+
+With Docker, the server has to bind `0.0.0.0` inside the container, so it needs
+a token; publish the port on loopback only:
+
+```bash
+docker run --rm -p 127.0.0.1:8000:8000 \
+  -e NASDAQ_DATA_LINK_API_KEY -e NDL_HTTP_TOKEN \
+  stefanoamorelli/nasdaq-data-link-mcp:2 \
+  --transport streamable-http --host 0.0.0.0
+```

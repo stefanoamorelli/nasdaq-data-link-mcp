@@ -1,8 +1,0 @@
-title: Nasdaq Data Link MCP
-description: MCP server for accessing Nasdaq Data Link financial and economic datasets
-repository: stefanoamorelli/nasdaq-data-link-mcp
-author: Stefano Amorelli
-theme: jekyll-theme-cayman
-
-show_downloads: true
-google_analytics:
