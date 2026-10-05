@@ -1,207 +1,139 @@
-# Contributing to Nasdaq Data Link MCP
+# Contributing
 
-Thank you for your interest in contributing to the Nasdaq Data Link MCP Server! This document provides guidelines for contributing to the project.
+Thanks for helping. This file covers the development setup, the checks a
+change has to pass, and how to add a toolset. By contributing you agree that
+your contribution is licensed under the project's [MIT License](LICENSE).
 
-## Getting Started
+## Setup
 
-### Prerequisites
+You need Python 3.11 or newer, [uv](https://docs.astral.sh/uv/) and git.
 
-- Python 3.13+
-- uv package manager
-- Git
+```bash
+git clone https://github.com/stefanoamorelli/nasdaq-data-link-mcp.git
+cd nasdaq-data-link-mcp
+uv sync                     # creates .venv with runtime and dev dependencies
+uv run pre-commit install   # ruff and file checks before every commit
+uv run nasdaq-data-link-mcp --version
+```
 
-### Development Setup
+For the live tests and for trying the server in a client, get a free API key
+at <https://data.nasdaq.com/sign-up> and export it as
+`NASDAQ_DATA_LINK_API_KEY`, or put it in a `.env` file in the repository root
+(git ignores `.env`; see `.env.example`).
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/stefanoamorelli/nasdaq-data-link-mcp.git
-   cd nasdaq-data-link-mcp
-   ```
+## Checks
 
-2. **Set up development environment**
-   ```bash
-   uv init mcp
-   uv add "mcp[cli]"
-   uv add --group test "pytest>=7.0" "pytest-mock" "pytest-cov"
-   ```
+Every pull request runs these in CI; run them before pushing:
 
-3. **Configure environment variables**
-   ```bash
-   cp .env.example .env
-   # Add your Nasdaq Data Link API key to .env
-   ```
+```bash
+uv run pytest                                  # offline tests
+uv run ruff check . && uv run ruff format --check .
+uv run mypy nasdaq_data_link_mcp_os scripts
+uv run python scripts/generate_tool_docs.py --check
+```
 
-4. **Install the server in development mode**
-   ```bash
-   uv run mcp install nasdaq_data_link_mcp_os/server.py --env-file .env --name "Nasdaq Data Link MCP Server" --with nasdaq-data-link --with pycountry
-   ```
+- **Offline tests** (`tests/`) run every tool against `tests/fake_nasdaq.py`,
+  a fake of the Tables API and DataLink SQL, through a real MCP client. They
+  need no key and no network. `uv run pytest --cov` adds coverage.
+- **Live tests** (`tests/live/`, marker `live`) call the real API and are
+  deselected by default. Run them with `uv run pytest -m live`, or one file
+  with `uv run pytest -m live tests/live/test_live_crypto.py`. They need
+  `NASDAQ_DATA_LINK_API_KEY`; a free key is enough, and the whole suite makes
+  a little under 200 calls. A free key allows one request at a time, so run
+  them alone. Run them when a change touches API calls, and say in the pull
+  request if you could not.
+- **Style:** ruff with the rules in `pyproject.toml` (line length 88) and
+  ruff's formatter; mypy must pass. Prefer clear names over comments, and
+  comments that say why over comments that say what.
+- **Generated docs:** the tool tables in `README.md` and the pages under
+  `docs/tools/` are written by `scripts/generate_tool_docs.py`. After changing
+  a tool, a prompt, a resource or the catalog, run it without `--check` and
+  commit the result. Do not edit the generated parts by hand.
 
-## Development Workflow
+Commit messages follow [Conventional Commits](https://www.conventionalcommits.org)
+(`feat(crypto): ...`, `fix(security): ...`, `docs: ...`; `!` marks a breaking
+change), and commits should be signed; see [SECURITY.md](SECURITY.md). Add an
+entry to the unreleased version at the top of [CHANGELOG.md](CHANGELOG.md) for
+any change users can see.
 
-### Code Style
+## Writing tools
 
-- Follow PEP 8 guidelines
-- Use meaningful variable names and clear function signatures
-- Add docstrings to all public functions and classes
-- Keep functions focused and single-purpose
+Tools are read by a model, not a person, so:
 
-### Testing
+- The first line of the docstring says what the tool returns, in under about
+  80 characters; it becomes the summary in the README and the docs.
+- The rest names the tables it reads, what a free key gets (free, sample,
+  subscription), where the data ends if Nasdaq stopped updating it, and the
+  row order. Keep it short: every enabled tool's description is sent to the
+  model on every request.
+- Use the shared parameter names and types from
+  `nasdaq_data_link_mcp_os/tools/_common.py` (`tickers`, `start_date`,
+  `end_date`, `limit`, ...). Every parameter needs a description; unknown
+  arguments are rejected.
+- Return rows in a useful order (usually newest first) and put caveats in
+  `notes`. Errors raised as `NdlError` subclasses reach the model with a label
+  such as `[INVALID_REQUEST]`.
+- Tools are read-only. A tool that never calls Nasdaq is marked `local=True`.
 
-- Write tests for all new functionality
-- Run tests before submitting changes:
-  ```bash
-  uv run pytest tests/
-  ```
-- Aim for good test coverage of critical functionality
-- Use mocking for external API calls in tests
-- All tests must pass in CI before merge
+## Adding a toolset
 
-### Code Quality
+1. **Module.** Create `nasdaq_data_link_mcp_os/tools/<name>.py`. Tools are
+   plain functions named `ndl_<verb>_<object>`; a tool that calls the API is
+   `async` and takes `ctx: Context` first. Read rows with `fetch_table`, or
+   with `read_table` plus `build_result` when the tool filters or ranks rows
+   itself, and return `to_tool_result(...)` with a pydantic output model
+   (`-> Annotated[CallToolResult, YourModel]`) so the tool has an output
+   schema.
+2. **Toolset.** At the end of the module, declare it:
 
-- Run linting and formatting:
-  ```bash
-  uv run ruff check nasdaq_data_link_mcp_os/ tests/
-  uv run ruff format nasdaq_data_link_mcp_os/ tests/
-  ```
-- Run type checking:
-  ```bash
-  uv run mypy nasdaq_data_link_mcp_os/
-  ```
-
-### Documentation
-
-- Update README.md if adding new features
-- Update relevant documentation in `docs/` directory
-- Include usage examples for new tools
-- Update the paper.md if changes affect the research description
-
-## Types of Contributions
-
-### Bug Reports
-
-When filing a bug report, please include:
-
-- Clear description of the issue
-- Steps to reproduce the problem
-- Expected vs actual behavior
-- Python version and environment details
-- Relevant error messages or logs
-
-### Feature Requests
-
-For new features, please:
-
-- Describe the use case and motivation
-- Explain how it fits with existing functionality
-- Consider backward compatibility
-- Provide examples of the desired behavior
-
-### Code Contributions
-
-#### Adding New Tools
-
-1. **Create the tool module** in the appropriate resource directory:
-   ```
-   nasdaq_data_link_mcp_os/resources/[category]/[tool_name].py
-   ```
-
-2. **Follow the existing pattern**:
-   - Import required dependencies
-   - Define tool function with proper type hints
-   - Add comprehensive error handling
-   - Include docstring with usage examples
-
-3. **Register the tool** in `server.py`:
    ```python
-   @server.list_tools()
-   async def list_tools() -> list[Tool]:
-       return [
-           # ... existing tools
-           Tool(
-               name="your_new_tool",
-               description="Clear description of what the tool does",
-               inputSchema={
-                   "type": "object",
-                   "properties": {
-                       # Define parameters
-                   }
-               }
-           )
-       ]
+   TOOLSET = Toolset(
+       name="<name>",
+       description="One line on what the toolset covers.",
+       tools=(
+           ToolSpec(ndl_get_example, "Get example data", tables=("VENDOR/TABLE",)),
+       ),
+       prompts=(PromptSpec(example_prompt, "Example prompt"),),  # optional
+   )
    ```
 
-4. **Add tests** in `tests/test_tools.py` or create new test file
+   `tables=` lists every table the tool reads. It is how `ndl_search_tables`
+   and `ndl_describe_table` point to the tool, and how the generated docs work
+   out what a free key gets.
+3. **Registration.** Import the module in
+   `nasdaq_data_link_mcp_os/tools/__init__.py` and add it to the tuple that
+   builds `TOOLSETS`; the order there is the order of the docs.
+4. **Catalog.** Add each table the toolset reads to
+   `nasdaq_data_link_mcp_os/data/catalog.json`: code, vendor, a name and a
+   description of at most 120 characters in your own words, the access level,
+   optional notes, filters, primary key and docs URL. Never copy text from
+   Nasdaq or vendor pages and never list values from sample data (tickers,
+   ISINs, row counts); the catalog tests reject both. Check the access level
+   and schema with `uv run python scripts/refresh_catalog.py --only
+   VENDOR/TABLE --dry-run` (needs a free key).
+5. **Offline tests.** Add `tests/test_<name>.py`. Register fake tables with
+   `fake.add_table(...)` and call the tools through the `make_client` fixture;
+   cover the happy path, ordering, empty results, sample-data notes and bad
+   arguments. `tests/test_server.py` already checks that every tool has a
+   title, a description, read-only annotations, an output schema and described
+   parameters.
+6. **Live test.** Add `tests/live/test_live_<name>.py` with
+   `pytestmark = [pytest.mark.live, pytest.mark.anyio, pytest.mark.skipif(...)]`
+   like the existing files, and state its API call count in the module
+   docstring. Assert what a free key really gets, and accept fixed end dates
+   for tables Nasdaq no longer updates.
+7. **Docs.** Run `uv run python scripts/generate_tool_docs.py`. It updates the
+   README tables, writes `docs/tools/<name>.mdx` and adds the page to
+   `docs/docs.json`. Then update the hand-written places that list toolsets:
+   the `NDL_TOOLSETS` description in `server.json`, `.env.example`,
+   `docs/configuration.mdx` and `docs/introduction.mdx`, and the server
+   instructions in `nasdaq_data_link_mcp_os/instructions.py` if the routing
+   advice changes.
 
-#### Improving Existing Tools
+## Reporting bugs and proposing features
 
-- Maintain backward compatibility
-- Update documentation and examples
-- Add tests for new functionality
-- Consider edge cases and error handling
-
-## Pull Request Process
-
-1. **Fork the repository** and create a feature branch:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-
-2. **Make your changes** following the guidelines above
-
-3. **Test thoroughly**:
-   ```bash
-   uv run pytest tests/
-   ```
-
-4. **Update documentation** as needed
-
-5. **Commit with clear messages**:
-   ```bash
-   git commit -m "Add feature: description of what was added"
-   ```
-
-6. **Push to your fork** and create a pull request:
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-
-7. **Describe your changes** in the pull request:
-   - What was changed and why
-   - How to test the changes
-   - Any breaking changes or special considerations
-
-## Code Review
-
-All contributions will be reviewed for:
-
-- Code quality and adherence to project standards
-- Test coverage and functionality
-- Documentation completeness
-- Backward compatibility
-- Security considerations
-
-## Community Guidelines
-
-- Be respectful and constructive in discussions
-- Help others learn and grow
-- Focus on the technical merits of contributions
-- Acknowledge the work of others
-
-## Getting Help
-
-- Check existing issues for similar problems
-- Ask questions in GitHub Discussions
-- Reach out to maintainers if needed
-
-## License
-
-By contributing to this project, you agree that your contributions will be licensed under the same MIT License that covers the project.
-
-## Recognition
-
-Contributors will be acknowledged in:
-- GitHub contributor list
-- Release notes for significant contributions
-- README.md for major features
-
-Thank you for helping make financial data more accessible through conversational AI!
+Open an issue with the version (`nasdaq-data-link-mcp --version`), the client,
+the tool call and its result or error (remove your API key), and what you
+expected. For a feature or a new dataset, say which tables it would read and
+what a free key gets from them. Report security problems privately as
+described in [SECURITY.md](SECURITY.md).

@@ -1,0 +1,38 @@
+---
+title: "Troubleshooting"
+description: "What the error labels mean and what to do about them."
+---
+
+Tool errors start with a label that says what went wrong.
+
+| Error or symptom | Cause | What to do |
+|---|---|---|
+| `[AUTH] NASDAQ_DATA_LINK_API_KEY is not set` | The server process has no key. | Add it to the client's `env` block and restart the client. |
+| `[AUTH] Nasdaq rejected the API key` | The key is wrong or disabled. | Copy it again from your account settings on data.nasdaq.com; `ndl_check_api_status` tests it. |
+| `[RATE_LIMIT]` | Free keys allow one request at a time, 2,000 calls per 10 minutes and 50,000 per day. | Wait and retry. `ndl_check_api_status` shows the calls left today. Several servers or scripts sharing one key compete for the single request slot. |
+| `[SUBSCRIPTION]` | The table needs a paid subscription and has no free sample. | `ndl_describe_table` still shows its schema. `ndl_search_tables` with `access="free"` or `"sample"` finds alternatives. |
+| 0 rows, with a note starting `Sample data:` | A premium table that gives free keys a fixed sample; the tickers or dates asked for are outside it. | Use the tickers and dates the tool description names (for example 2018-09-04 to 2018-12-31 for Sharadar prices), or a subscription. |
+| `[UPSTREAM] The call did not finish within 50.0s` | Nasdaq answered slowly or kept rate limiting until the tool deadline. | Narrow the request (fewer tickers, a shorter date range) and retry. Raise `NDL_TOOL_DEADLINE_SECONDS` only if your client waits longer than 60 s. |
+| `[NOT_FOUND] Table WIKI/AAPL does not exist` | A code from the retired time-series API. `FRED/...`, `WIKI/...` and `WORLDBANK/...` codes no longer exist. | Use a `VENDOR/TABLE` code from `ndl_search_tables`, or a typed tool: `ndl_get_stock_prices` for prices (`WIKI/PRICES` still exists but stopped on 2018-03-27), `ndl_get_world_bank_data` and `ndl_get_imf_weo_data` for macro series. |
+| `[INVALID_REQUEST]` | A filter on a column that cannot be filtered, a bad date, or an unknown argument. | `ndl_describe_table` lists the filterable columns; dates are `YYYY-MM-DD`. |
+| `[BLOCKED]` | Nasdaq's CDN refused the request with an HTML page. | Usually a retired endpoint; use the Tables API tools. |
+| Old data | Some free tables are no longer updated by Nasdaq. | Check `refreshed_at` and `notes` in the result, and [freshness](/access-levels#freshness). |
+| The client lists no tools | The client could not start the server. | Run the configured command in a terminal; with `uvx`, use its absolute path. Claude Desktop writes server logs to `~/Library/Logs/Claude` on macOS. |
+| `Refusing to serve on 0.0.0.0 without NDL_HTTP_TOKEN` | HTTP mode on a non-loopback address. | Set `NDL_HTTP_TOKEN`, or bind `127.0.0.1`. See [HTTP mode](/configuration#http-mode). |
+| `Invalid configuration: ...` | An `NDL_*` variable is out of range or malformed. | The message names the variable and the allowed range; see [configuration](/configuration). |
+
+## Checking the setup
+
+`ndl_check_api_status` makes one small request to a free table and reports
+whether a key is configured and valid, the daily call limit and how many calls
+are left, the enabled toolsets and the catalog snapshot date. Ask the model to
+run it first when other tools fail.
+
+To rule out the client, run the server in a terminal. It waits for MCP
+messages on stdin, so it only prints warnings, such as a missing key:
+
+```bash
+NASDAQ_DATA_LINK_API_KEY=your_api_key uvx nasdaq-data-link-mcp-os
+```
+
+Stop it with Ctrl+C. Set `NDL_LOG_LEVEL=DEBUG` for more detail on stderr.

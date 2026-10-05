@@ -1,96 +1,96 @@
-## Tallinn Secure Software Practices for OSS
+# Security policy
 
-_A security baseline from the OWASP Tallinn Chapter_
+## Supported versions
 
-This project follows the **Tallinn Secure Software Practices for OSS**, developed to help open source maintainers and contributors build and maintain secure software. It provides a baseline of practical security practices informed by OWASP.
+| Version | Supported |
+|---|---|
+| 2.x | Yes |
+| 1.0 and 0.x | No. They call APIs that Nasdaq has retired; upgrade to 2.x. |
 
----
+## Reporting a vulnerability
 
-## Reporting Security Issues
+Report vulnerabilities privately; do not open a public issue.
 
-If you discover a security vulnerability, please report it privately and responsibly.  
-Do not create a public GitHub issue.
+- GitHub: [report a vulnerability](https://github.com/stefanoamorelli/nasdaq-data-link-mcp/security/advisories/new)
+  through private vulnerability reporting.
+- Email: `stefano@amorelli.tech`.
 
-**Contact:**  
-- Email: `stefano@amorelli.tech`  
+Include the version (`nasdaq-data-link-mcp --version`), how the server was run
+(stdio, HTTP, Docker), and the steps or the tool call that show the problem.
+Never include a real API key; a placeholder is enough.
 
-We will acknowledge your report within *7 business days* and aim to resolve confirmed issues within 90 days or faster, depending on severity. Credit will be given unless anonymity is requested.
+You will get an acknowledgement within 7 business days. Confirmed issues are
+fixed within 90 days, sooner for severe ones, and published as a GitHub
+security advisory (with a CVE where one applies) together with the release
+that fixes them. Reporters are credited unless they ask not to be.
 
----
+## Scope
 
-## Secure Development Practices
+In scope: this repository's code, its PyPI package (`nasdaq-data-link-mcp-os`)
+and its Docker image (`stefanoamorelli/nasdaq-data-link-mcp`). Examples of
+what we want to hear about:
 
-### Secrets and Credentials
-- Never commit secrets (API keys, passwords, tokens) to the codebase.
-- Use environment variables or secret managers (e.g., Vault, GitHub Actions secrets).
-- Enable secret scanning and use pre-commit hooks to prevent accidental leaks.
+- any way the Nasdaq Data Link API key reaches a tool result, an error
+  message, a log line, a URL or a host other than `NDL_BASE_URL`;
+- a statement that gets past the read-only guard of `ndl_sql_query`, or reads
+  session or system information through it;
+- a way to call the HTTP transports without `NDL_HTTP_TOKEN`, or to bind a
+  non-loopback address without one;
+- a `.env` file or other untrusted input that changes where requests go;
+- files in the Docker image that should not be there.
 
-### Dependencies and Supply Chain
-- Pin dependencies and avoid using unmaintained packages.
-- Use automated tools (e.g., Dependabot, OSV Scanner) to identify known vulnerabilities.
-- Review and verify new dependencies before adding them.
-- Consider generating an SBOM (Software Bill of Materials) for major releases.
+Out of scope: Nasdaq Data Link itself and Nasdaq's own MCP server (report
+those to Nasdaq), the accuracy of third-party data, and rate limits.
 
-### Code and Commit Hygiene
-- All changes must go through pull requests with at least one code review.
-- Protect the main branch (e.g., require PRs, reviews, passing CI).
-- Encourage signed commits and signed release tags.
-- Avoid force-pushes and direct commits to protected branches.
+## How the API key is handled
 
-### CI/CD and Build Security
-- Run builds in isolated, ephemeral environments.
-- Use least-privilege CI tokens and restrict access to secrets.
-- Review third-party CI/CD actions and pin versions or SHAs.
-- Do not deploy unreviewed code to production environments.
+- It is read from `NASDAQ_DATA_LINK_API_KEY` in the environment, from `.env`
+  in the working directory, or from the file passed with `--env-file`.
+- It is sent only to `NDL_BASE_URL` (default `https://data.nasdaq.com`): in
+  the `X-Api-Token` header for the Tables API and as the Trino user header for
+  DataLink SQL. It never appears in a URL. `NDL_BASE_URL` must be a bare
+  `https://` origin and cannot be set from a `.env` file.
+- The server does not log it, and removes it from every tool result and error
+  message, including reversed, case-changed, hex and base64 forms.
+- `ndl_sql_query` blocks `current_user`, `session_user`, `current_groups` and
+  the `system` catalog, because Trino reports the key as the session user.
+- In HTTP mode every caller spends the server's key, so any non-loopback bind
+  requires a bearer token (`NDL_HTTP_TOKEN`).
 
----
+## Known issues in old releases
 
-## Vulnerability Handling Process
+The `v0.2.1` Docker image (`stefanoamorelli/nasdaq-data-link-mcp:v0.2.1`, also
+tagged `latest` until 2.0.0) was built with `COPY . .` and no `.dockerignore`,
+so it contains the files of the build directory, including `.env`, `.secrets`
+and `.git`. Do not use it. Images built from a checkout of 0.2.1 to 1.0.0 have
+the same problem with the builder's own files; rebuild them from 2.x and
+rotate any key that was in the build directory.
 
-Once a vulnerability is confirmed:
+## Secure development practices
 
-1. It is triaged and, if valid, addressed privately.
-2. A patch is prepared and tested.
-3. A security advisory is published (with CVE if applicable).
-4. A new version is released with the fix.
-5. Acknowledgment is given to the reporter if appropriate.
+This project follows the Tallinn Secure Software Practices for OSS, a baseline
+from the [OWASP Tallinn Chapter](https://owasp.org/www-chapter-tallinn):
 
----
+- **Secrets:** never commit secrets; use environment variables or a secret
+  manager. `.env` and `.secrets` are ignored by git and excluded from the
+  Docker build context, and a pre-commit hook rejects private keys.
+- **Dependencies:** dependencies are locked in `uv.lock`, base images and
+  GitHub Actions are pinned by digest or commit SHA, and Dependabot proposes
+  updates after a cooldown.
+- **Code review:** changes go through pull requests with review and passing
+  CI; the main branch is protected.
+- **CI/CD:** builds run in ephemeral runners with least-privilege tokens.
+  PyPI uploads use Trusted Publishing (no stored token), and the PyPI and
+  Docker Hub release jobs run in the `pypi` and `dockerhub` GitHub
+  environments, which require a reviewer's approval.
+- **Commits:** contributors use verified identities and sign their commits
+  (GPG, SSH or GitHub's web UI); unsigned or anonymous commits may be
+  rejected. See GitHub's documentation on
+  [commit signature verification](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification).
+- **Accounts:** enable two-factor authentication on GitHub and on any service
+  with elevated access to the project.
 
-## Contributor Expectations
-
-All contributors are expected to:
-
-- Follow secure coding practices (e.g., input validation, output encoding).
-- Not introduce known vulnerable dependencies or unsafe constructs.
-- Respect code review and CI checks before merging.
-- Enable 2FA on GitHub or any platform with elevated access.
-- **Sign and author your Git commits** using a verified identity.
-
-### Commit Signing and Authorship
-
-We require contributors to use **verified identities** in Git commits. Whenever possible, commits should be **GPG-signed** or **signed via GitHub’s verified web UI**.
-
-This helps ensure:
-
-- **Authenticity** – each change can be traced to a real, accountable contributor.
-- **Integrity** – signed commits cannot be modified without detection.
-- **Trust** – the project’s code history remains verifiable and auditable.
-
-Unsigned or anonymous commits may be flagged and rejected in pull requests, especially for contributors with elevated privileges. See [GitHub’s documentation on signing commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification) to get started.
-
----
-
-## References and Resources
-
-- [OWASP Secure Coding Practices](https://owasp.org/www-project-secure-coding-practices/)
-- [OWASP Top Ten](https://owasp.org/www-project-top-ten/)
-- [OpenSSF Best Practices](https://openssf.org/best-practices/)
-- [GitHub Security Features](https://docs.github.com/en/code-security)
-- [OWASP Dependency-Check](https://owasp.org/www-project-dependency-check/)
-- [disclose.io Safe Harbor Terms](https://disclose.io/)
-
----
-
-**Maintained by:** The OWASP Tallinn Chapter  
-For updates or suggestions, visit: [https://owasp.org/www-chapter-tallinn](https://owasp.org/www-chapter-tallinn)
+References: [OWASP Secure Coding Practices](https://owasp.org/www-project-secure-coding-practices/),
+[OpenSSF Best Practices](https://openssf.org/best-practices/),
+[GitHub security features](https://docs.github.com/en/code-security),
+[disclose.io safe harbor](https://disclose.io/).

@@ -1,0 +1,44 @@
+---
+title: "Official Nasdaq MCP server"
+description: "How Nasdaq's own Data Link MCP server differs from this community project."
+---
+
+Nasdaq now runs its own MCP server for Data Link:
+
+- Overview: [data.nasdaq.com/model-context-protocol](https://data.nasdaq.com/model-context-protocol)
+- Product page: [nasdaq.com/products/data/data-link/mcp](https://www.nasdaq.com/products/data/data-link/mcp)
+
+Going by Nasdaq's pages, it is a hosted service for Data Link clients:
+
+- **Onboarding** goes through Nasdaq: you request access through the
+  product page ("Get Connected", "Contact Us"), and Nasdaq's ClientSuccess
+  team (ClientSuccess@nasdaq.com) handles support.
+- **Authentication** uses an OAuth client ID with Okta-based identity
+  verification, which Nasdaq issues during onboarding.
+- **Entitlements** are enforced on every call: you reach the data your
+  account subscribes to.
+- **Tools** search data providers, list the tables and datasets available in
+  your subscription, return product documentation (coverage, update
+  frequency, usage notes), return table metadata, and run SQL queries.
+- **Clients** include Databricks (through the Databricks Marketplace),
+  AI-enabled IDEs and other MCP-compatible applications.
+
+Nasdaq's pages are the reference for its server; the summary above may lag
+behind them.
+
+## How this project differs
+
+This project is independent of Nasdaq's server and of Nasdaq, Inc.
+
+| | Nasdaq's MCP server | This project |
+|---|---|---|
+| Runs | Hosted by Nasdaq | On your machine (stdio) or on a server you run (HTTP, Docker); MIT-licensed |
+| Access | Onboarding through Nasdaq; OAuth client and Okta sign-in | Your Nasdaq Data Link API key; a free key works |
+| Entitlements | Enforced by Nasdaq's server | Those of your API key, enforced by the Nasdaq API |
+| Tools | Provider search, subscribed-data discovery, product documentation, table metadata, SQL | Catalog search, table metadata, generic queries and exports, DataLink SQL, and 32 typed tools for specific datasets |
+
+If you are a Nasdaq Data Link client and want a service Nasdaq supports, start
+with Nasdaq's server. This one fits local or self-hosted setups, free API
+keys, and questions that the typed tools answer directly, such as a company's
+fundamentals, COT positioning, a country's GDP or a ZIP code's home values.
+The two can run side by side in the same client.

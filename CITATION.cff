@@ -1,10 +1,23 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
+title: "Nasdaq Data Link MCP (Model Context Protocol) Server"
+abstract: >-
+  Open-source, community-maintained Model Context Protocol server for the
+  Nasdaq Data Link Tables API. Not affiliated with Nasdaq, Inc.
 authors:
   - family-names: Amorelli
     given-names: Stefano
-    orcid: 0009-0004-4917-0999
-title: "Nasdaq Data Link MCP (Model Context Protocol) Server"
-version: 1.0.0
+    orcid: "https://orcid.org/0009-0004-4917-0999"
+version: 2.0.0
+# CFF has no way to mark a version as unreleased, so this is still the date of
+# the first release (0.1.0). Set it to the 2.0.0 release date when it ships.
 date-released: 2025-04-06
-url: https://github.com/stefanoamorelli/nasdaq-data-link-mcp
+license: MIT
+url: "https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
+repository-code: "https://github.com/stefanoamorelli/nasdaq-data-link-mcp"
+keywords:
+  - model context protocol
+  - mcp
+  - nasdaq data link
+  - financial data
+  - llm
