@@ -16,6 +16,7 @@ from nasdaq_data_link_mcp_os.tools import (
     crypto,
     equities,
     funds,
+    housing,
     macro,
     nasdaq,
     sql,
@@ -40,6 +41,7 @@ TOOLSETS: dict[str, Toolset] = {
         macro,
         commodities,
         crypto,
+        housing,
     )
 }
 ALWAYS_ON = ("core",)
