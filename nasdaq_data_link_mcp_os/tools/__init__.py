@@ -13,6 +13,7 @@ from pydantic import ConfigDict
 from nasdaq_data_link_mcp_os.tools import (
     commodities,
     core,
+    crypto,
     equities,
     funds,
     macro,
@@ -38,6 +39,7 @@ TOOLSETS: dict[str, Toolset] = {
         world_bank,
         macro,
         commodities,
+        crypto,
     )
 }
 ALWAYS_ON = ("core",)
